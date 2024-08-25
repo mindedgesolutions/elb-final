@@ -6,3 +6,7 @@ export { default as AdminTopnav } from "./admin/AdminTopnav";
 export { default as AdminFooter } from "./admin/AdminFooter";
 export { default as AdminProfileContainer } from "./admin/AdminProfileContainer";
 export { default as AdminPageLayout } from "./admin/AdminPageLayout";
+export { default as AddUser } from "./admin/users/AddUser";
+export { default as EditUser } from "./admin/users/EditUser";
+export { default as DeleteUser } from "./admin/users/DeleteUser";
+export { default as SearchUser } from "./admin/users/SearchUser";
