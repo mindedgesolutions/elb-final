@@ -1,4 +1,5 @@
 import { AdminPageLayout, PageHeader } from "@/components";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -43,7 +44,9 @@ const AdminUsers = () => {
                 <TableCell>ABC</TableCell>
                 <TableCell>test@test.com</TableCell>
                 <TableCell>9830098300</TableCell>
-                <TableCell>Active</TableCell>
+                <TableCell>
+                  <Badge className="bg-purple-300">Active</Badge>
+                </TableCell>
                 <TableCell>Sept 01, 2023 10:55 AM</TableCell>
                 <TableCell className="flex items-center gap-x-2">
                   <Button variant="link" size="sm">
@@ -62,7 +65,9 @@ const AdminUsers = () => {
                 <TableCell>ABC</TableCell>
                 <TableCell>test@test.com</TableCell>
                 <TableCell>9830098300</TableCell>
-                <TableCell>Active</TableCell>
+                <TableCell>
+                  <Badge className="bg-green-300">Active</Badge>
+                </TableCell>
                 <TableCell>Sept 01, 2023 10:55 AM</TableCell>
                 <TableCell className="flex items-center gap-x-2">
                   <Button variant={"link"} size="icon">
@@ -81,7 +86,9 @@ const AdminUsers = () => {
                 <TableCell>ABC</TableCell>
                 <TableCell>test@test.com</TableCell>
                 <TableCell>9830098300</TableCell>
-                <TableCell>Active</TableCell>
+                <TableCell>
+                  <Badge className="bg-red-300">Active</Badge>
+                </TableCell>
                 <TableCell>Sept 01, 2023 10:55 AM</TableCell>
                 <TableCell className="flex items-center gap-x-2">
                   <Button variant={"link"} size="icon">
@@ -100,7 +107,9 @@ const AdminUsers = () => {
                 <TableCell>ABC</TableCell>
                 <TableCell>test@test.com</TableCell>
                 <TableCell>9830098300</TableCell>
-                <TableCell>Active</TableCell>
+                <TableCell>
+                  <Badge className="bg-orange-300">Active</Badge>
+                </TableCell>
                 <TableCell>Sept 01, 2023 10:55 AM</TableCell>
                 <TableCell className="flex items-center gap-x-2">
                   <Button variant={"link"} size="icon">
@@ -119,7 +128,9 @@ const AdminUsers = () => {
                 <TableCell>ABC</TableCell>
                 <TableCell>test@test.com</TableCell>
                 <TableCell>9830098300</TableCell>
-                <TableCell>Active</TableCell>
+                <TableCell>
+                  <Badge className="bg-blue-300">Active</Badge>
+                </TableCell>
                 <TableCell>Sept 01, 2023 10:55 AM</TableCell>
                 <TableCell className="flex items-center gap-x-2">
                   <Button variant={"link"} size="icon">
@@ -138,7 +149,9 @@ const AdminUsers = () => {
                 <TableCell>ABC</TableCell>
                 <TableCell>test@test.com</TableCell>
                 <TableCell>9830098300</TableCell>
-                <TableCell>Active</TableCell>
+                <TableCell>
+                  <Badge className="bg-slate-300">Active</Badge>
+                </TableCell>
                 <TableCell>Sept 01, 2023 10:55 AM</TableCell>
                 <TableCell className="flex items-center gap-x-2">
                   <Button variant={"link"} size="icon">
