@@ -1,0 +1,26 @@
+// Admin pages start ------
+export { default as AdminForgotPassword } from "./admin/auth/AdminForgotPassword";
+export { default as AdminLogin } from "./admin/auth/AdminLogin";
+export { default as AdminResetPassword } from "./admin/auth/AdminResetPassword";
+export { default as AdminLayout } from "./admin/AdminLayout";
+export { default as AdminDashboard } from "./admin/AdminDashboard";
+export { default as AdminMasters } from "./admin/AdminMasters";
+export { default as AdminFormBuilder } from "./admin/AdminFormBuilder";
+export { default as AdminUsers } from "./admin/AdminUsers";
+export { default as AdminPosts } from "./admin/AdminPosts";
+// Admin pages end ------
+
+// Website and User pages start ------
+export { default as UserPostAdd } from "./website/user/post/UserPostAdd";
+export { default as UserPostEdit } from "./website/user/post/UserPostEdit";
+export { default as UserPostList } from "./website/user/post/UserPostList";
+export { default as UserLayout } from "./website/user/UserLayout";
+export { default as UserDashboard } from "./website/user/UserDashboard";
+export { default as WebsiteCategory } from "./website/WebsiteCategory";
+export { default as WebsiteContactUs } from "./website/WebsiteContactUs";
+export { default as WebsiteHome } from "./website/WebsiteHome";
+export { default as WebsiteLayout } from "./website/WebsiteLayout";
+export { default as WebsiteLogin } from "./website/WebsiteLogin";
+export { default as WebsiteRegister } from "./website/WebsiteRegister";
+export { default as WebsiteSearch } from "./website/WebsiteSearch";
+export { default as WebsiteSeller } from "./website/WebsiteSeller";
