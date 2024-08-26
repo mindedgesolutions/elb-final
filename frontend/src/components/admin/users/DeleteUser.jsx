@@ -10,9 +10,32 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { setListUsers } from "@/features/usersSlice";
+import customFetch from "@/utils/customFetch";
+import splitErrors from "@/utils/splitErrors";
 import { Trash2 } from "lucide-react";
+import { useDispatch } from "react-redux";
 
-const DeleteUser = () => {
+const DeleteUser = ({ id, name }) => {
+  const dispatch = useDispatch();
+
+  const deleteUser = async () => {
+    try {
+      await customFetch.delete(`/users/users/${id}`);
+      toast({
+        title: "Deactivated",
+        description: "User deactivated successfully",
+      });
+
+      const response = await customFetch.get(`/users/users`);
+      dispatch(setListUsers(response.data.data.rows));
+    } catch (error) {
+      console.log(error);
+      splitErrors(error?.response?.data?.msg);
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -22,16 +45,20 @@ const DeleteUser = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This will deactivate{" "}
+            <span className="text-red-500 font-semibold">{name}</span> and the
+            user can no longer add / edit a post on our website.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 hover:bg-red-600">
-            Continue
+          <AlertDialogAction
+            className="bg-red-500 hover:bg-red-400"
+            onClick={deleteUser}
+          >
+            Delete
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

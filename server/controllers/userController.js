@@ -87,3 +87,22 @@ export const editUser = async (req, res) => {
 
   res.status(StatusCodes.ACCEPTED).json({ data });
 };
+
+// ------
+export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  await pool.query(`update elb_users set is_active=false where id=$1`, [id]);
+
+  res.status(StatusCodes.NO_CONTENT).json(`removed`);
+};
+
+// ------
+export const activateUser = async (req, res) => {
+  const { id } = req.params;
+  const data = await pool.query(
+    `update elb_users set is_active=true where id=$1`,
+    [id]
+  );
+
+  res.status(StatusCodes.ACCEPTED).json(`success`);
+};
