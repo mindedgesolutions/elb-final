@@ -12,6 +12,7 @@ import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 
 // Routes ------
 import usersRoute from "./routes/userRoute.js";
+import categoryRoute from "./routes/categoryRoute.js";
 
 // public ------
 import { dirname } from "path";
@@ -34,6 +35,7 @@ app.use(express.json());
 
 // API starts ---
 app.use("/api/users", usersRoute);
+app.use("/api/masters", categoryRoute);
 // API ends ---
 
 app.get("*", (req, res) => {

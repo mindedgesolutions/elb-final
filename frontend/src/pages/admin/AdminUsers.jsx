@@ -129,7 +129,7 @@ const AdminUsers = () => {
                       return (
                         <TableRow key={user.uuid} className="group">
                           <TableCell>{serialNo(page) + index}.</TableCell>
-                          <TableCell className="capitalize">{`${user.first_name} ${user.last_name}`}</TableCell>
+                          <TableCell className="normal-case">{`${user.first_name} ${user.last_name}`}</TableCell>
                           <TableCell>{user.email}</TableCell>
                           <TableCell>{user.mobile}</TableCell>
                           <TableCell>{adminBadge(user.rid)}</TableCell>
@@ -169,12 +169,10 @@ const AdminUsers = () => {
                   )}
                 </TableBody>
               </Table>
-              {/* {meta.totalRecords > 10 && ( */}
               <AdminPagination
                 currentPage={meta.currentPage}
                 totalPages={meta.totalPages}
               />
-              {/* )} */}
             </>
           )}
         </section>

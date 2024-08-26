@@ -1,8 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import * as Elb from "@/pages";
+import { store } from "./store";
 
 // Actions ------
 import { action as loginAction } from "@/pages/admin/auth/AdminLogin";
+
+// Loaders ------
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -42,7 +45,10 @@ const router = createBrowserRouter([
     element: <Elb.AdminLayout />,
     children: [
       { path: `dashboard`, element: <Elb.AdminDashboard /> },
-      { path: `settings`, element: <Elb.AdminMasters /> },
+      {
+        path: `categories`,
+        element: <Elb.AdminCategories />,
+      },
       { path: `form-builder`, element: <Elb.AdminFormBuilder /> },
       { path: `users`, element: <Elb.AdminUsers /> },
       { path: `posts`, element: <Elb.AdminPosts /> },
