@@ -10,4 +10,18 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001/api",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+        timeout: 60000,
+      },
+    },
+  },
+  optimizeDeps: {
+    exclude: ["js-big-decimal"],
+  },
+  build: { chunkSizeWarningLimit: 1600 },
 });
