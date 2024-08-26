@@ -1,4 +1,6 @@
+import { FormInput, SubmitBtn } from "@/components";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -8,49 +10,109 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
+import { setListUsers } from "@/features/usersSlice";
+import customFetch from "@/utils/customFetch";
+import splitErrors from "@/utils/splitErrors";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const AddUser = () => {
+  const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Form submit starts ------
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    let data = Object.fromEntries(formData);
+    data = { ...data, isAdmin: data.isAdmin === "on" ? true : false };
+
+    try {
+      await customFetch.post(`/users/users`, data);
+      toast({
+        title: "Added",
+        description: "User added successfully!",
+      });
+
+      const response = await customFetch.get(`/users/users`);
+      dispatch(setListUsers(response.data.data.rows));
+
+      setIsOpen(false);
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false);
+      splitErrors(error.response.data.msg);
+    }
+  };
+  // Form submit ends ------
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button type="button" size="sm" className="px-4">
+        <Button
+          type="button"
+          size="sm"
+          className="px-4"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           Add New
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle>Add new user</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              defaultValue="Pedro Duarte"
-              className="col-span-3"
+        <form autoComplete="off" onSubmit={handleSubmit}>
+          <div className="grid gap-4 py-4">
+            <FormInput
+              type={"text"}
+              label={"First name"}
+              name={"firstName"}
+              placeholder={"Your first name"}
+              required={true}
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input
-              id="username"
-              defaultValue="@peduarte"
-              className="col-span-3"
+            <FormInput
+              type={"text"}
+              label={"Last name"}
+              name={"lastName"}
+              placeholder={"Your last name"}
+              required={true}
             />
+            <FormInput
+              type={"text"}
+              label={"Email"}
+              name={"email"}
+              placeholder={"Your email"}
+              required={true}
+            />
+            <FormInput
+              type={"text"}
+              label={"Mobile no."}
+              name={"mobile"}
+              placeholder={"Your mobile no."}
+              required={true}
+            />
+            <div className="flex items-center space-x-2">
+              <Checkbox id="isAdmin" name="isAdmin" />
+              <label
+                htmlFor="isAdmin"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Is Admin?
+              </label>
+            </div>
           </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
+          <DialogFooter className={`flex gap-2`}>
+            <SubmitBtn label={`Add user`} isSubmitting={isSubmitting} />
+            <Button type="reset" variant="outline">
+              Reset
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

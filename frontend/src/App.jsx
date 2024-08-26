@@ -33,13 +33,10 @@ const router = createBrowserRouter([
   },
   // User protected routes end ------
 
-  // Admin unprotected routes start ------
+  // Admin routes start ------
   { path: `/admin/login`, element: <Elb.AdminLogin />, action: loginAction },
   { path: `/admin/forgot-password`, element: <Elb.AdminForgotPassword /> },
   { path: `/admin/reset-password`, element: <Elb.AdminResetPassword /> },
-  // Admin unprotected routes end ------
-
-  // Admin protected routes start ------
   {
     path: `/admin`,
     element: <Elb.AdminLayout />,
@@ -51,7 +48,7 @@ const router = createBrowserRouter([
       { path: `posts`, element: <Elb.AdminPosts /> },
     ],
   },
-  // Admin protected routes end ------
+  // Admin routes end ------
 ]);
 
 function App() {
