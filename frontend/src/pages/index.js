@@ -8,6 +8,7 @@ export { default as AdminMasters } from "./admin/AdminMasters";
 export { default as AdminFormBuilder } from "./admin/AdminFormBuilder";
 export { default as AdminUsers } from "./admin/AdminUsers";
 export { default as AdminPosts } from "./admin/AdminPosts";
+export { default as AdminCategories } from "./admin/masters/AdminCategories";
 // Admin pages end ------
 
 // Website and User pages start ------

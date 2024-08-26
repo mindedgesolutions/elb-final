@@ -15,7 +15,7 @@ const FormInput = ({ label, required, type, name, placeholder, value }) => {
         id={name}
         name={name}
         placeholder={placeholder}
-        value={input}
+        value={value}
         onChange={(e) => setInput(e.target.value)}
       />
     </div>

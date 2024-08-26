@@ -30,7 +30,7 @@ const SearchUser = () => {
 
   return (
     <Form>
-      <div className="flex flex-col md:flex-row justify-start md:justify-end items-center gap-3 md:p-2 md:bg-muted">
+      <div className="flex flex-col md:flex-row justify-start md:justify-end items-center gap-3 md:p-2 my-4 md:my-0 md:bg-muted">
         <Input
           type="text"
           className="w-full md:w-[230px] rounded-md"
