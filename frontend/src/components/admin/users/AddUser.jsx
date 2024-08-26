@@ -107,10 +107,10 @@ const AddUser = () => {
             </div>
           </div>
           <DialogFooter className={`flex gap-2`}>
-            <SubmitBtn label={`Add user`} isSubmitting={isSubmitting} />
             <Button type="reset" variant="outline">
               Reset
             </Button>
+            <SubmitBtn label={`Add user`} isSubmitting={isSubmitting} />
           </DialogFooter>
         </form>
       </DialogContent>

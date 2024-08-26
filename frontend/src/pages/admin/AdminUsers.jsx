@@ -17,11 +17,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { toast } from "@/components/ui/use-toast";
 import { setListUsers } from "@/features/usersSlice";
 import customFetch from "@/utils/customFetch";
 import { activeBadge, adminBadge, serialNo } from "@/utils/functions";
+import splitErrors from "@/utils/splitErrors";
 import dayjs from "dayjs";
-import { Eye } from "lucide-react";
+import { Eye, ThumbsUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -40,6 +42,7 @@ const AdminUsers = () => {
   });
   const { listUsers } = useSelector((store) => store.users);
 
+  // Fetch user list ------
   const fetchData = async () => {
     setIsLoading(true);
     try {
@@ -69,6 +72,23 @@ const AdminUsers = () => {
   useEffect(() => {
     fetchData();
   }, [queryString.get("page"), queryString.get("s"), queryString.get("t")]);
+
+  // Activate user starts ------
+  const activateUser = async (id) => {
+    setIsLoading(true);
+    try {
+      await customFetch.patch(`/users/users/activate/${id}`);
+      toast({ title: "Activated", description: "User activation successful" });
+
+      const response = await customFetch.get(`/users/users`);
+      dispatch(setListUsers(response.data.data.rows));
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      splitErrors(error?.response?.data?.msg);
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -120,11 +140,28 @@ const AdminUsers = () => {
                             )}
                           </TableCell>
                           <TableCell className="flex items-center">
-                            <Button variant="link" size="sm">
-                              <Eye size={18} />
-                            </Button>
-                            <EditUser id={user.id} />
-                            <DeleteUser />
+                            {user.is_active ? (
+                              <>
+                                <Button variant="link" size="sm">
+                                  <Eye size={18} />
+                                </Button>
+                                <EditUser id={user.id} />
+                                <DeleteUser
+                                  id={user.id}
+                                  name={`${user.first_name} ${user.last_name}`}
+                                />
+                              </>
+                            ) : (
+                              <Button
+                                type="button"
+                                variant="link"
+                                size="sm"
+                                className="text-yellow-500"
+                                onClick={() => activateUser(user.id)}
+                              >
+                                <ThumbsUp size={18} />
+                              </Button>
+                            )}
                           </TableCell>
                         </TableRow>
                       );
@@ -132,12 +169,12 @@ const AdminUsers = () => {
                   )}
                 </TableBody>
               </Table>
-              {meta.totalRecords > 10 && (
-                <AdminPagination
-                  currentPage={meta.currentPage}
-                  totalPages={meta.totalPages}
-                />
-              )}
+              {/* {meta.totalRecords > 10 && ( */}
+              <AdminPagination
+                currentPage={meta.currentPage}
+                totalPages={meta.totalPages}
+              />
+              {/* )} */}
             </>
           )}
         </section>

@@ -1,116 +1,93 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
-import { nanoid } from "nanoid";
-import { useLocation, useNavigate } from "react-router-dom";
+import { constructPrevOrNext, constructUrl } from "@/utils/functions";
+import { useLocation } from "react-router-dom";
 
 const AdminPagination = ({ totalPages, currentPage }) => {
   const { search, pathname } = useLocation();
-  const navigate = useNavigate();
+  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+  if (totalPages < 2) return null;
 
-  const handlePageChange = (pageNum) => {
-    const searchParams = new URLSearchParams(search);
-    searchParams.set("page", pageNum);
-    navigate(`${pathname}?${searchParams.toString()}`);
-  };
-
-  const addPageButtons = ({ pageNum, activeClass }) => {
+  const constructButton = ({ pageNumber, isActive }) => {
+    const url = constructUrl({ pageNumber, search, pathname });
     return (
-      <PaginationItem key={nanoid()}>
-        <PaginationLink onClick={() => handlePageChange(pageNum)} isActive>
-          {pageNum}
+      <PaginationItem key={pageNumber}>
+        <PaginationLink to={url} isActive={isActive}>
+          {pageNumber}
         </PaginationLink>
       </PaginationItem>
     );
   };
 
-  const renderPageButtons = () => {
-    const pageButtons = [];
-    // First page --
-    pageButtons.push(
-      addPageButtons({ pageNum: 1, activeClass: currentPage === 1 })
+  const constructEllipsis = (key) => {
+    return (
+      <PaginationItem key={key}>
+        <PaginationEllipsis />
+      </PaginationItem>
     );
-    // Dots 1 --
-    if (currentPage > 3) {
-      pageButtons.push(
-        <PaginationItem key={nanoid()}>
-          <PaginationLink>...</PaginationLink>
-        </PaginationItem>
-      );
+  };
+
+  const renderPageButtons = () => {
+    let pages = [];
+    // First page : page=1
+    pages.push(constructButton({ pageNumber: 1, isActive: currentPage === 1 }));
+
+    // Ellipsis
+    if (currentPage > 2) {
+      pages.push(constructEllipsis("dots-1"));
     }
-    // One before current page --
-    if (currentPage !== 1 && currentPage !== 2) {
-      pageButtons.push(
-        addPageButtons({
-          pageNum: currentPage - 1,
-          activeClass: false,
-        })
-      );
-    }
-    // Current page --
+
+    // Active page : page=currentPage
     if (currentPage !== 1 && currentPage !== totalPages) {
-      pageButtons.push(
-        addPageButtons({
-          pageNum: currentPage,
-          activeClass: true,
-        })
-      );
+      pages.push(constructButton({ pageNumber: currentPage, isActive: true }));
     }
-    // One after current page --
-    if (currentPage !== totalPages && currentPage !== totalPages - 1) {
-      pageButtons.push(
-        addPageButtons({
-          pageNum: currentPage + 1,
-          activeClass: false,
-        })
-      );
+
+    // Ellipsis
+    if (currentPage < totalPages - 1) {
+      pages.push(constructEllipsis("dots-2"));
     }
-    // Dots 2 --
-    if (currentPage < totalPages - 2) {
-      pageButtons.push(
-        <PaginationItem key={nanoid()}>
-          <PaginationLink>...</PaginationLink>
-        </PaginationItem>
-      );
-    }
-    pageButtons.push(
-      addPageButtons({
-        pageNum: totalPages,
-        activeClass: currentPage === totalPages,
+
+    // Last page : page=totalPages
+    pages.push(
+      constructButton({
+        pageNumber: totalPages,
+        isActive: currentPage === totalPages,
       })
     );
-    return pageButtons;
+    return pages;
   };
+
+  const { prevUrl, nextUrl } = constructPrevOrNext({
+    curretPage: currentPage,
+    totalPages,
+    pathname,
+    search,
+  });
 
   return (
     <div className="w-full mt-8">
       <Pagination>
         <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => {
-                let prevPage = currentPage - 1;
-                if (prevPage < 1) prevPage = 1;
-                handlePageChange(prevPage);
-              }}
-            />
-          </PaginationItem>
+          {currentPage > 1 && (
+            <PaginationItem>
+              <PaginationPrevious to={prevUrl} />
+            </PaginationItem>
+          )}
+
           {renderPageButtons()}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => {
-                let prevPage = currentPage + 1;
-                if (prevPage >= totalPages) prevPage = totalPages;
-                handlePageChange(prevPage);
-              }}
-            />
-          </PaginationItem>
+
+          {totalPages > currentPage && (
+            <PaginationItem>
+              <PaginationNext to={nextUrl} />
+            </PaginationItem>
+          )}
         </PaginationContent>
       </Pagination>
     </div>
