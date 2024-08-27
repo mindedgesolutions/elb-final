@@ -10,10 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Form, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchCategory = () => {
   const navigate = useNavigate();
@@ -42,30 +43,24 @@ const SearchCategory = () => {
           setSearchInput({ ...searchInput, input: e.target.value })
         }
       />
-      <Select
+      <select
         name="t"
         id="t"
         value={searchInput.select}
-        onValueChange={(value) =>
-          setSearchInput({ ...searchInput, select: Number(value) })
+        onChange={(e) =>
+          setSearchInput({ ...searchInput, select: Number(e.target.value) })
         }
+        className="flex h-10 w-full md:w-[230px] items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
       >
-        <SelectTrigger className="w-full md:w-[230px]">
-          <SelectValue placeholder="Select parent" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Select parent</SelectLabel>
-            {parentCategories.map((cat) => {
-              return (
-                <SelectItem key={nanoid()} value={cat.id}>
-                  {cat.category}
-                </SelectItem>
-              );
-            })}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+        <option value="">Select parent</option>
+        {parentCategories.map((cat) => {
+          return (
+            <option key={nanoid()} value={cat.id}>
+              {cat.category}
+            </option>
+          );
+        })}
+      </select>
       <SearchBtnLayout>
         <Button
           type="submit"

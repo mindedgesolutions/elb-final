@@ -64,6 +64,7 @@ const AddCategoryForm = ({ editId, setEditId }) => {
       isParent: data.isParent === "on" ? true : false,
       parentId: !data.isParent ? data.parentId : null,
     };
+    console.log(data.parentId);
     const url = editId
       ? `/masters/categories/${editId}`
       : `/masters/categories`;
@@ -116,7 +117,7 @@ const AddCategoryForm = ({ editId, setEditId }) => {
       <form autoComplete="off" onSubmit={handleSubmit}>
         <CardContent>
           <div className="grid w-full items-center gap-4">
-            <div className="flex items-center space-x-2 mb-2">
+            <div className="flex items-center space-x-2">
               <Checkbox
                 id="isParent"
                 name="isParent"
@@ -125,7 +126,7 @@ const AddCategoryForm = ({ editId, setEditId }) => {
               />
               <label
                 htmlFor="isParent"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Is parent category?
               </label>
@@ -136,30 +137,27 @@ const AddCategoryForm = ({ editId, setEditId }) => {
                   <Label htmlFor={`parentId`} className="capitalize">
                     Parent category <span className="text-red-500">*</span>
                   </Label>
-                  <Select
+                  <select
                     name="parentId"
                     id="parentId"
-                    value={Number(form.parentId)}
-                    onValueChange={(value) =>
-                      setForm({ ...form, parentId: value })
+                    value={form.parentId}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        parentId: Number(e.target.value),
+                      })
                     }
+                    className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
                   >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select parent" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Select parent</SelectLabel>
-                        {parentCategories.map((pcat) => {
-                          return (
-                            <SelectItem key={nanoid()} value={pcat.id}>
-                              {pcat.category}
-                            </SelectItem>
-                          );
-                        })}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                    <option value="">Select parent</option>
+                    {parentCategories.map((pcat) => {
+                      return (
+                        <option key={nanoid()} value={pcat.id}>
+                          {pcat.category}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </>
             )}
