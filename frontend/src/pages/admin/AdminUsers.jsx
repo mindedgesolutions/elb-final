@@ -5,8 +5,8 @@ import {
   DeleteUser,
   EditUser,
   SearchUser,
+  TableRowSkeleton,
 } from "@/components";
-import TableRowSkeleton from "@/components/globals/TableRowSkeleton";
 import { Button } from "@/components/ui/button";
 import {
   Table,

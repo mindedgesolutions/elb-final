@@ -1,4 +1,4 @@
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TableRowSkeleton = ({ count = 10 }) => {
   const tableRows = Array.from({ length: count }, (_, index) => {

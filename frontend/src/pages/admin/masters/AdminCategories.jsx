@@ -5,8 +5,8 @@ import {
   DeleteCategory,
   PageHeader,
   SearchCategory,
+  TableRowSkeleton,
 } from "@/components";
-import TableRowSkeleton from "@/components/globals/TableRowSkeleton";
 import {
   setListCategories,
   setParentCategories,
