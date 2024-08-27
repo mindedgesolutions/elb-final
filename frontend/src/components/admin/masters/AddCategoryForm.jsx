@@ -31,9 +31,13 @@ import {
 } from "@/features/categorySlice";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
+import { useLocation } from "react-router-dom";
 
 const AddCategoryForm = ({ editId, setEditId }) => {
   const dispatch = useDispatch();
+  const { search } = useLocation();
+  const queryString = new URLSearchParams(search);
+  const page = queryString.get("page");
   const { parentCategories, listCategories } = useSelector(
     (store) => store.categories
   );
@@ -77,8 +81,13 @@ const AddCategoryForm = ({ editId, setEditId }) => {
       await process(url, data);
       resetForm();
 
-      const list = await customFetch.get(`/masters/categories`);
-      console.log(list.data.data.rows);
+      const list = await customFetch.get(`/masters/categories`, {
+        params: {
+          page: page || "",
+          search: queryString.get("s") || "",
+          parent: queryString.get("t") || "",
+        },
+      });
       dispatch(setListCategories(list.data.data.rows));
 
       if (data.isParent) {

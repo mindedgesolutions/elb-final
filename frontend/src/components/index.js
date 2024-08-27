@@ -1,6 +1,7 @@
-export { default as FormInput } from "./globals/FormInput";
-export { default as SubmitBtn } from "./globals/SubmitBtn";
-export { default as PageHeader } from "./globals/PageHeader";
+export { default as FormInput } from "./admin/globals/FormInput";
+export { default as SubmitBtn } from "./admin/globals/SubmitBtn";
+export { default as PageHeader } from "./admin/globals/PageHeader";
+export { default as TableRowSkeleton } from "./admin/globals/TableRowSkeleton";
 export { default as AdminSidebar } from "./admin/AdminSidebar";
 export { default as AdminTopnav } from "./admin/AdminTopnav";
 export { default as AdminFooter } from "./admin/AdminFooter";
@@ -16,3 +17,12 @@ export { default as SearchUser } from "./admin/users/SearchUser";
 export { default as AddCategoryForm } from "./admin/masters/AddCategoryForm";
 export { default as DeleteCategory } from "./admin/masters/DeleteCategory";
 export { default as SearchCategory } from "./admin/masters/SearchCategory";
+
+// Website starts ------
+export { default as WbTopSearch } from "./website/globals/WbTopSearch";
+export { default as WbTopnav } from "./website/globals/WbTopnav";
+export { default as WbFooter } from "./website/globals/WbFooter";
+export { default as WbFilterLocation } from "./website/globals/WbFilterLocation";
+export { default as WbFilterCategories } from "./website/globals/WbFilterCategories";
+export { default as WbThemeSwitch } from "./website/globals/WbThemeSwitch";
+export { default as TopNavProfileDropdown } from "./website/globals/TopNavProfileDropdown";
