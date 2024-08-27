@@ -7,7 +7,7 @@ import {
   editCategory,
   listCategories,
   parentCategories,
-} from "../controllers/categoryController.js";
+} from "../controllers/admin/categoryController.js";
 import { validateAddCategory } from "../middleware/categoryMiddleware.js";
 
 router

@@ -1,8 +1,8 @@
 import { StatusCodes } from "http-status-codes";
-import pool from "../db.js";
+import pool from "../../db.js";
 import { v4 as uuidv4 } from "uuid";
-import { hashPassword } from "../utils/passwordUtils.js";
-import { generateSlug, paginationLogic } from "../utils/functions.js";
+import { hashPassword } from "../../utils/passwordUtils.js";
+import { generateSlug, paginationLogic } from "../../utils/functions.js";
 import dayjs from "dayjs";
 
 // ------

@@ -6,6 +6,7 @@ import { store } from "./store";
 import { action as loginAction } from "@/pages/admin/auth/AdminLogin";
 
 // Loaders ------
+import { loader as adminLayoutLoader } from "@/pages/admin/AdminLayout";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
   {
     path: `/admin`,
     element: <Elb.AdminLayout />,
+    loader: adminLayoutLoader(store),
     children: [
       { path: `dashboard`, element: <Elb.AdminDashboard /> },
       {

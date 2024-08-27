@@ -13,11 +13,13 @@ import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 // Routes ------
 import usersRoute from "./routes/userRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
+import authRoute from "./routes/authRoute.js";
 
 // public ------
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
+import { protectRoute } from "./middleware/authMiddleware.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "./public")));
@@ -34,8 +36,9 @@ app.use(cookieParser());
 app.use(express.json());
 
 // API starts ---
-app.use("/api/users", usersRoute);
-app.use("/api/masters", categoryRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", protectRoute, usersRoute);
+app.use("/api/masters", protectRoute, categoryRoute);
 // API ends ---
 
 app.get("*", (req, res) => {

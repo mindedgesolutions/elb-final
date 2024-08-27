@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import pool from "../db.js";
-import { paginationLogic } from "../utils/functions.js";
+import pool from "../../db.js";
+import { paginationLogic } from "../../utils/functions.js";
 import dayjs from "dayjs";
 import slug from "slug";
 

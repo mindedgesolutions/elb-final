@@ -45,7 +45,7 @@ const WbFilterLocation = ({ locationLabel, setLocationLabel }) => {
             return (
               <div
                 key={nanoid()}
-                className="flex flex-col justify-center items-center border border-gray-300 rounded-lg p-3"
+                className="flex flex-col justify-center items-center border border-gray-300 rounded-lg p-3 cursor-pointer"
                 onClick={() => {
                   setSearch(location.id);
                   setLocationLabel(location.city);
