@@ -6,7 +6,7 @@ const SubmitBtn = ({ label = "Submit", isSubmitting, className }) => {
     <>
       <Button
         type="submit"
-        className={className || `bg-primary capitalize`}
+        className={className || `bg-green-500 hover:bg-green-400 capitalize`}
         disabled={isSubmitting}
       >
         {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
