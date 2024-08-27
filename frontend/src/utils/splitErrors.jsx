@@ -3,10 +3,10 @@ import { nanoid } from "nanoid";
 
 const splitErrors = (errors) => {
   const errMsg = (
-    <ul className="pl-2 list-disc">
+    <ul className="md:pl-2">
       {errors?.split(",").map((msg) => {
         return (
-          <li key={nanoid()} className="my-1">
+          <li key={nanoid()} className="my-1 list-disc text-sm">
             {msg}
           </li>
         );

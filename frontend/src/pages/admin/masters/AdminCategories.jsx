@@ -167,7 +167,10 @@ const AdminCategories = () => {
                                       size="sm"
                                       onClick={() => setEditId(category.id)}
                                     >
-                                      <Pencil size={18} />
+                                      <Pencil
+                                        size={18}
+                                        className="text-green-500 group-hover:text-green-400"
+                                      />
                                     </Button>
                                     <DeleteCategory
                                       id={category.id}

@@ -10,6 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { setListUsers } from "@/features/usersSlice";
 import customFetch from "@/utils/customFetch";
@@ -29,7 +31,7 @@ const EditUser = ({ id }) => {
     lastName: "",
     email: "",
     mobile: "",
-    isAdmin: "",
+    isAdmin: false,
   });
 
   // Form submit starts ------
@@ -67,7 +69,7 @@ const EditUser = ({ id }) => {
         lastName: user.last_name || "",
         email: user.email || "",
         mobile: user.mobile || "",
-        isAdmin: user.rid === 1 ? true : false || "",
+        isAdmin: user.rid === 1 ? true : false,
       });
   }, [user]);
 
@@ -93,40 +95,67 @@ const EditUser = ({ id }) => {
         </DialogHeader>
         <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
-            <FormInput
-              type={"text"}
-              label={"First name"}
-              name={"firstName"}
-              placeholder={"Your first name"}
-              required={true}
-              value={form.firstName}
-            />
-            <FormInput
-              type={"text"}
-              label={"Last name"}
-              name={"lastName"}
-              placeholder={"Your last name"}
-              required={true}
-              value={form.lastName}
-            />
-            <FormInput
-              type={"text"}
-              label={"Email"}
-              name={"email"}
-              placeholder={"Your email"}
-              required={true}
-              value={form.email}
-            />
-            <FormInput
-              type={"text"}
-              label={"Mobile no."}
-              name={"mobile"}
-              placeholder={"Your mobile no."}
-              required={true}
-              value={form.mobile}
-            />
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor={`firstName`} className="capitalize">
+                First name <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
+                id={`firstName`}
+                name={`firstName`}
+                placeholder={`Your first name`}
+                value={form.firstName}
+                onChange={(e) =>
+                  setForm({ ...form, firstName: e.target.value })
+                }
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor={`lastName`} className="capitalize">
+                Last name <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
+                id={`lastName`}
+                name={`lastName`}
+                placeholder={`Your last name`}
+                value={form.lastName}
+                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor={`email`} className="capitalize">
+                Email <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
+                id={`email`}
+                name={`email`}
+                placeholder={`Your email`}
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor={`mobile`} className="capitalize">
+                Mobile no. <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
+                id={`mobile`}
+                name={`mobile`}
+                placeholder={`Your mobile no.`}
+                value={form.mobile}
+                onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+              />
+            </div>
             <div className="flex items-center space-x-2">
-              <Checkbox id="isAdmin" name="isAdmin" checked={form.isAdmin} />
+              <Checkbox
+                id="isAdmin"
+                name="isAdmin"
+                checked={form.isAdmin}
+                onClick={() => setForm({ ...form, isAdmin: !form.isAdmin })}
+              />
               <label
                 htmlFor="isAdmin"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
