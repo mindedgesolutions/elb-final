@@ -10,9 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import logo from "@/assets/logo.svg";
-import { Form, Link, useNavigation } from "react-router-dom";
+import { Form, Link, redirect, useNavigation } from "react-router-dom";
 import { FormInput, SubmitBtn } from "@/components";
 import { Checkbox } from "@/components/ui/checkbox";
+import splitErrors from "@/utils/splitErrors";
+import customFetch from "@/utils/customFetch";
+import { toast } from "@/components/ui/use-toast";
 
 const AdminLogin = () => {
   document.title = `Admin Sign In | ${import.meta.env.VITE_APP_TITLE}`;
@@ -46,7 +49,7 @@ const AdminLogin = () => {
                     </Label>
                     <Link
                       to={`/forgot-password`}
-                      className="text-primary text-sm"
+                      className="text-green-600 text-sm"
                     >
                       Forgot password?
                     </Link>
@@ -75,7 +78,7 @@ const AdminLogin = () => {
               </Button>
               <SubmitBtn
                 label="Login"
-                className={`bg-primary`}
+                className={`bg-green-500 hover:bg-green-400`}
                 isSubmitting={isSubmitting}
               />
             </CardFooter>
@@ -97,7 +100,16 @@ export default AdminLogin;
 // Action function starts ------
 export const action = async ({ request }) => {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  console.log(data);
-  return null;
+  let data = Object.fromEntries(formData);
+  data = { ...data, remember: data.remember === "on" ? true : false };
+  try {
+    const response = await customFetch.post(`/auth/login`, data);
+    const firstName = response.data.data.first_name;
+
+    toast({ title: `Welcome ${firstName}`, description: "Login successful" });
+    return redirect(`/admin/dashboard`);
+  } catch (error) {
+    splitErrors(error?.response?.data?.msg);
+    return null;
+  }
 };
