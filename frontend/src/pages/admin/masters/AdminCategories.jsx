@@ -1,5 +1,11 @@
-import { AdminPageLayout, AdminPagination, PageHeader } from "@/components";
-import AddCategoryForm from "@/components/admin/masters/AddCategoryForm";
+import {
+  AddCategoryForm,
+  AdminPageLayout,
+  AdminPagination,
+  DeleteCategory,
+  PageHeader,
+  SearchCategory,
+} from "@/components";
 import TableRowSkeleton from "@/components/globals/TableRowSkeleton";
 import {
   setListCategories,
@@ -22,7 +28,6 @@ import customFetch from "@/utils/customFetch";
 import { activeBadge, serialNo } from "@/utils/functions";
 import { Pencil, ThumbsUp, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
-import DeleteCategory from "@/components/admin/masters/DeleteCategory";
 import splitErrors from "@/utils/splitErrors";
 import { toast } from "@/components/ui/use-toast";
 
@@ -51,7 +56,7 @@ const AdminCategories = () => {
         params: {
           page: page || "",
           search: queryString.get("s") || "",
-          parent: queryString.get("c") || "",
+          parent: queryString.get("t") || "",
         },
       });
       dispatch(setListCategories(response.data.data.rows));
@@ -76,7 +81,7 @@ const AdminCategories = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, queryString.get("s"), queryString.get("c")]);
+  }, [page, queryString.get("s"), queryString.get("t")]);
 
   // Activate category ------
   const activateCategory = async (id) => {
@@ -92,7 +97,7 @@ const AdminCategories = () => {
         params: {
           page: page || "",
           search: queryString.get("s") || "",
-          parent: queryString.get("c") || "",
+          parent: queryString.get("t") || "",
         },
       });
       dispatch(setListCategories(response.data.data.rows));
@@ -111,10 +116,10 @@ const AdminCategories = () => {
     <>
       <PageHeader main={`List of categories`} />
       <AdminPageLayout>
-        <div className="flex flex-col-reverse md:flex-row gap-2 md:gap-8">
+        <SearchCategory />
+        <div className="flex sm:flex-col-reverse md:flex-row sm:gap-4 md:gap-8">
           <div className="w-full md:basis-2/3">
             <section>
-              {/* <SearchUser /> */}
               {isLoading ? (
                 <TableRowSkeleton count={10} />
               ) : (
@@ -199,7 +204,7 @@ const AdminCategories = () => {
               )}
             </section>
           </div>
-          <div className="w-full md:basis-1/3">
+          <div className="w-full md:basis-1/3 mt-4">
             <AddCategoryForm editId={editId} setEditId={setEditId} />
           </div>
         </div>

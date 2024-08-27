@@ -143,7 +143,10 @@ const AdminUsers = () => {
                             {user.is_active ? (
                               <>
                                 <Button variant="link" size="sm">
-                                  <Eye size={18} />
+                                  <Eye
+                                    size={18}
+                                    className="text-green-500 group-hover:text-green-400"
+                                  />
                                 </Button>
                                 <EditUser id={user.id} />
                                 <DeleteUser

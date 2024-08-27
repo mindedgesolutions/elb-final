@@ -54,8 +54,8 @@ const AddUser = () => {
       <DialogTrigger asChild>
         <Button
           type="button"
-          size="sm"
-          className="px-4"
+          size="default"
+          className="bg-green-500 hover:bg-green-400"
           onClick={() => setIsOpen(!isOpen)}
         >
           Add New

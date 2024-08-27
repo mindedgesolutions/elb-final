@@ -80,7 +80,10 @@ const EditUser = ({ id }) => {
           size="sm"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <Pencil size={18} />
+          <Pencil
+            size={18}
+            className="text-green-500 group-hover:text-green-400"
+          />
         </Button>
       </DialogTrigger>
       <DialogContent>

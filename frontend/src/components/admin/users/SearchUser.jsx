@@ -1,3 +1,4 @@
+import { SearchBtnLayout, SearchContainerLayout } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -29,55 +30,53 @@ const SearchUser = () => {
   };
 
   return (
-    <Form>
-      <div className="flex flex-col md:flex-row justify-start md:justify-end items-center gap-3 md:p-2 my-4 md:my-0 md:bg-muted">
-        <Input
-          type="text"
-          className="w-full md:w-[230px] rounded-md"
-          name="s"
-          placeholder="Search by name / email / mobile"
-          value={searchInput.input}
-          onChange={(e) =>
-            setSearchInput({ ...searchInput, input: e.target.value })
-          }
-        />
-        <Select
-          name="t"
-          id="t"
-          value={searchInput.select}
-          onValueChange={(value) =>
-            setSearchInput({ ...searchInput, select: Number(value) })
-          }
+    <SearchContainerLayout>
+      <Input
+        type="text"
+        className="w-full md:w-[230px] rounded-md"
+        name="s"
+        placeholder="Search by name / email / mobile"
+        value={searchInput.input}
+        onChange={(e) =>
+          setSearchInput({ ...searchInput, input: e.target.value })
+        }
+      />
+      <Select
+        name="t"
+        id="t"
+        value={searchInput.select}
+        onValueChange={(value) =>
+          setSearchInput({ ...searchInput, select: Number(value) })
+        }
+      >
+        <SelectTrigger className="w-full md:w-[230px]">
+          <SelectValue placeholder="Select user type" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Select user type</SelectLabel>
+            {userType.map((type) => {
+              return (
+                <SelectItem key={nanoid()} value={type.typeId}>
+                  {type.typeLabel}
+                </SelectItem>
+              );
+            })}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <SearchBtnLayout>
+        <Button
+          type="submit"
+          className="bg-blue-500 text-white hover:bg-blue-400"
         >
-          <SelectTrigger className="w-full md:w-[230px]">
-            <SelectValue placeholder="Select user type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Select user type</SelectLabel>
-              {userType.map((type) => {
-                return (
-                  <SelectItem key={nanoid()} value={type.typeId}>
-                    {type.typeLabel}
-                  </SelectItem>
-                );
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <div className="flex gap-4 md:gap-3 mb-4 md:mb-0">
-          <Button
-            type="submit"
-            className="bg-blue-500 text-white hover:bg-blue-400"
-          >
-            Search
-          </Button>
-          <Button type="button" variant="outline" onClick={resetSearch}>
-            Reset
-          </Button>
-        </div>
-      </div>
-    </Form>
+          Search
+        </Button>
+        <Button type="button" variant="outline" onClick={resetSearch}>
+          Reset
+        </Button>
+      </SearchBtnLayout>
+    </SearchContainerLayout>
   );
 };
 export default SearchUser;
