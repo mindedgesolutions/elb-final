@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import { WbSubCategories } from "@/components";
 import { Separator } from "@/components/ui/separator";
+import { wbSearchCategories } from "@/utils/links";
 
 const WbCategoryModal = ({ show, handleClose }) => {
   const { allCategories } = useSelector((store) => store.categories);
@@ -25,21 +25,33 @@ const WbCategoryModal = ({ show, handleClose }) => {
         <div className="modal-body px-5 py-4">
           <div className="row">
             <div className="col-lg-12">
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-1">
                 {allCategories
                   .filter((i) => i.parent_id === null)
                   .map((pcat) => {
+                    const icon = wbSearchCategories.find(
+                      (i) => i.slug === pcat.slug
+                    );
+
                     return (
-                      <div key={pcat.id} className="flex flex-col">
+                      <div key={pcat.id} className="flex flex-col pb-4">
                         <Link
                           to={`/cat/${pcat.slug}`}
-                          className="group flex flex-col justify-start text-sm cursor-pointer mb-2"
+                          className="group flex flex-col pb-2 justify-start text-sm font-medium tracking-normal cursor-pointer"
                           onClick={handleClose}
                         >
-                          {pcat.category}
+                          <span className="flex items-center gap-1">
+                            <icon.icon size={18} />
+                            {pcat.category}
+                          </span>
                         </Link>
                         <Separator className="max-w-20 mb-1" />
-                        <WbSubCategories parent={pcat.id} pslug={pcat.slug} />
+                        {/* For child menu / sub-menu */}
+                        <WbSubCategories
+                          parent={pcat.id}
+                          pslug={pcat.slug}
+                          handleClose={handleClose}
+                        />
                       </div>
                     );
                   })}
