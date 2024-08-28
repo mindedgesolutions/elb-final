@@ -173,13 +173,13 @@ body,
 }
 
 .swiper.recentJob .swiper-slide {
-  border-radius: 20px;
-  box-shadow: 0px 3px 16px rgba(47, 83, 109, 0.12);
-  box-shadow: 0px 3px 13px rgba(47, 83, 109, 0.2);
-  border-radius: 20px;
+  /* border-radius: 20px; */
+  /* box-shadow: 0px 3px 16px rgba(47, 83, 109, 0.12); */
+  /* box-shadow: 0px 3px 13px rgba(47, 83, 109, 0.2); */
+  /* border-radius: 20px; */
   position: relative;
   /* background: var(--primary-color3); */
-  border-bottom: 3px solid var(--primary-color3);
+  /* border-bottom: 3px solid var(--primary-color3); */
 }
 
 /* .recentJob .swiper-slide { */
