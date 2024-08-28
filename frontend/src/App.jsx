@@ -1,8 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import * as Elb from "@/pages";
+import { store } from "./store";
 
 // Actions ------
 import { action as loginAction } from "@/pages/admin/auth/AdminLogin";
+
+// Loaders ------
+import { loader as adminLayoutLoader } from "@/pages/admin/AdminLayout";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -33,25 +37,26 @@ const router = createBrowserRouter([
   },
   // User protected routes end ------
 
-  // Admin unprotected routes start ------
+  // Admin routes start ------
   { path: `/admin/login`, element: <Elb.AdminLogin />, action: loginAction },
   { path: `/admin/forgot-password`, element: <Elb.AdminForgotPassword /> },
   { path: `/admin/reset-password`, element: <Elb.AdminResetPassword /> },
-  // Admin unprotected routes end ------
-
-  // Admin protected routes start ------
   {
     path: `/admin`,
     element: <Elb.AdminLayout />,
+    loader: adminLayoutLoader(store),
     children: [
       { path: `dashboard`, element: <Elb.AdminDashboard /> },
-      { path: `settings`, element: <Elb.AdminMasters /> },
+      {
+        path: `categories`,
+        element: <Elb.AdminCategories />,
+      },
       { path: `form-builder`, element: <Elb.AdminFormBuilder /> },
       { path: `users`, element: <Elb.AdminUsers /> },
       { path: `posts`, element: <Elb.AdminPosts /> },
     ],
   },
-  // Admin protected routes end ------
+  // Admin routes end ------
 ]);
 
 function App() {
