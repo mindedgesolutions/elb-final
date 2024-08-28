@@ -14,6 +14,7 @@ import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 import usersRoute from "./routes/userRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import authRoute from "./routes/authRoute.js";
+import websiteRoute from "./routes/websiteRoute.js";
 
 // public ------
 import { dirname } from "path";
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", protectRoute, usersRoute);
 app.use("/api/masters", protectRoute, categoryRoute);
+app.use("/api/website", websiteRoute);
 // API ends ---
 
 app.get("*", (req, res) => {

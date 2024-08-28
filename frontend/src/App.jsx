@@ -7,12 +7,14 @@ import { action as loginAction } from "@/pages/admin/auth/AdminLogin";
 
 // Loaders ------
 import { loader as adminLayoutLoader } from "@/pages/admin/AdminLayout";
+import { loader as websiteLayoutLoader } from "@/pages/website/WebsiteLayout";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
   {
     path: `/`,
     element: <Elb.WebsiteLayout />,
+    loader: websiteLayoutLoader(store),
     children: [
       { index: true, element: <Elb.WebsiteHome /> },
       { path: `sign-in`, element: <Elb.WebsiteLogin /> },
