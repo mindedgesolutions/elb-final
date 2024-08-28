@@ -13,7 +13,7 @@ import {
 import avatar from "@/assets/000m.jpg";
 import { Link } from "react-router-dom";
 
-const AdminProfileContainer = () => {
+const AdminProfileContainer = ({ logout }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="ml-2">
@@ -39,7 +39,7 @@ const AdminProfileContainer = () => {
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer" onClick={logout}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

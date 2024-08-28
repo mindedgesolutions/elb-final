@@ -59,3 +59,13 @@ export const currentUser = async (req, res) => {
   );
   return res.status(StatusCodes.OK).json({ data });
 };
+
+// ------
+export const logout = async (req, res) => {
+  res.cookie("token_elb", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+
+  res.status(StatusCodes.NO_CONTENT).json({ msg: "User logged out" });
+};
