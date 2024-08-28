@@ -1,4 +1,4 @@
-import WbHeroSection from "@/components/website/home/WbHeroSection";
+import { WbHeroSection, WbHomeFeaturedItems } from "@/components";
 
 const WebsiteHome = () => {
   document.title = `Welcome to Easy Lending Buddy | ${
@@ -8,6 +8,7 @@ const WebsiteHome = () => {
   return (
     <>
       <WbHeroSection />
+      <WbHomeFeaturedItems />
     </>
   );
 };

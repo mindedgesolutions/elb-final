@@ -29,3 +29,5 @@ export { default as WbFilterLocation } from "./website/globals/WbFilterLocation"
 export { default as WbFilterCategories } from "./website/globals/WbFilterCategories";
 export { default as WbThemeSwitch } from "./website/globals/WbThemeSwitch";
 export { default as TopNavProfileDropdown } from "./website/globals/TopNavProfileDropdown";
+export { default as WbHeroSection } from "./website/home/WbHeroSection";
+export { default as WbHomeFeaturedItems } from "./website/home/WbHomeFeaturedItems";
