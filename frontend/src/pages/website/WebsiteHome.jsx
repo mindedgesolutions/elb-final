@@ -1,4 +1,14 @@
+import WbHeroSection from "@/components/website/home/WbHeroSection";
+
 const WebsiteHome = () => {
-  return <div>WebsiteHome</div>;
+  document.title = `Welcome to Easy Lending Buddy | ${
+    import.meta.env.VITE_APP_TITLE
+  }`;
+
+  return (
+    <>
+      <WbHeroSection />
+    </>
+  );
 };
 export default WebsiteHome;

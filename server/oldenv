@@ -1,8 +1,0 @@
-NODE_ENV=development
-APP_PORT=3001
-
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=elb_new
-DB_USER=postgres
-DB_PASSWORD=postgres

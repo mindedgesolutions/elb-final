@@ -79,6 +79,48 @@ export const listCategories = async (req, res) => {
 };
 
 // ------
+export const allCategories = async (req, res) => {
+  const data = await pool.query(
+    `
+    with recursive category_tree AS (
+      select
+        id, 
+        category, 
+        parent_id,
+        category as pcategory,
+        is_active,
+        slug,
+        0 as level
+      from master_categories where parent_id is null
+      union all
+      select
+        c.id, 
+        c.category,
+        c.parent_id,
+        ct.category as pcategory,
+        c.is_active,
+        c.slug,
+        ct.level + 1
+      from master_categories c
+      inner join category_tree ct on c.parent_id = ct.id
+    )
+    select
+      id,
+      category,
+      parent_id,
+      pcategory,
+      is_active,
+      slug,
+      level
+    from category_tree
+    where id is not null
+    order by pcategory, level, parent_id, id`,
+    []
+  );
+  res.status(StatusCodes.OK).json({ data });
+};
+
+// ------
 export const editCategory = async (req, res) => {
   const { id } = req.params;
   const { isParent, parentId, category } = req.body;

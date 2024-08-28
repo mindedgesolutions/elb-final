@@ -5,15 +5,34 @@ import "../../assets/website/css/style.css";
 import "../../assets/website/css/abc.css";
 import "../../assets/website/css/resposive.css";
 
-import { WbFooter, WbTopnav, WbTopSearch } from "@/components";
+import { WbFooter, WbTopMenu, WbTopnav } from "@/components";
+import splitErrors from "@/utils/splitErrors";
+import customFetch from "@/utils/customFetch";
+import { setAllCategories } from "@/features/categorySlice";
 
 const WebsiteLayout = () => {
   return (
     <>
       <WbTopnav />
+      <WbTopMenu />
       <Outlet />
       <WbFooter />
     </>
   );
 };
 export default WebsiteLayout;
+
+// Loader function starts ------
+export const loader = (store) => async () => {
+  const { allCategories } = store.getState().categories;
+  try {
+    if (allCategories.length === 0) {
+      const categories = await customFetch.get(`/website/categories`);
+      store.dispatch(setAllCategories(categories.data.data.rows));
+    }
+    return null;
+  } catch (error) {
+    splitErrors(error?.response?.data?.msg);
+    return null;
+  }
+};

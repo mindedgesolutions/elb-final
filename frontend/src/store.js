@@ -3,6 +3,7 @@ import usersReducer from "@/features/usersSlice";
 import categoryReducer from "@/features/categorySlice";
 import wbSearchReducer from "@/features/wbSearchSlice";
 import currentUserReducer from "@/features/currentUserSlice";
+import commonReducer from "@/features/commonSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     categories: categoryReducer,
     wbSearch: wbSearchReducer,
     currentUser: currentUserReducer,
+    common: commonReducer,
   },
 });

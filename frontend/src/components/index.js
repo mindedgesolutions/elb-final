@@ -21,6 +21,9 @@ export { default as SearchCategory } from "./admin/masters/SearchCategory";
 // Website starts ------
 export { default as WbTopSearch } from "./website/globals/WbTopSearch";
 export { default as WbTopnav } from "./website/globals/WbTopnav";
+export { default as WbTopMenu } from "./website/globals/WbTopMenu";
+export { default as WbCategoryModal } from "./website/globals/WbCategoryModal";
+export { default as WbSubCategories } from "./website/globals/WbSubCategories";
 export { default as WbFooter } from "./website/globals/WbFooter";
 export { default as WbFilterLocation } from "./website/globals/WbFilterLocation";
 export { default as WbFilterCategories } from "./website/globals/WbFilterCategories";

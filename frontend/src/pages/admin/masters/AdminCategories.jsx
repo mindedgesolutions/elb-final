@@ -47,6 +47,7 @@ const AdminCategories = () => {
   const { listCategories, parentCategories } = useSelector(
     (store) => store.categories
   );
+  const { counter } = useSelector((store) => store.common);
 
   // Fetch data and parents start ------
   const fetchData = async () => {
@@ -81,7 +82,8 @@ const AdminCategories = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, queryString.get("s"), queryString.get("t")]);
+    console.log(counter);
+  }, [counter, page, queryString.get("s"), queryString.get("t")]);
 
   // Activate category ------
   const activateCategory = async (id) => {

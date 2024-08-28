@@ -7,15 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { nanoid } from "nanoid";
 import { Label } from "@/components/ui/label";
@@ -25,19 +16,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import splitErrors from "@/utils/splitErrors";
 import customFetch from "@/utils/customFetch";
-import {
-  setListCategories,
-  setParentCategories,
-} from "@/features/categorySlice";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import { useLocation } from "react-router-dom";
+import { updateCounter } from "@/features/commonSlice";
 
 const AddCategoryForm = ({ editId, setEditId }) => {
   const dispatch = useDispatch();
-  const { search } = useLocation();
-  const queryString = new URLSearchParams(search);
-  const page = queryString.get("page");
   const { parentCategories, listCategories } = useSelector(
     (store) => store.categories
   );
@@ -80,21 +64,7 @@ const AddCategoryForm = ({ editId, setEditId }) => {
     try {
       await process(url, data);
       resetForm();
-
-      const list = await customFetch.get(`/masters/categories`, {
-        params: {
-          page: page || "",
-          search: queryString.get("s") || "",
-          parent: queryString.get("t") || "",
-        },
-      });
-      dispatch(setListCategories(list.data.data.rows));
-
-      if (data.isParent) {
-        const pcat = await customFetch.get(`/masters/parent-categories`);
-        dispatch(setParentCategories(pcat.data.data.rows));
-      }
-
+      dispatch(updateCounter());
       toast({ title, description });
       setIsSubmitting(false);
     } catch (error) {
