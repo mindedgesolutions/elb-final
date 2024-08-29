@@ -1,10 +1,9 @@
 import {
-  AddCategoryForm,
+  AddFormField,
   AdminPageLayout,
   AdminPagination,
-  DeleteCategory,
-  PageHeader,
-  SearchCategory,
+  DeleteFormField,
+  SearchFormFields,
   TableRowSkeleton,
 } from "@/components";
 import {
@@ -31,8 +30,8 @@ import { nanoid } from "nanoid";
 import splitErrors from "@/utils/splitErrors";
 import { toast } from "@/components/ui/use-toast";
 
-const AdminCategories = () => {
-  document.title = `List of Categories | ${import.meta.env.VITE_APP_TITLE}`;
+const AdminFormFields = () => {
+  document.title = `Form Fields | ${import.meta.env.VITE_APP_TITLE}`;
   const dispatch = useDispatch();
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
@@ -44,82 +43,44 @@ const AdminCategories = () => {
     totalRecords: 0,
   });
   const [editId, setEditId] = useState(null);
-  const { listCategories, parentCategories } = useSelector(
-    (store) => store.categories
-  );
+  const { parentCategories } = useSelector((store) => store.categories);
   const { counter } = useSelector((store) => store.common);
+
+  const listFormFields = [];
 
   // Fetch data and parents start ------
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get(`/masters/categories`, {
-        params: {
-          page: page || "",
-          search: queryString.get("s") || "",
-          parent: queryString.get("t") || "",
-        },
-      });
-      dispatch(setListCategories(response.data.data.rows));
-      setMeta({
-        ...meta,
-        totalPages: response.data.meta.totalPages,
-        currentPage: response.data.meta.currentPage,
-        totalRecords: response.data.meta.totalRecords,
-      });
-
-      if (parentCategories.length === 0) {
-        const pcat = await customFetch.get(`/masters/parent-categories`);
-        dispatch(setParentCategories(pcat.data.data.rows));
-      }
-
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
+    } catch (error) {}
   };
   // Fetch data and parents end ------
 
-  useEffect(() => {
-    fetchData();
-  }, [counter, page, queryString.get("s"), queryString.get("t")]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [counter, page, queryString.get("s"), queryString.get("t")]);
 
   // Activate category ------
   const activateCategory = async (id) => {
     setIsLoading(true);
     try {
-      await customFetch.patch(`/masters/categories/activate/${id}`);
-      toast({
-        title: `Activated`,
-        description: `Category activated successful`,
-      });
-
-      const response = await customFetch.get(`/masters/categories`, {
-        params: {
-          page: page || "",
-          search: queryString.get("s") || "",
-          parent: queryString.get("t") || "",
-        },
-      });
-      dispatch(setListCategories(response.data.data.rows));
-
-      const pcat = await customFetch.get(`/masters/parent-categories`);
-      dispatch(setParentCategories(pcat.data.data.rows));
-
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      splitErrors(error?.response?.data?.msg);
-    }
+    } catch (error) {}
   };
 
   return (
     <>
-      <PageHeader main={`List of categories`} />
+      <div className="w-full flex justify-between items-center p-8 -mb-10">
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-semibold mb-2">List of Form Fields</h1>
+          <h3 className="text-sm font-normal text-muted-foreground">{`Note: Note: You do not need to add fields for "Parent" categories e.g. Bikes, Electronics & Appliances, Fashion, Furniture Models etc.`}</h3>
+        </div>
+
+        <AddFormField />
+      </div>
       <AdminPageLayout>
-        <SearchCategory />
+        <SearchFormFields />
         <div className="flex sm:flex-col-reverse md:flex-row sm:gap-4 md:gap-8">
-          <div className="w-full md:basis-2/3">
+          <div className="w-full">
             <section>
               {isLoading ? (
                 <TableRowSkeleton count={10} />
@@ -130,21 +91,25 @@ const AdminCategories = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead>Sl. No.</TableHead>
-                        <TableHead>Parent</TableHead>
                         <TableHead>Category</TableHead>
+                        <TableHead>Sub-category</TableHead>
+                        <TableHead>Form Label</TableHead>
+                        <TableHead>Field Type</TableHead>
+                        <TableHead>Required?</TableHead>
+                        <TableHead>Options</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {listCategories.length === 0 ? (
+                      {listFormFields.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center">
+                          <TableCell colSpan={9} className="text-center">
                             No data found
                           </TableCell>
                         </TableRow>
                       ) : (
-                        listCategories.map((category, index) => {
+                        listFormFields.map((category, index) => {
                           return (
                             <TableRow key={nanoid()} className="group">
                               <TableCell>{serialNo(page) + index}.</TableCell>
@@ -173,7 +138,7 @@ const AdminCategories = () => {
                                         className="text-green-500 group-hover:text-green-400"
                                       />
                                     </Button>
-                                    <DeleteCategory
+                                    <DeleteFormField
                                       id={category.id}
                                       category={category.category}
                                     />
@@ -208,12 +173,11 @@ const AdminCategories = () => {
               )}
             </section>
           </div>
-          <div className="w-full md:basis-1/3 mt-4">
-            <AddCategoryForm editId={editId} setEditId={setEditId} />
-          </div>
         </div>
       </AdminPageLayout>
     </>
   );
 };
-export default AdminCategories;
+export default AdminFormFields;
+
+// Loader function starts ------

@@ -4,6 +4,7 @@ import categoryReducer from "@/features/categorySlice";
 import wbSearchReducer from "@/features/wbSearchSlice";
 import currentUserReducer from "@/features/currentUserSlice";
 import commonReducer from "@/features/commonSlice";
+import formFieldReducer from "@/features/formFieldSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     wbSearch: wbSearchReducer,
     currentUser: currentUserReducer,
     common: commonReducer,
+    formFields: formFieldReducer,
   },
 });

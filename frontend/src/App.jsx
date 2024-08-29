@@ -54,6 +54,7 @@ const router = createBrowserRouter([
         element: <Elb.AdminCategories />,
       },
       { path: `form-builder`, element: <Elb.AdminFormBuilder /> },
+      { path: `form-fields`, element: <Elb.AdminFormFields /> },
       { path: `users`, element: <Elb.AdminUsers /> },
       { path: `posts`, element: <Elb.AdminPosts /> },
     ],

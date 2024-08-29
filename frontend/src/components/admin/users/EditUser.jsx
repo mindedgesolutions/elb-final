@@ -90,7 +90,7 @@ const EditUser = ({ id }) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="capitalize">{`${user.first_name} ${user.last_name}`}</DialogTitle>
+          <DialogTitle className="flex justify-start capitalize">{`${user.first_name} ${user.last_name}`}</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <form autoComplete="off" onSubmit={handleSubmit}>
