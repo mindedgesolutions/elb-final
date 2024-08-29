@@ -22,7 +22,7 @@ const WbTopnav = () => {
           <WbTopSearch />
           <div className="navbar-right d-flex align-items-center gap-4">
             <div className="align-items-center d-none d-lg-flex">
-              {currentUser ? (
+              {currentUser.first_name ? (
                 <Link to={`#`}>
                   <button
                     type="button"

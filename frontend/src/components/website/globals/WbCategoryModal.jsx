@@ -41,7 +41,7 @@ const WbCategoryModal = ({ show, handleClose }) => {
                           onClick={handleClose}
                         >
                           <span className="flex items-center gap-1">
-                            <icon.icon size={18} />
+                            {icon && <icon.icon size={18} />}
                             {pcat.category}
                           </span>
                         </Link>
