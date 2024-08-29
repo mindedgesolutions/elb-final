@@ -9,28 +9,28 @@ const WbProductCard = ({
   price = 1000,
 }) => {
   const title =
-    postTitle.split("").length > 25
-      ? postTitle.substring(0, 25) + " ..."
+    postTitle.split("").length > 58
+      ? postTitle.substring(0, 58) + " ..."
       : postTitle;
 
   return (
     <Link to={`#`}>
-      <article className="rounded-xl border-2">
+      <article className="rounded-lg border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 hover:shadow-2xl">
         <div className="job-post position-relative">
-          <div className="flex flex-col group justify-start p-1">
-            <div className="w-full sm:h-56 md:h-72 rounded-2xl object-cover overflow-hidden">
+          <div className="flex flex-col group justify-start">
+            <div className="w-full sm:h-56 md:h-60 rounded-lg object-cover overflow-hidden">
               <img
                 src={imgSrc || productImg}
-                className="rounded-2xl border border-gray-100"
+                className="rounded-lg border border-gray-100"
               />
               <button className="service-card-wishlist-btn">
                 <FaRegHeart />
               </button>
             </div>
-            <p className="text-xl font-semibold text-purple-950 group-hover:text-purple-800 tracking-normal mt-6">
+            <p className="text-md text-gray-950 group-hover:text-gray-700 tracking-tighter mt-3">
               {title}
             </p>
-            <p className="text-xl font-semibold text-purple-950 group-hover:text-purple-800 tracking-normal mt-6 pb-4">{`${currencyFormat().format(
+            <p className="text-lg font-semibold text-black group-hover:text-gray-700 tracking-tighter mt-6 pb-3">{`${currencyFormat().format(
               price
             )}`}</p>
           </div>

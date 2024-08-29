@@ -35,9 +35,9 @@ const WbHomeFeaturedItems = () => {
   return (
     <section className="py-10">
       <div className="container">
-        <div className="row mb-10 justify-content-between align-items-end">
-          <div className="col-md-auto">
-            <h2 className="fw-bold section-title">Featured Products</h2>
+        <div className="flex mb-10 justify-content-between align-items-end">
+          <div className="flex flex-col">
+            <h2 className="font-semibold section-title">Featured Products</h2>
             <p className="section-desc">Get some best-selling Products</p>
           </div>
           <div className="col-md-auto position-relative mt-10 mt-md-0">
@@ -66,7 +66,7 @@ const WbHomeFeaturedItems = () => {
         >
           <Swiper
             spaceBetween={25}
-            slidesPerView={4}
+            slidesPerView={5}
             loop={true}
             autoplay={{ delay: 3000 }}
             ref={sliderRef}
