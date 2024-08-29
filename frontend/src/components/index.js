@@ -17,6 +17,9 @@ export { default as SearchUser } from "./admin/users/SearchUser";
 export { default as AddCategoryForm } from "./admin/masters/AddCategoryForm";
 export { default as DeleteCategory } from "./admin/masters/DeleteCategory";
 export { default as SearchCategory } from "./admin/masters/SearchCategory";
+export { default as AddFormField } from "./admin/masters/AddFormField";
+export { default as DeleteFormField } from "./admin/masters/DeleteFormField";
+export { default as SearchFormFields } from "./admin/masters/SearchFormFields";
 
 // Website starts ------
 export { default as WbTopSearch } from "./website/globals/WbTopSearch";

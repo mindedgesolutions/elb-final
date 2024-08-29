@@ -15,7 +15,7 @@ import { setListUsers } from "@/features/usersSlice";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const AddUser = () => {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const AddUser = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add new user</DialogTitle>
+          <DialogTitle className="flex justify-start">Add new user</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <form autoComplete="off" onSubmit={handleSubmit}>

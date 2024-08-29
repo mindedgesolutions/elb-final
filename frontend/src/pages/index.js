@@ -9,6 +9,7 @@ export { default as AdminFormBuilder } from "./admin/AdminFormBuilder";
 export { default as AdminUsers } from "./admin/AdminUsers";
 export { default as AdminPosts } from "./admin/AdminPosts";
 export { default as AdminCategories } from "./admin/masters/AdminCategories";
+export { default as AdminFormFields } from "./admin/masters/AdminFormFields";
 // Admin pages end ------
 
 // Website and User pages start ------
