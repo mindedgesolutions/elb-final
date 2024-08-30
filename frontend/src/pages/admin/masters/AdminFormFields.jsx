@@ -6,10 +6,6 @@ import {
   SearchFormFields,
   TableRowSkeleton,
 } from "@/components";
-import {
-  setListCategories,
-  setParentCategories,
-} from "@/features/categorySlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -24,11 +20,22 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import customFetch from "@/utils/customFetch";
-import { activeBadge, serialNo } from "@/utils/functions";
+import {
+  activeBadge,
+  fieldTypeBadge,
+  requiredBadge,
+  serialNo,
+} from "@/utils/functions";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Pencil, ThumbsUp, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import splitErrors from "@/utils/splitErrors";
-import { toast } from "@/components/ui/use-toast";
+import { setListFormFields } from "@/features/formFieldSlice";
+import { Badge } from "@/components/ui/badge";
 
 const AdminFormFields = () => {
   document.title = `Form Fields | ${import.meta.env.VITE_APP_TITLE}`;
@@ -43,22 +50,40 @@ const AdminFormFields = () => {
     totalRecords: 0,
   });
   const [editId, setEditId] = useState(null);
-  const { parentCategories } = useSelector((store) => store.categories);
+  const { listFormFields } = useSelector((store) => store.formFields);
+  const { allCategories } = useSelector((store) => store.categories);
   const { counter } = useSelector((store) => store.common);
-
-  const listFormFields = [];
 
   // Fetch data and parents start ------
   const fetchData = async () => {
     setIsLoading(true);
     try {
-    } catch (error) {}
+      const response = await customFetch.get(`/masters/form-fields`, {
+        params: {
+          page: page,
+          parent: queryString.get("t") || "",
+        },
+      });
+      dispatch(setListFormFields(response.data.data.rows));
+
+      setMeta({
+        ...meta,
+        totalPages: response.data.meta.totalPages,
+        currentPage: response.data.meta.currentPage,
+        totalRecords: response.data.meta.totalRecords,
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      splitErrors(error?.response?.data?.msg);
+    }
   };
   // Fetch data and parents end ------
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [counter, page, queryString.get("s"), queryString.get("t")]);
+  useEffect(() => {
+    fetchData();
+  }, [counter, page, queryString.get("t")]);
 
   // Activate category ------
   const activateCategory = async (id) => {
@@ -69,13 +94,17 @@ const AdminFormFields = () => {
 
   return (
     <>
-      <div className="w-full flex justify-between items-center p-8 -mb-10">
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-semibold mb-2">List of Form Fields</h1>
-          <h3 className="text-sm font-normal text-muted-foreground">{`Note: Note: You do not need to add fields for "Parent" categories e.g. Bikes, Electronics & Appliances, Fashion, Furniture Models etc.`}</h3>
+      <div className="w-full flex md:flex-row sm:justify-center md:justify-between sm:items-center md:items-center sm:p-4 md:p-8 sm:space-y-4 sm:-mb-4 md:-mb-10">
+        <div className="flex flex-col sm:basis-4/6">
+          <h1 className="text-2xl font-semibold md:mb-2 sm:mb-4">
+            List of Form Fields
+          </h1>
+          <h3 className="text-sm font-normal text-muted-foreground sm:text-justify sm:-tracking-tighter">{`Note: You do not need to add fields for "Parent" categories e.g. Bikes, Electronics & Appliances, Fashion, Furniture Models etc.`}</h3>
         </div>
 
-        <AddFormField />
+        <div className="sm:basis-2/6 flex justify-end">
+          <AddFormField />
+        </div>
       </div>
       <AdminPageLayout>
         <SearchFormFields />
@@ -83,7 +112,7 @@ const AdminFormFields = () => {
           <div className="w-full">
             <section>
               {isLoading ? (
-                <TableRowSkeleton count={10} />
+                <TableRowSkeleton count={9} />
               ) : (
                 <>
                   <Table>
@@ -109,29 +138,75 @@ const AdminFormFields = () => {
                           </TableCell>
                         </TableRow>
                       ) : (
-                        listFormFields.map((category, index) => {
+                        listFormFields.map((field, index) => {
+                          const child = allCategories?.find(
+                            (i) => i.id === field.cat_id
+                          );
+
+                          const parent = allCategories?.find(
+                            (i) => i.id === child.parent_id
+                          );
+
                           return (
                             <TableRow key={nanoid()} className="group">
                               <TableCell>{serialNo(page) + index}.</TableCell>
                               <TableCell className="capitalize">
-                                {category.parent_id
-                                  ? category.pcategory
-                                  : "---"}
+                                <Badge className="bg-pink-400 group-hover:bg-pink-500">
+                                  {parent?.category}
+                                </Badge>
                               </TableCell>
                               <TableCell className="capitalize">
-                                {category.category}
+                                <Badge className="bg-slate-400 group-hover:bg-slate-500">
+                                  {child?.category}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="capitalize">
+                                {field.field_label}
                               </TableCell>
                               <TableCell>
-                                {activeBadge(category.is_active)}
+                                {fieldTypeBadge(field.field_type)}
+                              </TableCell>
+                              <TableCell>
+                                {requiredBadge(field.is_required)}
+                              </TableCell>
+                              <TableCell>
+                                {field.field_type === "radio" && (
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <Button variant="outline">
+                                        {field.field_options?.length}
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-52 py-3">
+                                      <div className="text-sm">
+                                        <ul className="px-2">
+                                          {field.field_options?.map((i) => {
+                                            return (
+                                              <li
+                                                key={nanoid()}
+                                                className="my-1 list-disc"
+                                              >
+                                                {i.value}
+                                              </li>
+                                            );
+                                          })}
+                                        </ul>
+                                      </div>
+                                    </PopoverContent>
+                                  </Popover>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {activeBadge(field.is_required)}
                               </TableCell>
                               <TableCell className="flex items-center">
-                                {category.is_active ? (
+                                {field.is_active ? (
                                   <>
                                     <Button
                                       type="button"
                                       variant="link"
                                       size="sm"
-                                      onClick={() => setEditId(category.id)}
+                                      onClick={() => setEditId(field.id)}
                                     >
                                       <Pencil
                                         size={18}
@@ -139,8 +214,8 @@ const AdminFormFields = () => {
                                       />
                                     </Button>
                                     <DeleteFormField
-                                      id={category.id}
-                                      category={category.category}
+                                      id={field.id}
+                                      field={field.field}
                                     />
                                   </>
                                 ) : (

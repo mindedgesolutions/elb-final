@@ -21,6 +21,8 @@ import { nanoid } from "nanoid";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FieldOptionTable from "./FieldOptionTable";
+import { updateCounter } from "@/features/commonSlice";
+import { unsetFieldOptions } from "@/features/formFieldSlice";
 
 const AddFormField = () => {
   const dispatch = useDispatch();
@@ -48,11 +50,50 @@ const AddFormField = () => {
     }
   };
 
+  const { options } = useSelector((store) => store.formFields);
+
   // Form submit starts ------
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    let data = Object.fromEntries(formData);
+    data = { ...data, isRequired: data.isRequired === "on" ? true : false };
+    if (data.fieldType === "Radio" && options.length === 0) {
+      toast({ description: "At least one option is required" });
+    }
+    data = { ...data, options: [...options] };
+    try {
+      await customFetch.post(`/masters/form-fields`, data);
+      toast({
+        title: "Added",
+        description: "Form field added successfully!",
+      });
+
+      dispatch(updateCounter());
+
+      resetForm();
+      setIsOpen(false);
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false);
+      splitErrors(error?.response?.data?.msg);
+    }
   };
   // Form submit ends ------
+
+  const resetForm = () => {
+    setForm({
+      ...form,
+      catId: "",
+      subcatId: "",
+      formLabel: "",
+      fieldType: "",
+      isRequired: true,
+    });
+    setChildCategories([]);
+    dispatch(unsetFieldOptions());
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -152,9 +193,7 @@ const AddFormField = () => {
               </select>
             </div>
 
-            {(form.fieldType === "Checkbox" || form.fieldType === "Radio") && (
-              <FieldOptionTable />
-            )}
+            {form.fieldType === "Radio" && <FieldOptionTable />}
 
             <div className="flex items-center space-x-2">
               <Checkbox
@@ -174,7 +213,7 @@ const AddFormField = () => {
             </div>
           </div>
           <DialogFooter className={`flex gap-2`}>
-            <Button type="reset" variant="outline">
+            <Button type="reset" variant="outline" onClick={resetForm}>
               Reset
             </Button>
             <SubmitBtn label={`Add user`} isSubmitting={isSubmitting} />

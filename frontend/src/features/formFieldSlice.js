@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   options: [],
+  listFormFields: [],
 };
 
 const formFieldSlice = createSlice({
@@ -20,9 +21,20 @@ const formFieldSlice = createSlice({
       updatedArray[action.payload.index] = action.payload.value;
       state.options = updatedArray;
     },
+    unsetFieldOptions: (state) => {
+      state.options = [];
+    },
+    setListFormFields: (state, action) => {
+      state.listFormFields = action.payload;
+    },
   },
 });
 
-export const { addFieldOption, removeFieldOption, editFieldOption } =
-  formFieldSlice.actions;
+export const {
+  addFieldOption,
+  removeFieldOption,
+  editFieldOption,
+  unsetFieldOptions,
+  setListFormFields,
+} = formFieldSlice.actions;
 export default formFieldSlice.reducer;
