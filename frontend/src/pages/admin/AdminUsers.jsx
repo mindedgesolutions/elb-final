@@ -41,6 +41,7 @@ const AdminUsers = () => {
     totalRecords: 0,
   });
   const { listUsers } = useSelector((store) => store.users);
+  const { counter } = useSelector((store) => store.common);
 
   // Fetch user list ------
   const fetchData = async () => {
@@ -71,7 +72,7 @@ const AdminUsers = () => {
 
   useEffect(() => {
     fetchData();
-  }, [queryString.get("page"), queryString.get("s"), queryString.get("t")]);
+  }, [counter, page, queryString.get("s"), queryString.get("t")]);
 
   // Activate user starts ------
   const activateUser = async (id) => {

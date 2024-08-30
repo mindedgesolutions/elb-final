@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
-import { setListUsers } from "@/features/usersSlice";
+import { updateCounter } from "@/features/commonSlice";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
 import { useState } from "react";
@@ -37,8 +37,7 @@ const AddUser = () => {
         description: "User added successfully!",
       });
 
-      const response = await customFetch.get(`/users/users`);
-      dispatch(setListUsers(response.data.data.rows));
+      dispatch(updateCounter());
 
       setIsOpen(false);
       setIsSubmitting(false);

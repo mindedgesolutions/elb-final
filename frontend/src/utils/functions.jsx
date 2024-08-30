@@ -14,6 +14,22 @@ export const activeBadge = (status) => {
   }
 };
 
+export const requiredBadge = (status) => {
+  switch (status) {
+    case true:
+      return (
+        <Badge className="bg-green-400 group-hover:bg-green-500">
+          Required
+        </Badge>
+      );
+
+    case false:
+      return (
+        <Badge className="bg-red-400 group-hover:bg-red-500">Optional</Badge>
+      );
+  }
+};
+
 export const adminBadge = (isAdmin) => {
   switch (isAdmin) {
     case 1:
@@ -23,6 +39,41 @@ export const adminBadge = (isAdmin) => {
     case 2:
       return (
         <Badge className="bg-slate-400 group-hover:bg-slate-500">User</Badge>
+      );
+  }
+};
+
+export const fieldTypeBadge = (fieldType) => {
+  switch (fieldType) {
+    case "text":
+      return (
+        <Badge className="bg-yellow-400 group-hover:bg-yellow-500 capitalize">
+          text
+        </Badge>
+      );
+    case "textarea":
+      return (
+        <Badge className="bg-gray-400 group-hover:bg-gray-500 capitalize">
+          textarea
+        </Badge>
+      );
+    case "checkbox":
+      return (
+        <Badge className="bg-cyan-400 group-hover:bg-cyan-500 capitalize">
+          checkbox
+        </Badge>
+      );
+    case "radio":
+      return (
+        <Badge className="bg-blue-400 group-hover:bg-blue-500 capitalize">
+          radio
+        </Badge>
+      );
+    case "number":
+      return (
+        <Badge className="bg-rose-400 group-hover:bg-rose-500 capitalize">
+          number
+        </Badge>
       );
   }
 };

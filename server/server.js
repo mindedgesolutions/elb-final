@@ -13,6 +13,7 @@ import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 // Routes ------
 import usersRoute from "./routes/userRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
+import formFieldRoute from "./routes/formFieldRoute.js";
 import authRoute from "./routes/authRoute.js";
 import websiteRoute from "./routes/websiteRoute.js";
 
@@ -39,7 +40,7 @@ app.use(express.json());
 // API starts ---
 app.use("/api/auth", authRoute);
 app.use("/api/users", protectRoute, usersRoute);
-app.use("/api/masters", protectRoute, categoryRoute);
+app.use("/api/masters", protectRoute, [categoryRoute, formFieldRoute]);
 app.use("/api/website", websiteRoute);
 // API ends ---
 

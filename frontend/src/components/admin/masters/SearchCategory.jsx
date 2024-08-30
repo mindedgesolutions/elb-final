@@ -1,16 +1,6 @@
 import { SearchBtnLayout, SearchContainerLayout } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import { useSelector } from "react-redux";
