@@ -43,9 +43,9 @@ const AddFormField = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
     if (e.target.name === "catId") {
-      const children = allCategories.filter(
-        (i) => i.parent_id === Number(e.target.value)
-      );
+      const children = allCategories
+        .filter((i) => i.parent_id === Number(e.target.value))
+        .sort((a, b) => a.category.localeCompare(b.category));
       setChildCategories(children);
     }
   };
@@ -59,7 +59,7 @@ const AddFormField = () => {
     const formData = new FormData(e.currentTarget);
     let data = Object.fromEntries(formData);
     data = { ...data, isRequired: data.isRequired === "on" ? true : false };
-    if (data.fieldType === "Radio" && options.length === 0) {
+    if (data.fieldType === "radio" && options.length === 0) {
       toast({ description: "At least one option is required" });
     }
     data = { ...data, options: [...options] };
@@ -185,7 +185,7 @@ const AddFormField = () => {
                 <option value="">Select field type</option>
                 {fieldTypes?.map((type) => {
                   return (
-                    <option key={nanoid()} value={type} className="capitalize">
+                    <option key={nanoid()} value={type}>
                       {type}
                     </option>
                   );
@@ -193,7 +193,7 @@ const AddFormField = () => {
               </select>
             </div>
 
-            {form.fieldType === "Radio" && <FieldOptionTable />}
+            {form.fieldType === "radio" && <FieldOptionTable />}
 
             <div className="flex items-center space-x-2">
               <Checkbox

@@ -8,6 +8,7 @@ import { action as loginAction } from "@/pages/admin/auth/AdminLogin";
 // Loaders ------
 import { loader as adminLayoutLoader } from "@/pages/admin/AdminLayout";
 import { loader as websiteLayoutLoader } from "@/pages/website/WebsiteLayout";
+import { loader as editFormFieldLoader } from "@/pages/admin/masters/AdminFormFieldEdit";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -54,6 +55,11 @@ const router = createBrowserRouter([
         element: <Elb.AdminCategories />,
       },
       { path: `form-fields`, element: <Elb.AdminFormFields /> },
+      {
+        path: `form-fields/edit/:id`,
+        element: <Elb.AdminFormFieldEdit />,
+        loader: editFormFieldLoader,
+      },
       { path: `users`, element: <Elb.AdminUsers /> },
       { path: `posts`, element: <Elb.AdminPosts /> },
     ],

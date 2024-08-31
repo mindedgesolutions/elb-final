@@ -42,7 +42,7 @@ export const validateAddFormField = withValidationErrors([
     .withMessage(`Form field type is required`)
     .bail()
     .custom((value) => {
-      const arr = ["Text", "Textarea", "Checkbox", "Radio", "Number"];
+      const arr = ["text", "textarea", "checkbox", "radio", "number"];
       const check = arr.includes(value);
       if (!check) {
         throw new BadRequestError(`Invalid field type`);
@@ -51,7 +51,7 @@ export const validateAddFormField = withValidationErrors([
     }),
   body("options").custom(async (value, { req }) => {
     const { fieldType } = req.body;
-    if (fieldType === "Radio" && value.length === 0) {
+    if (fieldType === "radio" && value.length === 0) {
       throw new BadRequestError(`At least one option is required`);
     }
     return true;

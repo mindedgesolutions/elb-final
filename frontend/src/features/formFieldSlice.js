@@ -27,6 +27,9 @@ const formFieldSlice = createSlice({
     setListFormFields: (state, action) => {
       state.listFormFields = action.payload;
     },
+    startingOptions: (state, action) => {
+      state.options = [...action.payload];
+    },
   },
 });
 
@@ -36,5 +39,6 @@ export const {
   editFieldOption,
   unsetFieldOptions,
   setListFormFields,
+  startingOptions,
 } = formFieldSlice.actions;
 export default formFieldSlice.reducer;

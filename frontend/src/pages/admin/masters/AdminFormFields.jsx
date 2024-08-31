@@ -3,12 +3,13 @@ import {
   AdminPageLayout,
   AdminPagination,
   DeleteFormField,
+  EditFieldOption,
   SearchFormFields,
   TableRowSkeleton,
 } from "@/components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -26,12 +27,7 @@ import {
   requiredBadge,
   serialNo,
 } from "@/utils/functions";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Pencil, ThumbsUp, Trash2 } from "lucide-react";
+import { Pencil, ThumbsUp } from "lucide-react";
 import { nanoid } from "nanoid";
 import splitErrors from "@/utils/splitErrors";
 import { setListFormFields } from "@/features/formFieldSlice";
@@ -171,29 +167,9 @@ const AdminFormFields = () => {
                               </TableCell>
                               <TableCell>
                                 {field.field_type === "radio" && (
-                                  <Popover>
-                                    <PopoverTrigger asChild>
-                                      <Button variant="outline">
-                                        {field.field_options?.length}
-                                      </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-52 py-3">
-                                      <div className="text-sm">
-                                        <ul className="px-2">
-                                          {field.field_options?.map((i) => {
-                                            return (
-                                              <li
-                                                key={nanoid()}
-                                                className="my-1 list-disc"
-                                              >
-                                                {i.value}
-                                              </li>
-                                            );
-                                          })}
-                                        </ul>
-                                      </div>
-                                    </PopoverContent>
-                                  </Popover>
+                                  <EditFieldOption
+                                    options={field.field_options}
+                                  />
                                 )}
                               </TableCell>
                               <TableCell>
@@ -205,13 +181,16 @@ const AdminFormFields = () => {
                                     <Button
                                       type="button"
                                       variant="link"
-                                      size="sm"
-                                      onClick={() => setEditId(field.id)}
+                                      size="icon"
                                     >
-                                      <Pencil
-                                        size={18}
-                                        className="text-green-500 group-hover:text-green-400"
-                                      />
+                                      <Link
+                                        to={`/admin/form-fields/edit/${field.id}`}
+                                      >
+                                        <Pencil
+                                          size={18}
+                                          className="text-green-500 group-hover:text-green-400"
+                                        />
+                                      </Link>
                                     </Button>
                                     <DeleteFormField
                                       id={field.id}

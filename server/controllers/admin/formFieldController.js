@@ -44,9 +44,10 @@ export const addFormField = async (req, res) => {
     );
 
     if (options[0]) {
-      await pool.query(`delete from master_form_field_options where id=$1`, [
-        data.rows[0].id,
-      ]);
+      await pool.query(
+        `delete from master_form_field_options where field_id=$1`,
+        [data.rows[0].id]
+      );
 
       for (const option of options) {
         const optionSlug = slug(option);
@@ -65,8 +66,6 @@ export const addFormField = async (req, res) => {
     await pool.query("ROLLBACK");
     res.status(StatusCodes.BAD_REQUEST).json(`failed`);
   }
-
-  res.send(`Ok`);
 };
 
 // ------
@@ -107,3 +106,93 @@ export const listFormFields = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ data, meta });
 };
+
+// ------
+export const getFormFieldDetails = async (req, res) => {
+  const { id } = req.params;
+
+  const data = await pool.query(
+    `select
+			ff.*,
+			json_agg(
+        json_build_object(
+          'id', fo.id,
+          'value', fo.option_value
+        )
+      ) AS field_options,
+			mc.category
+    from master_form_fields ff
+    left join master_form_field_options fo on ff.id = fo.field_id 
+    join master_categories mc on ff.cat_id = mc.id 
+    where ff.id=$1 group by ff.id, mc.category`,
+    [id]
+  );
+  res.status(StatusCodes.OK).json({ data });
+};
+
+// ------
+export const updateFormField = async (req, res) => {
+  const { id } = req.params;
+  const { subcatId, formLabel, fieldType, isRequired, options } = req.body;
+  const timeStamp = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+  let ffName = "";
+  formLabel?.split(" ")?.map((i, index) => {
+    ffName +=
+      index === 0
+        ? removeSpecialChars(i?.toLowerCase())
+        : `_` + removeSpecialChars(i?.toLowerCase());
+  });
+  ffName = ffName + `_${subcatId}`;
+
+  const checkName = await pool.query(
+    `select count(*) from master_form_fields where field_name=$1 and id!=$2`,
+    [ffName, id]
+  );
+
+  if (Number(checkName.rows[0].count) > 0)
+    throw new BadRequestError(`Form field exists`);
+
+  try {
+    await pool.query("BEGIN");
+
+    const data = await pool.query(
+      `update master_form_fields set cat_id=$1, field_label=$2, field_type=$3, field_name=$4, is_required=$5, updated_at=$6 where id=$7 returning id`,
+      [
+        subcatId,
+        formLabel.trim(),
+        fieldType.toLowerCase(),
+        ffName,
+        isRequired,
+        timeStamp,
+        id,
+      ]
+    );
+
+    await pool.query(
+      `delete from master_form_field_options where field_id=$1`,
+      [data.rows[0].id]
+    );
+
+    if (fieldType === "radio" && options[0]) {
+      for (const option of options) {
+        const optionSlug = slug(option);
+
+        await pool.query(
+          `insert into master_form_field_options(field_id, option_value, slug, created_at, updated_at) values($1, $2, $3, $4, $5)`,
+          [data.rows[0].id, option.trim(), optionSlug, timeStamp, timeStamp]
+        );
+      }
+    }
+
+    await pool.query("COMMIT");
+
+    res.status(StatusCodes.ACCEPTED).json(`success`);
+  } catch (error) {
+    await pool.query("ROLLBACK");
+    res.status(StatusCodes.BAD_REQUEST).json(`failed`);
+  }
+};
+
+// ------
+export const deleteFormField = async (req, res) => {};

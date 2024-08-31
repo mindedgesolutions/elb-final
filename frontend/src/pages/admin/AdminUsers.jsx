@@ -94,7 +94,9 @@ const AdminUsers = () => {
   return (
     <>
       <div className="w-full flex justify-between items-center p-8 -mb-10">
-        <h1 className="text-2xl font-semibold mb-2">List of users</h1>
+        <h1 className="text-2xl font-semibold mb-2 capitalize">
+          List of users
+        </h1>
         <AddUser />
       </div>
       <AdminPageLayout>
