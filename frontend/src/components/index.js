@@ -20,6 +20,8 @@ export { default as SearchCategory } from "./admin/masters/SearchCategory";
 export { default as AddFormField } from "./admin/masters/AddFormField";
 export { default as DeleteFormField } from "./admin/masters/DeleteFormField";
 export { default as SearchFormFields } from "./admin/masters/SearchFormFields";
+export { default as EditFieldOption } from "./admin/masters/EditFieldOption";
+export { default as AdminBreadcrum } from "./admin/globals/AdminBreadcrum";
 
 // Website starts ------
 export { default as WbTopSearch } from "./website/globals/WbTopSearch";

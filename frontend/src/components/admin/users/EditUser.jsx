@@ -1,4 +1,4 @@
-import { FormInput, SubmitBtn } from "@/components";
+import { SubmitBtn } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -71,10 +71,10 @@ const EditUser = ({ id }) => {
         mobile: user.mobile || "",
         isAdmin: user.rid === 1 ? true : false,
       });
-  }, [user]);
+  }, [isOpen]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
       <DialogTrigger asChild>
         <Button
           type="button"

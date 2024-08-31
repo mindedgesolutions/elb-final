@@ -19,6 +19,10 @@ import customFetch from "@/utils/customFetch";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { updateCounter } from "@/features/commonSlice";
+import {
+  setAllCategories,
+  setParentCategories,
+} from "@/features/categorySlice";
 
 const AddCategoryForm = ({ editId, setEditId }) => {
   const dispatch = useDispatch();
@@ -52,7 +56,7 @@ const AddCategoryForm = ({ editId, setEditId }) => {
       isParent: data.isParent === "on" ? true : false,
       parentId: !data.isParent ? data.parentId : null,
     };
-    console.log(data.parentId);
+
     const url = editId
       ? `/masters/categories/${editId}`
       : `/masters/categories`;
@@ -65,6 +69,15 @@ const AddCategoryForm = ({ editId, setEditId }) => {
       await process(url, data);
       resetForm();
       dispatch(updateCounter());
+
+      if (data.isParent === "on") {
+        const pcat = await customFetch.get(`/masters/parent-categories`);
+        dispatch(setParentCategories(pcat.data.data.rows));
+      }
+
+      const categories = await customFetch.get(`/website/categories`);
+      dispatch(setAllCategories(categories.data.data.rows));
+
       toast({ title, description });
       setIsSubmitting(false);
     } catch (error) {
