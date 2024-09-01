@@ -5,7 +5,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleHelp } from "lucide-react";
+import { CircleHelp, SquareCheckBig, Trash2 } from "lucide-react";
 
 const AdminPostImage = () => {
   return (
@@ -45,7 +45,12 @@ const AdminPostImage = () => {
         <div className="col-span-2">
           <div className="flex flex-wrap gap-3">
             {Array.from({ length: 8 }, (_, index) => {
-              return <div key={index} className="w-24 h-24 border-1"></div>;
+              return (
+                <div key={index} className="w-32 h-32 border-1 relative">
+                  <Trash2 className="absolute top-2 right-2 text-red-500 cursor-pointer" />
+                  <SquareCheckBig className="absolute top-2 left-2 text-muted-foreground cursor-pointer hover:text-yellow-400" />
+                </div>
+              );
             })}
           </div>
         </div>

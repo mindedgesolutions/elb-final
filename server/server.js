@@ -16,6 +16,7 @@ import categoryRoute from "./routes/categoryRoute.js";
 import formFieldRoute from "./routes/formFieldRoute.js";
 import authRoute from "./routes/authRoute.js";
 import websiteRoute from "./routes/websiteRoute.js";
+import postRoute from "./routes/postRoute.js";
 
 // public ------
 import { dirname } from "path";
@@ -41,6 +42,7 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", protectRoute, usersRoute);
 app.use("/api/masters", protectRoute, [categoryRoute, formFieldRoute]);
+app.use("/api/posts", protectRoute, postRoute);
 app.use("/api/website", websiteRoute);
 // API ends ---
 
