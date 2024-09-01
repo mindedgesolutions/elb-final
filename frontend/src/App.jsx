@@ -47,6 +47,7 @@ const router = createBrowserRouter([
   {
     path: `/admin`,
     element: <Elb.AdminLayout />,
+    errorElement: <Elb.AdminError />,
     loader: adminLayoutLoader(store),
     children: [
       { path: `dashboard`, element: <Elb.AdminDashboard /> },
@@ -54,7 +55,10 @@ const router = createBrowserRouter([
         path: `categories`,
         element: <Elb.AdminCategories />,
       },
-      { path: `form-fields`, element: <Elb.AdminFormFields /> },
+      {
+        path: `form-fields`,
+        element: <Elb.AdminFormFields />,
+      },
       {
         path: `form-fields/edit/:id`,
         element: <Elb.AdminFormFieldEdit />,
@@ -62,6 +66,7 @@ const router = createBrowserRouter([
       },
       { path: `users`, element: <Elb.AdminUsers /> },
       { path: `posts`, element: <Elb.AdminPosts /> },
+      { path: `post/new`, element: <Elb.AdminNewPost /> },
     ],
   },
   // Admin routes end ------

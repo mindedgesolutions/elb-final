@@ -12,7 +12,7 @@ const EditFieldOption = ({ options }) => {
       <PopoverTrigger asChild>
         <Button variant="outline">{options.length}</Button>
       </PopoverTrigger>
-      <PopoverContent className="w-44 px-3 py-2">
+      <PopoverContent className="w-44 px-4">
         <div className="grid gap-4">
           <ul className="px-3">
             {options.map((i) => {

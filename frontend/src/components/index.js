@@ -22,6 +22,7 @@ export { default as DeleteFormField } from "./admin/masters/DeleteFormField";
 export { default as SearchFormFields } from "./admin/masters/SearchFormFields";
 export { default as EditFieldOption } from "./admin/masters/EditFieldOption";
 export { default as AdminBreadcrum } from "./admin/globals/AdminBreadcrum";
+export { default as AdminPostImage } from "./admin/posts/AdminPostImage";
 
 // Website starts ------
 export { default as WbTopSearch } from "./website/globals/WbTopSearch";

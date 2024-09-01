@@ -1,11 +1,11 @@
 import { sidebarLinks } from "@/utils/links";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "../theme-provider";
 
 const AdminSidebar = () => {
   const { theme } = useTheme();
-  const textClass = theme === "dark" ? "text-gray-800" : "text-white";
+  const textClass = theme === "dark" ? "text-black" : "text-white";
   const [activeLink, setActiveLink] = useState(textClass);
 
   useEffect(() => {
@@ -14,7 +14,9 @@ const AdminSidebar = () => {
 
   return (
     <div className="h-screen flex-col p-3 hidden md:block md:col-span-3 lg:block lg:col-span-2 xl:block xl:col-span-2 bg-muted">
-      <div className="text-6xl font-medium flex justify-center">ELB</div>
+      <div className="text-6xl font-medium flex justify-center">
+        <Link to="/admin/dashboard">ELB</Link>
+      </div>
       <div className="mt-12">
         {sidebarLinks.map((link) => {
           return (
