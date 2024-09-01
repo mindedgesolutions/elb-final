@@ -22,9 +22,10 @@ import {
 export const sidebarLinks = [
   { label: "Home", href: "/admin/dashboard", icon: Home },
   { label: "Categories", href: "/admin/categories", icon: ListChecks },
-  { label: "Form Fields", href: "/admin/form-fields", icon: ClipboardPlus },
+  { label: "Form Fields", href: "/admin/form-fields", icon: Settings },
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Posts", href: "/admin/posts", icon: Rss },
+  { label: "New Post", href: "/admin/post/new", icon: ClipboardPlus },
 ];
 
 export const wbProfileLinks = [

@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import customFetch from "./customFetch";
 
 export const activeBadge = (status) => {
   switch (status) {
@@ -115,4 +116,12 @@ export const currencyFormat = () => {
     minimumFractionDigits: 2, // Ensures two decimal places
   });
   return formatter;
+};
+
+export const getCityState = async (code) => {
+  const response = await customFetch.get(
+    `https://api.postalpincode.in/pincode/${Number(code)}`
+  );
+
+  return response;
 };

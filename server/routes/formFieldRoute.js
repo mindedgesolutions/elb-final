@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import {
   addFormField,
+  postFormFields,
   deleteFormField,
   getFormFieldDetails,
   listFormFields,
@@ -18,5 +19,7 @@ router
   .get(getFormFieldDetails)
   .put(validateAddFormField, updateFormField)
   .delete(deleteFormField);
+
+router.get(`/post-form-fields/:catid`, postFormFields);
 
 export default router;

@@ -102,7 +102,7 @@ const AdminFormFieldEdit = () => {
 
       <AdminPageLayout>
         <div className="grid grid-cols-2 -mt-4">
-          <div className="col-span-1 border-1 border-gray-200 rounded-md p-3">
+          <div className="col-span-1 border-1 rounded-md p-3">
             <form autoComplete="off" onSubmit={handleSubmit}>
               <div className="grid gap-4 py-4">
                 <div className="flex flex-col space-y-1.5">
@@ -203,7 +203,7 @@ const AdminFormFieldEdit = () => {
                 </div>
               </div>
               <div className={`flex gap-4 justify-end`}>
-                <Button variant="ghost">
+                <Button type="button" variant="ghost">
                   <Link to={`/admin/form-fields`}>Back</Link>
                 </Button>
                 <SubmitBtn label={`save`} isSubmitting={isSubmitting} />

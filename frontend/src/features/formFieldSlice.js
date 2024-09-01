@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  isLoading: false,
   options: [],
   listFormFields: [],
+  postFormFields: [],
 };
 
 const formFieldSlice = createSlice({

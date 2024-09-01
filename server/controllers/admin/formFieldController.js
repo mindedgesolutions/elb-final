@@ -196,3 +196,25 @@ export const updateFormField = async (req, res) => {
 
 // ------
 export const deleteFormField = async (req, res) => {};
+
+// ------
+export const postFormFields = async (req, res) => {
+  const { catid } = req.params;
+  const data = await pool.query(
+    `select 
+      f.*,
+      json_agg(
+        json_build_object(
+          'option_id', o.id,
+          'option_value', o.option_value
+        )
+      ) as options
+    from master_form_fields f
+    left join master_form_field_options o on f.id = o.field_id
+    where f.cat_id = $1
+    group by f.id`,
+    [catid]
+  );
+
+  res.status(StatusCodes.OK).json({ data });
+};

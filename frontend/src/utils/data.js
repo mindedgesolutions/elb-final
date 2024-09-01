@@ -3,4 +3,5 @@ export const userType = [
   { typeId: 2, typeLabel: "User" },
 ];
 
-export const fieldTypes = ["text", "textarea", "checkbox", "radio", "number"];
+// export const fieldTypes = ["text", "textarea", "checkbox", "radio", "number"];
+export const fieldTypes = ["text", "textarea", "radio", "number"];
