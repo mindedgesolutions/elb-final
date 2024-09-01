@@ -19,6 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link } from "react-router-dom";
 import { getCityState } from "@/utils/functions";
 import { toast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 const AdminNewPost = () => {
   document.title = `Add New Post | ${import.meta.env.VITE_APP_TITLE}`;
@@ -41,9 +42,33 @@ const AdminNewPost = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [dynamicFields, setDynamicFields] = useState([]);
   const [dynamicData, setDynamicData] = useState({});
+  const [remainingChar, setRemainingChar] = useState({
+    title: 255,
+    description: 500,
+  });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    // Handle state change ------
+    let stateValue = "";
+    switch (e.target.name) {
+      case "title":
+        stateValue =
+          e.target.value.length > 255
+            ? e.target.value.slice(0, 255)
+            : e.target.value;
+        break;
+      case "description":
+        stateValue =
+          e.target.value.length > 500
+            ? e.target.value.slice(0, 500)
+            : e.target.value;
+        break;
+
+      default:
+        stateValue = e.target.value;
+        break;
+    }
+    setForm({ ...form, [e.target.name]: stateValue });
 
     if (e.target.name === "catId") {
       const ch = allCategories
@@ -51,6 +76,17 @@ const AdminNewPost = () => {
         .sort((a, b) => a.category.localeCompare(b.category));
       setChildren(ch);
     }
+  };
+
+  const handleRemaining = (e) => {
+    // Handle remaining characters ------
+    const length = e.target.value.length;
+    const maxAllowed = e.target.name === "title" ? 255 : 500;
+    const remaining =
+      Number(length) === 0
+        ? Number(maxAllowed)
+        : Number(maxAllowed) - Number(length);
+    setRemainingChar({ ...remainingChar, [e.target.name]: remaining });
   };
 
   // Re: Dynamic form fields start ------
@@ -80,22 +116,32 @@ const AdminNewPost = () => {
   // Re: Dynamic form fields end ------
 
   const getPincodeInfo = async () => {
+    // Get PIN code details ------
+    setIsLoading(true);
     const result = await getCityState(form.pinCode);
     const data = result?.data?.[0]?.PostOffice?.[0];
     if (!data) {
+      setIsLoading(false);
       toast({
         title: "Not found!",
         description: "We could find neither city / district nor state",
       });
       return;
     }
+    setIsLoading(false);
     setForm({ ...form, city: data.District, state: data.State });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
     try {
-    } catch (error) {}
+      await customFetch.post(`/posts/admin`, data);
+    } catch (error) {
+      splitErrors(error?.response?.data?.msg);
+      return error;
+    }
   };
 
   return (
@@ -110,6 +156,7 @@ const AdminNewPost = () => {
       <AdminPageLayout>
         <div className="grid col-span-1 border-1 rounded-md sm:p-2 md:p-3 md:-mt-4">
           <form autoComplete="off" onSubmit={handleSubmit}>
+            {/* General information starts ------ */}
             <div className="w-full p-3 bg-muted text-accent-foreground font-medium capitalize">
               General information
             </div>
@@ -166,14 +213,20 @@ const AdminNewPost = () => {
                     Enter a fitting title{" "}
                     <span className="text-red-500">*</span>
                   </Label>
-                  <Input
-                    type="text"
-                    id="title"
-                    name="title"
-                    placeholder="We need something to show on the website"
-                    value={form.title}
-                    onChange={handleChange}
-                  />
+                  <div className="flex flex-col gap-1 items-start">
+                    <Input
+                      type="text"
+                      id="title"
+                      name="title"
+                      placeholder="We need something to show on the website"
+                      value={form.title}
+                      onChange={handleChange}
+                      onKeyUp={handleRemaining}
+                    />
+                    <span className="text-red-500 text-xs font-normal">
+                      Remaining characters: {remainingChar.title}
+                    </span>
+                  </div>
                 </div>
                 <div className="flex flex-col mt-4 space-y-1.5">
                   <Label htmlFor={`price`} className="capitalize">
@@ -195,18 +248,25 @@ const AdminNewPost = () => {
                     A brief description would help the buyer{" "}
                     <span className="text-red-500">*</span>
                   </Label>
-                  <Textarea
-                    name="description"
-                    id="description"
-                    placeholder="A teeny-tiny description won't hurt the buyer"
-                    value={form.description}
-                    onChange={handleChange}
-                  />
+                  <div className="flex flex-col gap-1 items-start">
+                    <Textarea
+                      name="description"
+                      id="description"
+                      placeholder="A teeny-tiny description won't hurt the buyer"
+                      value={form.description}
+                      onChange={handleChange}
+                      onKeyUp={handleRemaining}
+                    />
+                    <span className="text-red-500 text-xs font-normal">
+                      Remaning characters: {remainingChar.description}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
+            {/* General information ends ------ */}
             <Separator />
-
+            {/* Location related starts ------ */}
             <div className="col-span-2 p-3 bg-muted text-accent-foreground font-medium capitalize mt-3">
               Location
             </div>
@@ -227,10 +287,14 @@ const AdminNewPost = () => {
                     />
                     <Button
                       type="button"
-                      className="w-20 py-2 bg-blue-500 hover:bg-blue-400 rounded-md"
+                      className="py-2 bg-blue-500 hover:bg-blue-400 rounded-md"
                       onClick={getPincodeInfo}
+                      disabled={isLoading}
                     >
-                      Get
+                      {isLoading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      {isLoading ? "Getting Data ..." : "Get Data"}
                     </Button>
                   </div>
                 </div>
@@ -277,7 +341,9 @@ const AdminNewPost = () => {
                 </div>
               </div>
             </div>
+            {/* Location related ends ------ */}
 
+            {/* Dynamic fields start ------ */}
             {selectedSubCategory && dynamicFields?.length > 0 && (
               <>
                 <Separator />
@@ -343,8 +409,11 @@ const AdminNewPost = () => {
                 </div>
               </>
             )}
+            {/* Dynamic fields end ------ */}
             <Separator />
+            {/* Post images section starts ------ */}
             <AdminPostImage />
+            {/* Post images section ends ------ */}
             <Separator />
             <div className="flex gap-4 justify-center mt-3">
               <Button variant="ghost">
