@@ -13,7 +13,7 @@ const AdminSidebar = () => {
   }, [theme]);
 
   return (
-    <div className="h-screen flex-col p-3 hidden md:block md:col-span-3 lg:block lg:col-span-2 xl:block xl:col-span-2 bg-muted">
+    <div className="fixed top-0 left-0 w-60 h-screen hidden md:block bg-muted flex-col p-3 z-10">
       <div className="text-6xl font-medium flex justify-center">
         <Link to="/admin/dashboard">ELB</Link>
       </div>

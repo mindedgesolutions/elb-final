@@ -1,4 +1,5 @@
 import { AdminFooter, AdminSidebar, AdminTopnav } from "@/components";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { setAllCategories } from "@/features/categorySlice";
 import { setCurrentUser, unsetCurrentUser } from "@/features/currentUserSlice";
@@ -27,14 +28,14 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="grid grid-cols-12">
+    <>
       <AdminSidebar />
-      <div className="col-span-12 md:col-span-9 lg:col-span-10 xl:col-span-10">
+      <ScrollArea className="md:ml-[241px] overflow-y-auto h-screen">
         <AdminTopnav logout={logout} />
         <Outlet />
         <AdminFooter />
-      </div>
-    </div>
+      </ScrollArea>
+    </>
   );
 };
 export default AdminLayout;

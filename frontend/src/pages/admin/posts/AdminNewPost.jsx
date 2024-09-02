@@ -30,45 +30,25 @@ const AdminNewPost = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     catId: "",
-    title: "",
-    description: "",
     price: "",
     pinCode: "",
     city: "",
     state: "",
     address: "",
   });
-  const [children, setChildren] = useState([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState("");
-  const [dynamicFields, setDynamicFields] = useState([]);
-  const [dynamicData, setDynamicData] = useState({});
+  const [char, setChar] = useState({ title: "", description: "" });
   const [remainingChar, setRemainingChar] = useState({
     title: 255,
     description: 500,
   });
+  const [children, setChildren] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  const [dynamicFields, setDynamicFields] = useState([]);
+  const [dynamicData, setDynamicData] = useState({});
 
   const handleChange = (e) => {
     // Handle state change ------
-    let stateValue = "";
-    switch (e.target.name) {
-      case "title":
-        stateValue =
-          e.target.value.length > 255
-            ? e.target.value.slice(0, 255)
-            : e.target.value;
-        break;
-      case "description":
-        stateValue =
-          e.target.value.length > 500
-            ? e.target.value.slice(0, 500)
-            : e.target.value;
-        break;
-
-      default:
-        stateValue = e.target.value;
-        break;
-    }
-    setForm({ ...form, [e.target.name]: stateValue });
+    setForm({ ...form, [e.target.name]: e.target.value });
 
     if (e.target.name === "catId") {
       const ch = allCategories
@@ -87,6 +67,24 @@ const AdminNewPost = () => {
         ? Number(maxAllowed)
         : Number(maxAllowed) - Number(length);
     setRemainingChar({ ...remainingChar, [e.target.name]: remaining });
+
+    let stateValue = "";
+    switch (e.target.name) {
+      case "title":
+        stateValue =
+          e.target.value.length > 255
+            ? e.target.value.slice(0, 255)
+            : e.target.value;
+        break;
+      case "description":
+        stateValue =
+          e.target.value.length > 500
+            ? e.target.value.slice(0, 500)
+            : e.target.value;
+        break;
+    }
+
+    setChar({ ...char, [e.target.name]: stateValue });
   };
 
   // Re: Dynamic form fields start ------
@@ -136,6 +134,7 @@ const AdminNewPost = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
+    console.log(data);
     try {
       await customFetch.post(`/posts/admin`, data);
     } catch (error) {
@@ -219,9 +218,8 @@ const AdminNewPost = () => {
                       id="title"
                       name="title"
                       placeholder="We need something to show on the website"
-                      value={form.title}
-                      onChange={handleChange}
-                      onKeyUp={handleRemaining}
+                      value={char.title}
+                      onChange={handleRemaining}
                     />
                     <span className="text-red-500 text-xs font-normal">
                       Remaining characters: {remainingChar.title}
@@ -233,9 +231,10 @@ const AdminNewPost = () => {
                     Product price <span className="text-red-500">*</span>
                   </Label>
                   <Input
-                    type="text"
+                    type="number"
                     id="price"
                     name="price"
+                    min={0}
                     placeholder="We need something to show on the website"
                     value={form.price}
                     onChange={handleChange}
@@ -253,9 +252,8 @@ const AdminNewPost = () => {
                       name="description"
                       id="description"
                       placeholder="A teeny-tiny description won't hurt the buyer"
-                      value={form.description}
-                      onChange={handleChange}
-                      onKeyUp={handleRemaining}
+                      value={char.description}
+                      onChange={handleRemaining}
                     />
                     <span className="text-red-500 text-xs font-normal">
                       Remaning characters: {remainingChar.description}
@@ -366,11 +364,11 @@ const AdminNewPost = () => {
                             field.field_type === "number") && (
                             <Input
                               type={field.field_type}
-                              id="title"
-                              name="title"
+                              name={field.field_name}
+                              id={field.field_name}
+                              value={dynamicData[field.field_name] || ""}
+                              onChange={handleDbChange}
                               placeholder={`Enter ${field.field_label}`}
-                              value={form.title}
-                              onChange={handleChange}
                             />
                           )}
 
@@ -402,6 +400,16 @@ const AdminNewPost = () => {
                               </RadioGroup>
                             </>
                           )}
+
+                          {field.field_type === "textarea" && (
+                            <Textarea
+                              name={field.field_name}
+                              id={field.field_name}
+                              value={dynamicData[field.field_name] || ""}
+                              onChange={handleDbChange}
+                              placeholder={`Enter ${field.field_label}`}
+                            />
+                          )}
                         </div>
                       </div>
                     );
@@ -416,7 +424,11 @@ const AdminNewPost = () => {
             {/* Post images section ends ------ */}
             <Separator />
             <div className="flex gap-4 justify-center mt-3">
-              <Button variant="ghost">
+              <Button
+                type="button"
+                variant="link"
+                className="hover:no-underline bg-muted hover:bg-muted text-muted-foreground"
+              >
                 <Link to={`/admin/posts`}>Back</Link>
               </Button>
               <SubmitBtn label={`add post`} isSubmitting={isLoading} />
