@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import { getCityState } from "@/utils/functions";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const AdminNewPost = () => {
   document.title = `Add New Post | ${import.meta.env.VITE_APP_TITLE}`;
@@ -35,6 +36,7 @@ const AdminNewPost = () => {
     city: "",
     state: "",
     address: "",
+    isNew: true,
   });
   const [char, setChar] = useState({ title: "", description: "" });
   const [remainingChar, setRemainingChar] = useState({
@@ -117,7 +119,7 @@ const AdminNewPost = () => {
     // Get PIN code details ------
     setIsLoading(true);
     const result = await getCityState(form.pinCode);
-    const data = result?.data?.[0]?.PostOffice?.[0];
+    let data = result?.data?.[0]?.PostOffice?.[0];
     if (!data) {
       setIsLoading(false);
       toast({
@@ -133,10 +135,14 @@ const AdminNewPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    console.log(data);
+    let data = Object.fromEntries(formData);
+    data = { ...data, isNew: data.isNew === "on" ? true : false };
     try {
       await customFetch.post(`/posts/admin`, data);
+      toast({
+        title: "Congratulations!!",
+        description: "Post created successfully",
+      });
     } catch (error) {
       splitErrors(error?.response?.data?.msg);
       return error;
@@ -261,6 +267,24 @@ const AdminNewPost = () => {
                   </div>
                 </div>
               </div>
+              <div className="col-span-1">
+                <div className="flex flex-col space-y-1.5">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="isNew"
+                      name="isNew"
+                      checked={form.isNew}
+                      onClick={() => setForm({ ...form, isNew: !form.isNew })}
+                    />
+                    <label
+                      htmlFor="isNew"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Is the product new?
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
             {/* General information ends ------ */}
             <Separator />
@@ -382,16 +406,19 @@ const AdminNewPost = () => {
                                       className="mt-3"
                                     >
                                       <div className="flex items-center">
-                                        <RadioGroupItem
-                                          name={option.field_name}
-                                          value={option.option_id}
-                                          id={option.option_id}
-                                        />
                                         <Label
-                                          htmlFor={option.option_id}
-                                          className="px-2"
+                                          key={option.option_id}
+                                          className="flex gap-1 px-3 items-center"
                                         >
-                                          {option.option_value}
+                                          <input
+                                            className="aspect-square h-4 w-4 rounded-full border border-green-600 text-green-600 ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                            type="radio"
+                                            name={field.field_name}
+                                            value={option.option_id}
+                                          />
+                                          <span className="">
+                                            {option.option_value}
+                                          </span>
                                         </Label>
                                       </div>
                                     </div>
