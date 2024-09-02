@@ -20,7 +20,7 @@ export const addFormField = async (req, res) => {
   ffName = ffName + `_${subcatId}`;
 
   const checkName = await pool.query(
-    `select count(*) from master_form_fields where field_name=$1`,
+    `select count(*) from elb_form_attributes where field_name=$1`,
     [ffName]
   );
 
@@ -31,7 +31,7 @@ export const addFormField = async (req, res) => {
     await pool.query("BEGIN");
 
     const data = await pool.query(
-      `insert into master_form_fields(cat_id, field_label, field_type, field_name, is_required, created_at, updated_at) values($1, $2, $3, $4, $5, $6, $7) returning id`,
+      `insert into elb_form_attributes(cat_id, field_label, field_type, field_name, is_required, created_at, updated_at) values($1, $2, $3, $4, $5, $6, $7) returning id`,
       [
         subcatId,
         formLabel.trim(),
@@ -44,16 +44,15 @@ export const addFormField = async (req, res) => {
     );
 
     if (options[0]) {
-      await pool.query(
-        `delete from master_form_field_options where field_id=$1`,
-        [data.rows[0].id]
-      );
+      await pool.query(`delete from elb_formfield_options where field_id=$1`, [
+        data.rows[0].id,
+      ]);
 
       for (const option of options) {
         const optionSlug = slug(option);
 
         await pool.query(
-          `insert into master_form_field_options(field_id, option_value, slug, created_at, updated_at) values($1, $2, $3, $4, $5)`,
+          `insert into elb_formfield_options(field_id, option_value, slug, created_at, updated_at) values($1, $2, $3, $4, $5)`,
           [data.rows[0].id, option.trim(), optionSlug, timeStamp, timeStamp]
         );
       }
@@ -85,8 +84,8 @@ export const listFormFields = async (req, res) => {
         )
       ) AS field_options,
 			mc.category
-    from master_form_fields ff
-    left join master_form_field_options fo on ff.id = fo.field_id 
+    from elb_form_attributes ff
+    left join elb_formfield_options fo on ff.id = fo.field_id 
     join master_categories mc on ff.cat_id = mc.id 
     where ff.id is not null ${searchDrp} group by ff.id, mc.category 
 		order by mc.category offset $1 limit $2`,
@@ -94,7 +93,7 @@ export const listFormFields = async (req, res) => {
   );
 
   const records = await pool.query(
-    `select ff.* from master_form_fields ff where ff.id is not null ${searchDrp}`,
+    `select ff.* from elb_form_attributes ff where ff.id is not null ${searchDrp}`,
     []
   );
   const totalPages = Math.ceil(records.rowCount / pagination.pageLimit);
@@ -121,8 +120,8 @@ export const getFormFieldDetails = async (req, res) => {
         )
       ) AS field_options,
 			mc.category
-    from master_form_fields ff
-    left join master_form_field_options fo on ff.id = fo.field_id 
+    from elb_form_attributes ff
+    left join elb_formfield_options fo on ff.id = fo.field_id 
     join master_categories mc on ff.cat_id = mc.id 
     where ff.id=$1 group by ff.id, mc.category`,
     [id]
@@ -146,7 +145,7 @@ export const updateFormField = async (req, res) => {
   ffName = ffName + `_${subcatId}`;
 
   const checkName = await pool.query(
-    `select count(*) from master_form_fields where field_name=$1 and id!=$2`,
+    `select count(*) from elb_form_attributes where field_name=$1 and id!=$2`,
     [ffName, id]
   );
 
@@ -157,7 +156,7 @@ export const updateFormField = async (req, res) => {
     await pool.query("BEGIN");
 
     const data = await pool.query(
-      `update master_form_fields set cat_id=$1, field_label=$2, field_type=$3, field_name=$4, is_required=$5, updated_at=$6 where id=$7 returning id`,
+      `update elb_form_attributes set cat_id=$1, field_label=$2, field_type=$3, field_name=$4, is_required=$5, updated_at=$6 where id=$7 returning id`,
       [
         subcatId,
         formLabel.trim(),
@@ -169,17 +168,16 @@ export const updateFormField = async (req, res) => {
       ]
     );
 
-    await pool.query(
-      `delete from master_form_field_options where field_id=$1`,
-      [data.rows[0].id]
-    );
+    await pool.query(`delete from elb_formfield_options where field_id=$1`, [
+      data.rows[0].id,
+    ]);
 
     if (fieldType === "radio" && options[0]) {
       for (const option of options) {
         const optionSlug = slug(option);
 
         await pool.query(
-          `insert into master_form_field_options(field_id, option_value, slug, created_at, updated_at) values($1, $2, $3, $4, $5)`,
+          `insert into elb_formfield_options(field_id, option_value, slug, created_at, updated_at) values($1, $2, $3, $4, $5)`,
           [data.rows[0].id, option.trim(), optionSlug, timeStamp, timeStamp]
         );
       }
@@ -209,8 +207,8 @@ export const postFormFields = async (req, res) => {
           'option_value', o.option_value
         )
       ) as options
-    from master_form_fields f
-    left join master_form_field_options o on f.id = o.field_id
+    from elb_form_attributes f
+    left join elb_formfield_options o on f.id = o.field_id
     where f.cat_id = $1
     group by f.id`,
     [catid]

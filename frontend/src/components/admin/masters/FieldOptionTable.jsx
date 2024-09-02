@@ -30,7 +30,7 @@ const FieldOptionTable = () => {
   const placeHolder =
     options.length === 0
       ? `One! At least one option, please!`
-      : `Ok! We're good!`;
+      : `Ok! We're good! Add another?`;
 
   const addOption = () => {
     if (!inputOption || inputOption.trim() === "") {

@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FieldOptionTable from "./FieldOptionTable";
 import { updateCounter } from "@/features/commonSlice";
 import { unsetFieldOptions } from "@/features/formFieldSlice";
+import { ScrollBar } from "@/components/ui/scroll-area";
 
 const AddFormField = () => {
   const dispatch = useDispatch();
@@ -107,9 +108,10 @@ const AddFormField = () => {
           Add New
         </Button>
       </DialogTrigger>
-      <DialogContent>
+
+      <DialogContent className={"overflow-y-scroll max-h-screen"}>
         <DialogHeader>
-          <DialogTitle className="flex justify-start">
+          <DialogTitle className="flex justify-start capitalize">
             Add new form field
           </DialogTitle>
           <DialogDescription></DialogDescription>
@@ -216,7 +218,7 @@ const AddFormField = () => {
             <Button type="reset" variant="outline" onClick={resetForm}>
               Reset
             </Button>
-            <SubmitBtn label={`Add user`} isSubmitting={isSubmitting} />
+            <SubmitBtn label={`Add Field`} isSubmitting={isSubmitting} />
           </DialogFooter>
         </form>
       </DialogContent>

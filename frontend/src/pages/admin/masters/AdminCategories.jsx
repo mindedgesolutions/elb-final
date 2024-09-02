@@ -68,10 +68,8 @@ const AdminCategories = () => {
         totalRecords: response.data.meta.totalRecords,
       });
 
-      if (parentCategories.length === 0) {
-        const pcat = await customFetch.get(`/masters/parent-categories`);
-        dispatch(setParentCategories(pcat.data.data.rows));
-      }
+      const pcat = await customFetch.get(`/masters/parent-categories`);
+      dispatch(setParentCategories(pcat.data.data.rows));
 
       setIsLoading(false);
     } catch (error) {
