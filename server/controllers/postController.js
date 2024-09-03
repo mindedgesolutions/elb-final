@@ -157,7 +157,7 @@ export const adminListPost = async (req, res) => {
     pm.is_sold,
     pm.is_active,
     pm.created_at,
-    um.id,
+    um.id as user_id,
     um.first_name,
     um.last_name
     from elb_product pm
