@@ -159,13 +159,17 @@ const AdminPosts = () => {
                                   className="text-green-500 group-hover:text-green-400"
                                 />
                               </Button>
-                              <Button variant="link" size="sm">
-                                <Pencil
-                                  size={18}
-                                  className="text-green-500 group-hover:text-green-400"
-                                />
-                              </Button>
-                              <DeleteUser id={post.id} name={post.title} />
+                              {!post.is_sold && (
+                                <>
+                                  <Button variant="link" size="sm">
+                                    <Pencil
+                                      size={18}
+                                      className="text-green-500 group-hover:text-green-400"
+                                    />
+                                  </Button>
+                                  <DeleteUser id={post.id} name={post.title} />
+                                </>
+                              )}
                             </>
                           ) : (
                             <Button

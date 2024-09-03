@@ -1,18 +1,29 @@
-import { WbHeroSection, WbHomeFeaturedItems } from "@/components";
+import {
+  WbHeroSection,
+  WbHomeFeaturedItems,
+  WbProductCardSkeleton,
+} from "@/components";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigation } from "react-router-dom";
 
 const WebsiteHome = () => {
   document.title = `Welcome to Easy Lending Buddy | ${
     import.meta.env.VITE_APP_TITLE
   }`;
+
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
   const { featuredData } = useLoaderData();
+
+  if (isLoading) {
+    return <WbProductCardSkeleton count={5} />;
+  }
 
   return (
     <>
       <WbHeroSection />
-      <WbHomeFeaturedItems featuredData={featuredData} />
+      <WbHomeFeaturedItems featuredData={featuredData} isLoading={isLoading} />
     </>
   );
 };
