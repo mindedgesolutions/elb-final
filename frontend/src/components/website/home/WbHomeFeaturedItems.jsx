@@ -61,14 +61,26 @@ const WbHomeFeaturedItems = ({ featuredData }) => {
           onMouseLeave={handleMouseLeave}
         >
           <Swiper
-            spaceBetween={25}
-            slidesPerView={5}
             loop={true}
             autoplay={{ delay: 3000 }}
             ref={sliderRef}
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 5,
+              },
+              768: {
+                slidesPerView: 4,
+                spaceBetween: 10,
+              },
+              1024: {
+                slidesPerView: 5,
+                spaceBetween: 10,
+              },
+            }}
           >
             {featuredData.map((product) => {
               return (
