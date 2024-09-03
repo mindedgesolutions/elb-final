@@ -185,3 +185,12 @@ export const getSinglePost = async (req, res) => {};
 
 // ------
 export const updatePost = async (req, res) => {};
+
+// ------
+export const deletePost = async (req, res) => {};
+
+// ------
+export const toggleFeatured = async (req, res) => {};
+
+// ------
+export const toggleSold = async (req, res) => {};

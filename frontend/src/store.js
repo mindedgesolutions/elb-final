@@ -5,6 +5,7 @@ import wbSearchReducer from "@/features/wbSearchSlice";
 import currentUserReducer from "@/features/currentUserSlice";
 import commonReducer from "@/features/commonSlice";
 import formFieldReducer from "@/features/formFieldSlice";
+import postReducer from "@/features/postSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     currentUser: currentUserReducer,
     common: commonReducer,
     formFields: formFieldReducer,
+    posts: postReducer,
   },
 });
