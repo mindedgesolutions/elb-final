@@ -9,6 +9,7 @@ import { action as loginAction } from "@/pages/admin/auth/AdminLogin";
 import { loader as adminLayoutLoader } from "@/pages/admin/AdminLayout";
 import { loader as websiteLayoutLoader } from "@/pages/website/WebsiteLayout";
 import { loader as editFormFieldLoader } from "@/pages/admin/masters/AdminFormFieldEdit";
+import { loader as wbHomeLoader } from "@/pages/website/WebsiteHome";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     element: <Elb.WebsiteLayout />,
     loader: websiteLayoutLoader(store),
     children: [
-      { index: true, element: <Elb.WebsiteHome /> },
+      { index: true, element: <Elb.WebsiteHome />, loader: wbHomeLoader },
       { path: `sign-in`, element: <Elb.WebsiteLogin /> },
       { path: `sign-up`, element: <Elb.WebsiteRegister /> },
       { path: `cat/:category/:subcategory?`, element: <Elb.WebsiteCategory /> },

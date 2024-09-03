@@ -7,6 +7,7 @@ import {
 } from "../utils/functions.js";
 import { verifyJWT } from "../utils/tokenUtils.js";
 import dayjs from "dayjs";
+import { BadRequestError } from "../errors/customErrors.js";
 
 // ------
 export const addPost = async (req, res) => {
@@ -190,7 +191,39 @@ export const updatePost = async (req, res) => {};
 export const deletePost = async (req, res) => {};
 
 // ------
-export const toggleFeatured = async (req, res) => {};
+export const toggleFeatured = async (req, res) => {
+  const { id } = req.params;
+  const timeStamp = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
+  const isFeatured = await pool.query(
+    `select is_feature from elb_product where id=$1 and is_sold=false`,
+    [id]
+  );
+  if (isFeatured.rowCount === 0)
+    throw new BadRequestError(
+      `Product is already sold! Cannot be featured now`
+    );
+  const newFeatured = isFeatured.rows[0].is_feature === true ? false : true;
+
+  await pool.query(
+    `update elb_product set is_feature=$1, updated_at=$2 where id=$3`,
+    [newFeatured, timeStamp, id]
+  );
+  res.status(StatusCodes.ACCEPTED).json({ status: newFeatured });
+};
 
 // ------
-export const toggleSold = async (req, res) => {};
+export const toggleSold = async (req, res) => {
+  const { id } = req.params;
+  const timeStamp = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
+  const isSold = await pool.query(
+    `select is_sold from elb_product where id=$1`,
+    [id]
+  );
+  const newSold = isSold.rows[0].is_sold === true ? false : true;
+
+  await pool.query(
+    `update elb_product set is_sold=$1, updated_at=$2 where id=$3`,
+    [newSold, timeStamp, id]
+  );
+  res.status(StatusCodes.ACCEPTED).json({ status: newSold });
+};

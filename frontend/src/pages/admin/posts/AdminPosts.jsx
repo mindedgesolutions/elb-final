@@ -3,9 +3,10 @@ import {
   AdminPagination,
   AdminSearchPosts,
   DeleteUser,
-  EditUser,
   PageHeader,
   TableRowSkeleton,
+  ToggleFeatured,
+  ToggleSold,
 } from "@/components";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
@@ -20,17 +21,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { activeBadge, adminBadge, serialNo } from "@/utils/functions";
+import { activeBadge, serialNo } from "@/utils/functions";
 import dayjs from "dayjs";
 import { Eye, Pencil, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Form } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const AdminPosts = () => {
   document.title = `List of All Posts | ${import.meta.env.VITE_APP_TITLE}`;
 
+  const { counter } = useSelector((store) => store.common);
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
   const page = queryString.get("page");
@@ -41,14 +41,6 @@ const AdminPosts = () => {
     currentPage: 0,
     totalRecords: 0,
   });
-  const [featuredPost, setFeaturedPost] = useState({});
-  const [sold, setSold] = useState(false);
-
-  const onFeaturedChange = (e) => {
-    console.log(e.target.checked);
-    // setFeaturedPost({ ...featuredPost, [e.target.name]: e });
-  };
-  // console.log(featuredPost);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -79,7 +71,7 @@ const AdminPosts = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, queryString.get("s"), queryString.get("c")]);
+  }, [counter, page, queryString.get("s"), queryString.get("c")]);
 
   const toggleFeatured = (e) => {
     setFeatured(e);
@@ -138,8 +130,21 @@ const AdminPosts = () => {
                         <TableCell>Mobile</TableCell>
                         <TableCell>{post.price}</TableCell>
                         <TableCell>{activeBadge(post.is_active)}</TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
+                        <TableCell>
+                          <ToggleFeatured
+                            id={post.id}
+                            title={post.title}
+                            current={post.is_feature}
+                            isSold={post.is_sold}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <ToggleSold
+                            id={post.id}
+                            title={post.title}
+                            current={post.is_sold}
+                          />
+                        </TableCell>
                         <TableCell>
                           {dayjs(new Date(post.created_at)).format(
                             "ddd, MMM D, YYYY h:mm A"

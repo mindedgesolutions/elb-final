@@ -7,11 +7,7 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 import { WbProductCard } from "@/components";
 import { useCallback, useRef } from "react";
 
-const WbHomeFeaturedItems = () => {
-  const products = Array.from({ length: 15 }, (_, index) => {
-    return index + 1;
-  });
-
+const WbHomeFeaturedItems = ({ featuredData }) => {
   const sliderRef = useRef(null);
 
   const handlePrev = useCallback(() => {
@@ -74,10 +70,10 @@ const WbHomeFeaturedItems = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
           >
-            {products.map((product) => {
+            {featuredData.map((product) => {
               return (
                 <SwiperSlide key={nanoid()}>
-                  <WbProductCard />
+                  <WbProductCard product={product} />
                 </SwiperSlide>
               );
             })}

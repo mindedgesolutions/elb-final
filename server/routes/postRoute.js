@@ -18,7 +18,7 @@ router
   .patch(updatePost)
   .delete(deletePost);
 
-router.post(`/toggle-featured/:id`, toggleFeatured);
-router.post(`/toggle-sold/:id`, toggleSold);
+router.patch(`/toggle-featured/:id`, toggleFeatured);
+router.patch(`/toggle-sold/:id`, toggleSold);
 
 export default router;

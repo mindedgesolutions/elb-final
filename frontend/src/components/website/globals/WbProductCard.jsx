@@ -3,15 +3,11 @@ import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import productImg from "@/assets/website/img/job/camera.jpg";
 
-const WbProductCard = ({
-  imgSrc,
-  postTitle = "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus, itaque.",
-  price = 1000,
-}) => {
-  const title =
-    postTitle.split("").length > 58
-      ? postTitle.substring(0, 58) + " ..."
-      : postTitle;
+const WbProductCard = ({ product }) => {
+  const { title, price } = product;
+  const imgSrc = "";
+  const titleLabel =
+    title.split("").length > 58 ? title.substring(0, 58) + " ..." : title;
 
   return (
     <Link to={`#`}>
@@ -27,12 +23,14 @@ const WbProductCard = ({
                 <FaRegHeart />
               </button>
             </div>
-            <p className="text-md text-gray-950 group-hover:text-gray-700 tracking-tighter mt-3">
-              {title}
-            </p>
-            <p className="text-lg font-semibold text-black group-hover:text-gray-700 tracking-tighter mt-6 pb-3">{`${currencyFormat().format(
-              price
-            )}`}</p>
+            <div className="">
+              <p className="text-md h-10 text-gray-950 group-hover:text-gray-700 tracking-tighter mt-3">
+                {titleLabel}
+              </p>
+              <p className="text-lg flex items-baseline font-semibold text-black group-hover:text-gray-700 tracking-tighter mt-6 pb-3">{`${currencyFormat().format(
+                price
+              )}`}</p>
+            </div>
           </div>
         </div>
       </article>

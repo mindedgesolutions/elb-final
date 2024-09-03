@@ -24,6 +24,8 @@ export { default as EditFieldOption } from "./admin/masters/EditFieldOption";
 export { default as AdminBreadcrum } from "./admin/globals/AdminBreadcrum";
 export { default as AdminPostImage } from "./admin/posts/AdminPostImage";
 export { default as AdminSearchPosts } from "./admin/posts/AdminSearchPosts";
+export { default as ToggleFeatured } from "./admin/posts/ToggleFeatured";
+export { default as ToggleSold } from "./admin/posts/ToggleSold";
 
 // Website starts ------
 export { default as WbTopSearch } from "./website/globals/WbTopSearch";
