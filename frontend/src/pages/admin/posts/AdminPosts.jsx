@@ -26,6 +26,7 @@ import { Eye, Pencil, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Form } from "react-bootstrap";
 
 const AdminPosts = () => {
   document.title = `List of All Posts | ${import.meta.env.VITE_APP_TITLE}`;
@@ -40,8 +41,14 @@ const AdminPosts = () => {
     currentPage: 0,
     totalRecords: 0,
   });
-  const [featured, setFeatured] = useState(false);
+  const [featuredPost, setFeaturedPost] = useState({});
   const [sold, setSold] = useState(false);
+
+  const onFeaturedChange = (e) => {
+    console.log(e.target.checked);
+    // setFeaturedPost({ ...featuredPost, [e.target.name]: e });
+  };
+  // console.log(featuredPost);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -120,7 +127,7 @@ const AdminPosts = () => {
                         <TableCell>{serialNo(page) + index}.</TableCell>
                         <TableCell className="normal-case">
                           <div className="flex flex-col">
-                            <h3 className="text-md font-semibold tracking-tight leading-10">
+                            <h3 className="text-md font-semibold tracking-tight p-2">
                               {post.title}
                             </h3>
                             <p className="text-sm lowercase font-extralight">
@@ -131,23 +138,8 @@ const AdminPosts = () => {
                         <TableCell>Mobile</TableCell>
                         <TableCell>{post.price}</TableCell>
                         <TableCell>{activeBadge(post.is_active)}</TableCell>
-                        <TableCell>
-                          <Switch
-                            id="airplane-mode"
-                            name="featured"
-                            checked={featured}
-                            onCheckedChange={toggleFeatured}
-                            disabled={false}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Switch
-                            id="airplane-mode"
-                            className="data-[state=checked]:bg-red-500"
-                            name="featured"
-                            onCheckedChange={toggleSold}
-                          />
-                        </TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
                         <TableCell>
                           {dayjs(new Date(post.created_at)).format(
                             "ddd, MMM D, YYYY h:mm A"
