@@ -28,7 +28,7 @@ const WbHomeFeaturedItems = ({ featuredData }) => {
   };
 
   return (
-    <section className="py-10">
+    <section className="sm:py-5 md:py-10 sm:mt-5 md:mt-10">
       <div className="container">
         <WbSectionTitle
           title={`featured products`}
@@ -47,7 +47,7 @@ const WbHomeFeaturedItems = ({ featuredData }) => {
             ref={sliderRef}
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
-            className="mySwiper"
+            className="mySwiper md:h-[450px]"
             breakpoints={{
               640: {
                 slidesPerView: 2,

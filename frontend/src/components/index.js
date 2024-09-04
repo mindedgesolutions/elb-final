@@ -45,3 +45,5 @@ export { default as WbHeroSection } from "./website/home/WbHeroSection";
 export { default as WbHomeFeaturedItems } from "./website/home/WbHomeFeaturedItems";
 export { default as WbHomeRecentItems } from "./website/home/WbHomeRecentItems";
 export { default as WbCustomBtn } from "./website/globals/WbCustomBtn";
+export { default as WbSellerCard } from "./website/globals/WbSellerCard";
+export { default as WbTopSellers } from "./website/home/WbTopSellers";
