@@ -13,3 +13,13 @@ export const featuredProducts = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ data });
 };
+
+// ------
+export const recentProducts = async (req, res) => {
+  const data = await pool.query(
+    `select title, price from elb_product where is_active=true order by updated_at desc limit 10`,
+    []
+  );
+
+  res.status(StatusCodes.OK).json({ data });
+};

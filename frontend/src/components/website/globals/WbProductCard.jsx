@@ -23,7 +23,7 @@ const WbProductCard = ({ product }) => {
                 <FaRegHeart />
               </button>
             </div>
-            <div className="">
+            <div className="flex flex-col px-2">
               <p className="text-md h-10 text-gray-950 group-hover:text-gray-700 tracking-tighter mt-3">
                 {titleLabel}
               </p>

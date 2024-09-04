@@ -28,3 +28,4 @@ export { default as WebsiteLogin } from "./website/WebsiteLogin";
 export { default as WebsiteRegister } from "./website/WebsiteRegister";
 export { default as WebsiteSearch } from "./website/WebsiteSearch";
 export { default as WebsiteSeller } from "./website/WebsiteSeller";
+export { default as WebsiteProductsPage } from "./website/WebsiteProductsPage";
