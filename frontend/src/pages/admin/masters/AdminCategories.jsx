@@ -2,6 +2,7 @@ import {
   AddCategoryForm,
   AdminPageLayout,
   AdminPagination,
+  AdminSmallerTitle,
   DeleteCategory,
   PageHeader,
   SearchCategory,
@@ -147,12 +148,16 @@ const AdminCategories = () => {
                             <TableRow key={nanoid()} className="group">
                               <TableCell>{serialNo(page) + index}.</TableCell>
                               <TableCell className="capitalize">
-                                {category.parent_id
-                                  ? category.pcategory
-                                  : "---"}
+                                {category.parent_id ? (
+                                  <AdminSmallerTitle
+                                    title={category.pcategory}
+                                  />
+                                ) : (
+                                  "---"
+                                )}
                               </TableCell>
                               <TableCell className="capitalize">
-                                {category.category}
+                                <AdminSmallerTitle title={category.category} />
                               </TableCell>
                               <TableCell>
                                 {activeBadge(category.is_active)}

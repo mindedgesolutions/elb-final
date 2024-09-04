@@ -1,6 +1,5 @@
 import { WbCustomBtn } from "@/components";
-import { ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const WbSectionTitle = ({
   title,
@@ -17,25 +16,29 @@ const WbSectionTitle = ({
         </h2>
         {description && <p className="section-desc">{description}</p>}
       </div>
-      {!href ? (
-        <div className="col-md-auto hidden md:block position-relative sm:mt-5 md:mt-10">
-          <div className="carousel-button-group">
-            <div className="flex gap-3">
-              <button onClick={handlePrev} className="swiper-prev w-10 h-10">
-                <ChevronLeft />
-              </button>
-              <button onClick={handleNext} className="swiper-next w-10 h-10">
-                <ChevronRight />
-              </button>
+      {href || handlePrev || handleNext ? (
+        !href ? (
+          <div className="col-md-auto hidden md:block position-relative sm:mt-5 md:mt-10">
+            <div className="carousel-button-group">
+              <div className="flex gap-3">
+                <button onClick={handlePrev} className="swiper-prev w-10 h-10">
+                  <ChevronLeft />
+                </button>
+                <button onClick={handleNext} className="swiper-next w-10 h-10">
+                  <ChevronRight />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="col-auto mt-30 mt-md-0">
-          <div className="d-flex justify-content-end">
-            <WbCustomBtn href={href} title={`view more`} />
+        ) : (
+          <div className="col-auto mt-30 mt-md-0">
+            <div className="d-flex justify-content-end">
+              <WbCustomBtn href={href} title={`view more`} />
+            </div>
           </div>
-        </div>
+        )
+      ) : (
+        ""
       )}
     </div>
   );

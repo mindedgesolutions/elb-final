@@ -2,6 +2,7 @@ import {
   AddFormField,
   AdminPageLayout,
   AdminPagination,
+  AdminSmallerTitle,
   DeleteFormField,
   EditFieldOption,
   SearchFormFields,
@@ -95,7 +96,7 @@ const AdminFormFields = () => {
           <h1 className="text-2xl font-semibold md:mb-2 sm:mb-4">
             List of Form Fields
           </h1>
-          <h3 className="text-sm font-normal text-muted-foreground sm:text-justify sm:-tracking-tighter">{`Note: You do not need to add fields for "Parent" categories e.g. Bikes, Electronics & Appliances, Fashion, Furniture Models etc.`}</h3>
+          <h3 className="text-sm font-normal text-muted-foreground sm:text-justify sm:tracking-normal">{`Note: You do not need to add fields for "Parent" categories e.g. Bikes, Electronics & Appliances, Fashion, Furniture Models etc.`}</h3>
         </div>
 
         <div className="sm:basis-2/6 flex justify-end">
@@ -157,7 +158,7 @@ const AdminFormFields = () => {
                                 </Badge>
                               </TableCell>
                               <TableCell className="capitalize">
-                                {field.field_label}
+                                <AdminSmallerTitle title={field.field_label} />
                               </TableCell>
                               <TableCell>
                                 {fieldTypeBadge(field.field_type)}

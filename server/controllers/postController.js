@@ -160,9 +160,13 @@ export const adminListPost = async (req, res) => {
     pm.created_at,
     um.id as user_id,
     um.first_name,
-    um.last_name
+    um.last_name,
+    cat.category as cat,
+    scat.category as subcat
     from elb_product pm
     join elb_users um on pm.user_id = um.id
+    join master_categories cat on cat.id = pm.cat_id
+    join master_categories scat on scat.id = pm.subcat_id
     where pm.id is not null ${searchStr} ${searchDrp} order by pm.title, um.first_name, um.last_name offset $1 limit $2`,
     [pagination.offset, pagination.pageLimit]
   );
