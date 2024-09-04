@@ -24,6 +24,7 @@ const router = createBrowserRouter([
       { path: `cat/:category/:subcategory?`, element: <Elb.WebsiteCategory /> },
       { path: `search`, element: <Elb.WebsiteSearch /> },
       { path: `seller/:slug`, element: <Elb.WebsiteSeller /> },
+      { path: `products/:filter?`, element: <Elb.WebsiteProductsPage /> },
     ],
   },
   // Website unprotected routes end ------
