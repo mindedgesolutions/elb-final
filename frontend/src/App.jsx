@@ -23,6 +23,7 @@ const router = createBrowserRouter([
       { path: `sign-up`, element: <Elb.WebsiteRegister /> },
       { path: `cat/:category/:subcategory?`, element: <Elb.WebsiteCategory /> },
       { path: `search`, element: <Elb.WebsiteSearch /> },
+      { path: `sellers`, element: <Elb.WebsiteSellers /> },
       { path: `seller/:slug`, element: <Elb.WebsiteSeller /> },
       { path: `products/:filter?`, element: <Elb.WebsiteProductsPage /> },
     ],
