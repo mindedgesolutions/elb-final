@@ -2,6 +2,7 @@ import {
   AddUser,
   AdminPageLayout,
   AdminPagination,
+  AdminSmallerTitle,
   DeleteUser,
   EditUser,
   SearchUser,
@@ -129,11 +130,16 @@ const AdminUsers = () => {
                     </TableRow>
                   ) : (
                     listUsers.map((user, index) => {
+                      const userName = user.first_name + " " + user.last_name;
                       return (
                         <TableRow key={user.uuid} className="group">
                           <TableCell>{serialNo(page) + index}.</TableCell>
-                          <TableCell className="normal-case">{`${user.first_name} ${user.last_name}`}</TableCell>
-                          <TableCell>{user.email}</TableCell>
+                          <TableCell className="normal-case">
+                            <AdminSmallerTitle title={userName} />
+                          </TableCell>
+                          <TableCell>
+                            <AdminSmallerTitle title={user.email} />
+                          </TableCell>
                           <TableCell>{user.mobile}</TableCell>
                           <TableCell>{adminBadge(user.rid)}</TableCell>
                           <TableCell>{activeBadge(user.is_active)}</TableCell>

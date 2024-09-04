@@ -2,6 +2,7 @@ import {
   AdminPageLayout,
   AdminPagination,
   AdminSearchPosts,
+  AdminSmallerTitle,
   DeleteUser,
   PageHeader,
   TableRowSkeleton,
@@ -114,20 +115,24 @@ const AdminPosts = () => {
                   </TableRow>
                 ) : (
                   listPosts.map((post, index) => {
+                    const sellerName = post.first_name + " " + post.last_name;
+
                     return (
                       <TableRow key={post.slug} className="group">
                         <TableCell>{serialNo(page) + index}.</TableCell>
                         <TableCell className="normal-case">
                           <div className="flex flex-col">
                             <h3 className="text-md font-semibold tracking-tight p-2">
-                              {post.title}
+                              <AdminSmallerTitle title={post.title} />
                             </h3>
                             <p className="text-sm lowercase font-extralight">
-                              - {`${post.first_name} ${post.last_name}`}
+                              - <AdminSmallerTitle title={sellerName} />
                             </p>
                           </div>
                         </TableCell>
-                        <TableCell>Mobile</TableCell>
+                        <TableCell>
+                          <AdminSmallerTitle title={post.subcat} />
+                        </TableCell>
                         <TableCell>{post.price}</TableCell>
                         <TableCell>{activeBadge(post.is_active)}</TableCell>
                         <TableCell>

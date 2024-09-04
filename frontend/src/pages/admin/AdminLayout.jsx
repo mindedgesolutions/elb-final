@@ -5,12 +5,26 @@ import { setAllCategories } from "@/features/categorySlice";
 import { setCurrentUser, unsetCurrentUser } from "@/features/currentUserSlice";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet, redirect, useNavigate } from "react-router-dom";
 
 const AdminLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const useScreenWidth = () => {
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+      const handleResize = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return width;
+  };
+  const screenWidth = useScreenWidth();
 
   const logout = async () => {
     try {
@@ -30,11 +44,21 @@ const AdminLayout = () => {
   return (
     <>
       <AdminSidebar />
-      <ScrollArea className="md:ml-[241px] overflow-y-auto h-screen">
-        <AdminTopnav logout={logout} />
-        <Outlet />
-        <AdminFooter />
-      </ScrollArea>
+      {screenWidth >= 768 ? (
+        <>
+          <ScrollArea className="md:ml-[241px] sm:ml-0 md:overflow-y-auto md:h-screen">
+            <AdminTopnav logout={logout} />
+            <Outlet />
+            <AdminFooter />
+          </ScrollArea>
+        </>
+      ) : (
+        <>
+          <AdminTopnav logout={logout} />
+          <Outlet />
+          <AdminFooter />
+        </>
+      )}
     </>
   );
 };

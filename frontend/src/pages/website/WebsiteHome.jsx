@@ -1,17 +1,17 @@
 import {
+  WbCustomBtn,
   WbHeroSection,
   WbHomeFeaturedItems,
   WbHomeRecentItems,
   WbProductCardSkeleton,
+  WbTestimonials,
   WbTopSellers,
 } from "@/components";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
 import { useLoaderData, useNavigation } from "react-router-dom";
 import topBanner from "@/assets/website/img/cta/cta-img.png";
-import banner2Img from "@/assets/website/img/common/banner_scnd.jpeg";
 import secBannerImg from "@/assets/website/img/common/men-women.png";
-import { Separator } from "@/components/ui/separator";
 
 const WebsiteHome = () => {
   document.title = `Welcome to Easy Lending Buddy | ${
@@ -101,10 +101,11 @@ const WebsiteHome = () => {
 
       <WbTopSellers />
 
+      {/* Bottom banner starts ------ */}
       <section className="mt-[110px]">
         <div className="container">
           <div
-            className={`cta-wrapper relative rounded-lg bg-[url('@/assets/website/img/common/banner_scnd.jpeg')]`}
+            className={`cta-wrapper relative rounded-none bg-[url('@/assets/website/img/common/banner_scnd.jpeg')] bg-no-repeat`}
           >
             <div className="row justify-content-between">
               <div className="col-lg-6">
@@ -120,24 +121,11 @@ const WebsiteHome = () => {
                     lending, smart borrowing - where financial success and
                     opportunities unite
                   </p>
-                  <a href="contact.html" className="cta-btn-link">
-                    Get Started
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="10"
-                      viewBox="0 0 14 10"
-                      fill="none"
-                    >
-                      <path
-                        d="M9 9L13 5M13 5L9 1M13 5L1 5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </a>
+                  <WbCustomBtn
+                    title={`get started`}
+                    href={`/sign-up`}
+                    customWidth="w-56"
+                  />
                 </div>
               </div>
               <div className="col-lg-6">
@@ -145,7 +133,7 @@ const WebsiteHome = () => {
                   <img
                     src={secBannerImg}
                     className="cta-people position-absolute d-none d-lg-block"
-                    alt=""
+                    alt={import.meta.env.VITE_APP_TITLE}
                   />
                 </div>
               </div>
@@ -153,6 +141,9 @@ const WebsiteHome = () => {
           </div>
         </div>
       </section>
+      {/* Bottom banner ends ------ */}
+
+      <WbTestimonials />
     </>
   );
 };
