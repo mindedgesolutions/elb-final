@@ -3,7 +3,6 @@ import { nanoid } from "nanoid";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 import { WbProductCard, WbSectionTitle } from "@/components";
 import { useCallback, useRef } from "react";
 
@@ -64,7 +63,7 @@ const WbHomeFeaturedItems = ({ featuredData }) => {
               },
             }}
           >
-            {featuredData.map((product) => {
+            {featuredData?.map((product) => {
               return (
                 <SwiperSlide key={nanoid()}>
                   <WbProductCard product={product} />
