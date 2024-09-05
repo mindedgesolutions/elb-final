@@ -50,7 +50,13 @@ const AdminPosts = () => {
         params: {
           page: page || "",
           search: queryString.get("s") || "",
-          category: queryString.get("c") || "",
+          category: queryString.get("cat") || "",
+          subCategory: queryString.get("scat") || "",
+          status: queryString.get("status") || "",
+          startDate: queryString.get("start") || "",
+          endDate: queryString.get("end") || "",
+          maxPrice: queryString.get("max") || "",
+          minPrice: queryString.get("min") || "",
         },
       });
       console.log(response.data.data.rows);
@@ -72,15 +78,18 @@ const AdminPosts = () => {
 
   useEffect(() => {
     fetchData();
-  }, [counter, page, queryString.get("s"), queryString.get("c")]);
-
-  const toggleFeatured = (e) => {
-    setFeatured(e);
-  };
-
-  const toggleSold = (e) => {
-    console.log(e);
-  };
+  }, [
+    counter,
+    page,
+    queryString.get("s"),
+    queryString.get("cat"),
+    queryString.get("scat"),
+    queryString.get("status"),
+    queryString.get("start"),
+    queryString.get("end"),
+    queryString.get("max"),
+    queryString.get("min"),
+  ]);
 
   return (
     <>
