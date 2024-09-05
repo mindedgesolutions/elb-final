@@ -141,13 +141,57 @@ export const addPost = async (req, res) => {
 
 // ------
 export const adminListPost = async (req, res) => {
-  const { page, search, category: catId } = req.query;
+  const {
+    page,
+    search,
+    category: catId,
+    subCategory: subcatId,
+    status,
+    startDate,
+    endDate,
+    maxPrice,
+    minPrice,
+  } = req.query;
   const pagination = paginationLogic(page, null);
 
-  const searchStr = search
+  let searchStr = "";
+  searchStr = search
     ? ` and (pm.title ilike '%${search.trim()}%' or um.first_name ilike '%${search.trim()}%' or um.last_name ilike '%${search.trim()}%')`
-    : ``;
-  const searchDrp = catId ? ` and pm.subcat_id=${catId}` : ``;
+    : searchStr;
+  searchStr = catId ? searchStr + ` and pm.cat_id=${catId}` : searchStr;
+  searchStr = subcatId
+    ? searchStr + ` and pm.subcat_id=${subcatId}`
+    : searchStr;
+  let searchStatus = "";
+  if (status) {
+    switch (status) {
+      case "sold":
+        searchStatus = searchStr + ` and pm.is_sold=true`;
+        break;
+      case "unsold":
+        searchStatus = searchStr + ` and pm.is_sold=false`;
+        break;
+      case "featured":
+        searchStatus = searchStr + ` and pm.is_feature=true`;
+        break;
+      case "not featured":
+        searchStatus = searchStr + ` and pm.is_feature=false`;
+        break;
+    }
+  } else {
+    searchStatus = searchStr;
+  }
+  const start = dayjs(new Date(startDate)).format("YYYY-MM-DD HH:mm:ss");
+  const end = dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss");
+
+  searchStr = startDate ? searchStr + ` and pm.created_at >= '${start}'` : ``;
+  searchStr = endDate ? searchStr + ` and pm.created_at <= '${end}'` : ``;
+  // searchStr = maxPrice
+  //   ? searchStr + ` and pm.price <= ${Number(maxPrice)}`
+  //   : searchStr;
+  // searchStr = minPrice
+  //   ? searchStr + ` and pm.price >= ${Number(minPrice)}`
+  //   : searchStr;
 
   const data = await pool.query(
     `select pm.id,
@@ -167,12 +211,12 @@ export const adminListPost = async (req, res) => {
     join elb_users um on pm.user_id = um.id
     join master_categories cat on cat.id = pm.cat_id
     join master_categories scat on scat.id = pm.subcat_id
-    where pm.id is not null ${searchStr} ${searchDrp} order by pm.title, um.first_name, um.last_name offset $1 limit $2`,
+    where pm.id is not null ${searchStr} ${searchStatus} order by pm.title, um.first_name, um.last_name offset $1 limit $2`,
     [pagination.offset, pagination.pageLimit]
   );
 
   const records = await pool.query(
-    `select pm.* from elb_product pm join elb_users um on pm.user_id = um.id where pm.id is not null ${searchStr} ${searchDrp}`,
+    `select pm.* from elb_product pm join elb_users um on pm.user_id = um.id where pm.id is not null ${searchStr} ${searchStatus}`,
     []
   );
   const totalPages = Math.ceil(records.rowCount / pagination.pageLimit);
