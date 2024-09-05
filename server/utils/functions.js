@@ -1,6 +1,7 @@
 import slug from "slug";
 import pool from "../db.js";
 import { verifyJWT } from "./tokenUtils.js";
+import dayjs from "dayjs";
 
 export const getUserId = async (uuid) => {
   const user = await pool.query(`select id from elb_users where uuid=$1`, [
@@ -58,4 +59,15 @@ export const removeSpecialChars = (str) => {
 
 export const rtrim = (str) => {
   return str.replace(/,+$/, "");
+};
+
+export const formatDate = (date, type) => {
+  const time = type === "start" ? process.env.START_TIME : process.env.END_TIME;
+  const dateArray = date.split("-");
+  const formatted = dayjs(
+    `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`,
+    "Asia/Kolkata"
+  ).format(`YYYY-MM-DD ${time}`);
+
+  return formatted;
 };

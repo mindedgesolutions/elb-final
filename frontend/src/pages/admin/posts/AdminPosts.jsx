@@ -59,7 +59,6 @@ const AdminPosts = () => {
           minPrice: queryString.get("min") || "",
         },
       });
-      console.log(response.data.data.rows);
       setListPosts(response.data.data.rows);
 
       setMeta({

@@ -111,6 +111,8 @@ const AdminSearchPosts = () => {
           <select
             name="status"
             id="status"
+            value={form.status}
+            onChange={handleChange}
             className="flex h-10 w-full items-center justify-between rounded-md border-[1px] bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
           >
             <option value="">Select status</option>
@@ -159,6 +161,8 @@ const AdminSearchPosts = () => {
               name="min"
               id="min"
               placeholder="Min."
+              value={form.min}
+              onChange={handleChange}
             />
             <input
               type="number"
@@ -166,6 +170,8 @@ const AdminSearchPosts = () => {
               name="max"
               id="max"
               placeholder="Max."
+              value={form.max}
+              onChange={handleChange}
             />
           </div>
         </div>

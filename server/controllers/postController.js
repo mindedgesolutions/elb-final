@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import pool from "../db.js";
 import {
+  formatDate,
   generateOtherSlug,
   getUserId,
   paginationLogic,
@@ -155,13 +156,16 @@ export const adminListPost = async (req, res) => {
   const pagination = paginationLogic(page, null);
 
   let searchStr = "";
-  searchStr = search
+  searchStr += search
     ? ` and (pm.title ilike '%${search.trim()}%' or um.first_name ilike '%${search.trim()}%' or um.last_name ilike '%${search.trim()}%')`
     : searchStr;
-  searchStr = catId ? searchStr + ` and pm.cat_id=${catId}` : searchStr;
-  searchStr = subcatId
+
+  searchStr += catId ? searchStr + ` and pm.cat_id=${catId}` : searchStr;
+
+  searchStr += subcatId
     ? searchStr + ` and pm.subcat_id=${subcatId}`
     : searchStr;
+
   let searchStatus = "";
   if (status) {
     switch (status) {
@@ -181,17 +185,19 @@ export const adminListPost = async (req, res) => {
   } else {
     searchStatus = searchStr;
   }
-  const start = dayjs(new Date(startDate)).format("YYYY-MM-DD HH:mm:ss");
-  const end = dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss");
+  const start = formatDate(startDate, "start");
+  const end = formatDate(endDate, "end");
 
-  searchStr = startDate ? searchStr + ` and pm.created_at >= '${start}'` : ``;
-  searchStr = endDate ? searchStr + ` and pm.created_at <= '${end}'` : ``;
-  // searchStr = maxPrice
-  //   ? searchStr + ` and pm.price <= ${Number(maxPrice)}`
-  //   : searchStr;
-  // searchStr = minPrice
-  //   ? searchStr + ` and pm.price >= ${Number(minPrice)}`
-  //   : searchStr;
+  searchStr += startDate
+    ? ` and pm.created_at between '${start}' and '${end}'`
+    : ``;
+
+  searchStr = maxPrice
+    ? searchStr + ` and pm.price <= ${Number(maxPrice)}`
+    : searchStr;
+  searchStr = minPrice
+    ? searchStr + ` and pm.price >= ${Number(minPrice)}`
+    : searchStr;
 
   const data = await pool.query(
     `select pm.id,
