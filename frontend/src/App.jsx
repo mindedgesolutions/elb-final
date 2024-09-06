@@ -10,6 +10,7 @@ import { loader as adminLayoutLoader } from "@/pages/admin/AdminLayout";
 import { loader as websiteLayoutLoader } from "@/pages/website/WebsiteLayout";
 import { loader as editFormFieldLoader } from "@/pages/admin/masters/AdminFormFieldEdit";
 import { loader as wbHomeLoader } from "@/pages/website/WebsiteHome";
+import { loader as productLoader } from "@/pages/website/WebsiteProductsPage";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
       { path: `search`, element: <Elb.WebsiteSearch /> },
       { path: `sellers`, element: <Elb.WebsiteSellers /> },
       { path: `seller/:slug`, element: <Elb.WebsiteSeller /> },
-      { path: `products/:filter?`, element: <Elb.WebsiteProductsPage /> },
+      {
+        path: `products/:filter?`,
+        element: <Elb.WebsiteProductsPage />,
+        loader: productLoader,
+      },
     ],
   },
   // Website unprotected routes end ------
