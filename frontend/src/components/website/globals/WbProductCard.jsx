@@ -12,21 +12,23 @@ const WbProductCard = ({ product, type }) => {
   return (
     <Link to={`#`}>
       <article
-        className={`rounded-lg bg-white border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 ${
+        className={`rounded-lg bg-white border-2 border-gray-200 transition duration-500 hover:border-b hover:border-b-fuchsia-700 ${
           type === "featured" ? null : "hover:shadow-2xl"
         }`}
       >
-        <div className="job-post position-relative">
+        <div className="position-relative">
           <div className="flex flex-col group justify-start">
-            <div className="w-full sm:h-56 md:h-60 rounded-lg object-cover overflow-hidden">
-              <img
-                src={imgSrc || productImg}
-                className="rounded-lg border border-gray-100"
-              />
-              <button className="service-card-wishlist-btn">
-                <FaRegHeart />
-              </button>
-            </div>
+            <section className="p-1">
+              <div className="w-full sm:h-56 md:h-60 rounded-lg object-cover overflow-hidden">
+                <img
+                  src={imgSrc || productImg}
+                  className="rounded-lg border border-gray-100"
+                />
+                <button className="service-card-wishlist-btn">
+                  <FaRegHeart />
+                </button>
+              </div>
+            </section>
             <div className="flex flex-col px-2">
               <p className="text-md h-10 text-gray-950 group-hover:text-gray-700 tracking-tighter mt-3">
                 {titleLabel}

@@ -25,6 +25,14 @@ export const paginationLogic = (page, limit) => {
   return { pageLimit, offset, pageNo };
 };
 
+export const wbPaginationLogic = (page, limit) => {
+  const pageLimit = limit || process.env.WEBSITE_ITEMS_PER_PAGE;
+  const pageNo = Number(page) || 1;
+  const offset = (pageNo - 1) * Number(pageLimit);
+
+  return { pageLimit, offset, pageNo };
+};
+
 export const generateSlug = async (firstName, lastName) => {
   let newSlug = slug(`${firstName} ${lastName}`);
   const checkCount = await pool.query(
