@@ -80,7 +80,7 @@ const WbTestimonials = () => {
           ref={sliderRef}
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper md:h-[450px]"
+          className="mySwiper md:h-[400px]"
           breakpoints={{
             640: {
               slidesPerView: 2,

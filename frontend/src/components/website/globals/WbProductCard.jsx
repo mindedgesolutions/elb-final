@@ -3,7 +3,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import productImg from "@/assets/website/img/job/camera.jpg";
 
-const WbProductCard = ({ product }) => {
+const WbProductCard = ({ product, type }) => {
   const { title, price } = product;
   const imgSrc = "";
   const titleLabel =
@@ -11,7 +11,11 @@ const WbProductCard = ({ product }) => {
 
   return (
     <Link to={`#`}>
-      <article className="rounded-lg bg-white border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 hover:shadow-2xl">
+      <article
+        className={`rounded-lg bg-white border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 ${
+          type === "featured" ? null : "hover:shadow-2xl"
+        }`}
+      >
         <div className="job-post position-relative">
           <div className="flex flex-col group justify-start">
             <div className="w-full sm:h-56 md:h-60 rounded-lg object-cover overflow-hidden">
