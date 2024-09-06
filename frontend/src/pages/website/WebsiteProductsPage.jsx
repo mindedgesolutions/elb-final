@@ -7,10 +7,15 @@ const WebsiteProductsPage = () => {
       <WbPageWrapper>
         <div className="flex flex-row gap-4">
           <WbPostFilter />
-          <div className="basis-3/4 p-4 h-[1024px]">AAA</div>
+          <div className="basis-3/4 p-4"></div>
         </div>
       </WbPageWrapper>
     </>
   );
 };
 export default WebsiteProductsPage;
+
+// Loader function starts ------
+export const loader = ({ params }) => {
+  return null;
+};
