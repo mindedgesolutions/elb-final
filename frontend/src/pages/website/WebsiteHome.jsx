@@ -4,6 +4,7 @@ import {
   WbHomeFeaturedItems,
   WbHomeRecentItems,
   WbProductCardSkeleton,
+  WbSectionWrapper,
   WbTestimonials,
   WbTopSellers,
 } from "@/components";
@@ -33,68 +34,60 @@ const WebsiteHome = () => {
       <WbHomeFeaturedItems featuredData={featuredData} />
 
       {/* Top static banner starts ------ */}
-      <section className="cta-area md:pb-12">
-        <div className="md:w-full sm:px-4 md:px-12">
-          <div className="bg-darkGreen cta-area-bg rounded-lg">
-            <div className="row align-items-center">
-              <div className="col-12 col-xl-7">
-                <div className="cta-content">
-                  <p className="cta-subtitle fw-bold mb-2">
-                    Transform your goals into achievements.{" "}
-                  </p>
-                  <h2 className="section-title-light fw-bold mb-4">
-                    Seamless lending and borrowing - your gateway to financial
-                    freedom!
-                  </h2>
-                  <p className="section-desc-light sm:mb-10 md:mb-40">
-                    Join our revolutionizing platform to connect lenders and
-                    borrowers. Achieve financial freedom and turn visions into
-                    reality!
-                  </p>
+      <WbSectionWrapper>
+        <div className="bg-purple-950 p-16 rounded-lg">
+          <div className="row align-items-center">
+            <div className="col-12 col-xl-7">
+              <div className="cta-content">
+                <p className="cta-subtitle fw-bold mb-2">
+                  Transform your goals into achievements.{" "}
+                </p>
+                <h2 className="section-title-light fw-bold mb-4">
+                  Seamless lending and borrowing - your gateway to financial
+                  freedom!
+                </h2>
+                <p className="section-desc-light sm:mb-10 md:mb-40">
+                  Join our revolutionizing platform to connect lenders and
+                  borrowers. Achieve financial freedom and turn visions into
+                  reality!
+                </p>
+              </div>
+              <div className="cta-counter sm:mt-2 md:mt-5">
+                <div className="cta-counter-item rounded-lg">
+                  <h3 className="cta-counter-title fw-bold">
+                    <span className="counter">950</span>
+                    <span>M+</span>
+                  </h3>
+                  <p className="cta-counter-desc fw-bold">Total Freelancers</p>
                 </div>
-                <div className="cta-counter sm:mt-2 md:mt-5">
-                  <div className="cta-counter-item rounded-lg">
-                    <h3 className="cta-counter-title fw-bold">
-                      <span className="counter">950</span>
-                      <span>M+</span>
-                    </h3>
-                    <p className="cta-counter-desc fw-bold">
-                      Total Freelancers
-                    </p>
-                  </div>
-                  <div className="cta-counter-item rounded-lg">
-                    <h3 className="cta-counter-title fw-bold">
-                      <span className="counter">32</span>
-                      <span>M+</span>
-                    </h3>
-                    <p className="cta-counter-desc fw-bold">
-                      Total Freelancers
-                    </p>
-                  </div>
-                  <div className="cta-counter-item rounded-lg">
-                    <h3 className="cta-counter-title fw-bold">
-                      <span className="counter">120</span>
-                      <span>M+</span>
-                    </h3>
-                    <p className="cta-counter-desc fw-bold">
-                      Total Freelancers
-                    </p>
-                  </div>
+                <div className="cta-counter-item rounded-lg">
+                  <h3 className="cta-counter-title fw-bold">
+                    <span className="counter">32</span>
+                    <span>M+</span>
+                  </h3>
+                  <p className="cta-counter-desc fw-bold">Total Freelancers</p>
+                </div>
+                <div className="cta-counter-item rounded-lg">
+                  <h3 className="cta-counter-title fw-bold">
+                    <span className="counter">120</span>
+                    <span>M+</span>
+                  </h3>
+                  <p className="cta-counter-desc fw-bold">Total Freelancers</p>
                 </div>
               </div>
-              <div className="col-12 col-xl-5 mt-5 mt-xl-0">
-                <div className="cta-img">
-                  <img
-                    src={topBanner}
-                    className="img-fluid w-100 rounded-lg"
-                    alt={import.meta.env.VITE_APP_TITLE}
-                  />
-                </div>
+            </div>
+            <div className="col-12 col-xl-5 mt-5 mt-xl-0">
+              <div className="cta-img">
+                <img
+                  src={topBanner}
+                  className="img-fluid w-100 rounded-lg"
+                  alt={import.meta.env.VITE_APP_TITLE}
+                />
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </WbSectionWrapper>
       {/* Top static banner ends ------ */}
 
       <WbHomeRecentItems recentData={recentData} />
@@ -102,45 +95,43 @@ const WebsiteHome = () => {
       <WbTopSellers />
 
       {/* Bottom banner starts ------ */}
-      <section className="pt-[110px] md:pb-12 bg-white">
-        <div className="container">
-          <div
-            className={`cta-wrapper relative rounded-none bg-[url('@/assets/website/img/common/banner_scnd.jpeg')] bg-no-repeat`}
-          >
-            <div className="row justify-content-between">
-              <div className="col-lg-6">
-                <div>
-                  <h2 className="cta-subtitle fw-bold fw-bold mb-4">
-                    Discover the Power of Connection
-                  </h2>
-                  <h2 className="section-title-light fw-bold mb-4">
-                    Where Lending Meets Borrowing
-                  </h2>
-                  <p className="text-white mb-5">
-                    Empower your future on our trusted platform. Seamless
-                    lending, smart borrowing - where financial success and
-                    opportunities unite
-                  </p>
-                  <WbCustomBtn
-                    title={`get started`}
-                    href={`/sign-up`}
-                    customWidth="w-56"
-                  />
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div>
-                  <img
-                    src={secBannerImg}
-                    className="cta-people position-absolute d-none d-lg-block"
-                    alt={import.meta.env.VITE_APP_TITLE}
-                  />
-                </div>
+      <WbSectionWrapper>
+        <div
+          className={`w-full p-16 relative rounded-lg bg-[url('@/assets/website/img/common/banner_scnd.jpeg')]`}
+        >
+          <div className="row justify-content-between">
+            <div className="col-lg-6">
+              <div>
+                <h2 className="cta-subtitle fw-bold fw-bold mb-4">
+                  Discover the Power of Connection
+                </h2>
+                <h2 className="section-title-light fw-bold mb-4">
+                  Where Lending Meets Borrowing
+                </h2>
+                <p className="text-white mb-5">
+                  Empower your future on our trusted platform. Seamless lending,
+                  smart borrowing - where financial success and opportunities
+                  unite
+                </p>
+                <WbCustomBtn
+                  title={`get started`}
+                  href={`/sign-up`}
+                  customWidth="w-56"
+                />
               </div>
             </div>
+            {/* <div className="col-lg-6">
+              <div>
+                <img
+                  src={secBannerImg}
+                  className="cta-people position-absolute d-none d-lg-block"
+                  alt={import.meta.env.VITE_APP_TITLE}
+                />
+              </div>
+            </div> */}
           </div>
         </div>
-      </section>
+      </WbSectionWrapper>
       {/* Bottom banner ends ------ */}
 
       <WbTestimonials />

@@ -11,7 +11,7 @@ const WbSectionTitle = ({
   return (
     <div className="flex sm:flex-col md:flex-row justify-between sm:items-start md:items-end p-2 sm:mb-5">
       <div className="flex flex-col">
-        <h2 className="sm:text-2xl md:text-[40px] font-extrabold capitalize sm:tracking-normal md:tracking-wide sm:mb-2 md:mb-5">
+        <h2 className="sm:text-2xl md:text-[40px] font-extrabold capitalize sm:tracking-normal md:tracking-widest sm:mb-2 md:mb-5">
           {title}
         </h2>
         {description && <p className="section-desc">{description}</p>}
