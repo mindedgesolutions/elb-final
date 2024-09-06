@@ -33,8 +33,8 @@ const WebsiteHome = () => {
       <WbHomeFeaturedItems featuredData={featuredData} />
 
       {/* Top static banner starts ------ */}
-      <section className="cta-area">
-        <div className="container">
+      <section className="cta-area md:pb-12">
+        <div className="md:w-full sm:px-4 md:px-12">
           <div className="bg-darkGreen cta-area-bg rounded-lg">
             <div className="row align-items-center">
               <div className="col-12 col-xl-7">
@@ -102,7 +102,7 @@ const WebsiteHome = () => {
       <WbTopSellers />
 
       {/* Bottom banner starts ------ */}
-      <section className="mt-[110px]">
+      <section className="pt-[110px] md:pb-12 bg-white">
         <div className="container">
           <div
             className={`cta-wrapper relative rounded-none bg-[url('@/assets/website/img/common/banner_scnd.jpeg')] bg-no-repeat`}

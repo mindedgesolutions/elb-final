@@ -1,4 +1,10 @@
+import { WbPageBanner } from "@/components";
+
 const WebsiteProductsPage = () => {
-  return <div>WebsiteProductsPage</div>;
+  return (
+    <>
+      <WbPageBanner />
+    </>
+  );
 };
 export default WebsiteProductsPage;

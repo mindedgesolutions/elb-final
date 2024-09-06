@@ -11,7 +11,7 @@ const WbProductCard = ({ product }) => {
 
   return (
     <Link to={`#`}>
-      <article className="rounded-lg border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 hover:shadow-2xl">
+      <article className="rounded-lg bg-white border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 hover:shadow-2xl">
         <div className="job-post position-relative">
           <div className="flex flex-col group justify-start">
             <div className="w-full sm:h-56 md:h-60 rounded-lg object-cover overflow-hidden">

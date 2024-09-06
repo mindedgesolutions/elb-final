@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
-import { WbProductCard, WbSectionTitle } from "@/components";
+import { WbProductCard, WbSectionTitle, WbSectionWrapper } from "@/components";
 import { useCallback, useRef } from "react";
 
 const WbHomeFeaturedItems = ({ featuredData }) => {
@@ -28,52 +28,50 @@ const WbHomeFeaturedItems = ({ featuredData }) => {
   };
 
   return (
-    <section className="sm:py-5 md:py-10 sm:mt-5 md:mt-10">
-      <div className="container">
-        <WbSectionTitle
-          title={`featured products`}
-          description={`Get some best-selling products`}
-          handleNext={handleNext}
-          handlePrev={handlePrev}
-        />
-        <div
-          className="swiper #swiper-container"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+    <WbSectionWrapper>
+      <WbSectionTitle
+        title={`featured products`}
+        description={`Get some best-selling products`}
+        handleNext={handleNext}
+        handlePrev={handlePrev}
+      />
+      <div
+        className="swiper #swiper-container"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Swiper
+          loop={true}
+          autoplay={{ delay: 3000 }}
+          ref={sliderRef}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className="mySwiper md:h-[450px]"
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 5,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 10,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 10,
+            },
+          }}
         >
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 3000 }}
-            ref={sliderRef}
-            navigation={true}
-            modules={[Autoplay, Pagination, Navigation]}
-            className="mySwiper md:h-[450px]"
-            breakpoints={{
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 5,
-              },
-              768: {
-                slidesPerView: 4,
-                spaceBetween: 10,
-              },
-              1024: {
-                slidesPerView: 5,
-                spaceBetween: 10,
-              },
-            }}
-          >
-            {featuredData?.map((product) => {
-              return (
-                <SwiperSlide key={nanoid()}>
-                  <WbProductCard product={product} />
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
+          {featuredData?.map((product) => {
+            return (
+              <SwiperSlide key={nanoid()}>
+                <WbProductCard product={product} />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
       </div>
-    </section>
+    </WbSectionWrapper>
   );
 };
 export default WbHomeFeaturedItems;
