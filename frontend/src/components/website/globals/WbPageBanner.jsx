@@ -1,5 +1,4 @@
 import defaultImg from "@/assets/website/img/common/breadcrumb-bg.png";
-import { Link } from "react-router-dom";
 
 const WbPageBanner = ({ banner }) => {
   return (

@@ -562,6 +562,7 @@ body {
   border-radius: 50%;
   color: var(--dark-200);
   border-color: var(--dark-100);
+  outline: none !important;
 }
 .custom-page-link.page-link:hover {
   background-color: var(--lime-300);
@@ -583,6 +584,7 @@ body {
   background-color: var(--lime-300);
   color: var(--white);
   border: transparent;
+  outline: none;
 }
 /*Custom Pagination End */
 /* Section */

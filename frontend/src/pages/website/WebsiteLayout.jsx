@@ -12,12 +12,12 @@ import { setAllCategories } from "@/features/categorySlice";
 
 const WebsiteLayout = () => {
   return (
-    <>
+    <div>
       <WbTopnav />
       <WbTopMenu />
       <Outlet />
       <WbFooter />
-    </>
+    </div>
   );
 };
 export default WebsiteLayout;
