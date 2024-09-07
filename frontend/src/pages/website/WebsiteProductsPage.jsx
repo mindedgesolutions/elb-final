@@ -39,7 +39,7 @@ const WebsiteProductsPage = () => {
         <div className="flex mt-16">
           <div className="basis-1/4">&nbsp;</div>
           <div className="basis-3/4">
-            {postMeta.totalPages > 1 && <WbPaginationContainer />}
+            {postMeta?.totalPages > 1 && <WbPaginationContainer />}
           </div>
         </div>
       </WbPageWrapper>
@@ -53,6 +53,7 @@ export const loader = async ({ request }) => {
   const search = Object.fromEntries([
     ...new URL(request.url).searchParams.entries(),
   ]);
+  console.log(search);
   try {
     const response = await customFetch.get(`/website/posts`, {
       params: search,
