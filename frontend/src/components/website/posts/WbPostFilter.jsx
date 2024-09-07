@@ -4,19 +4,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Form } from "react-router-dom";
+import { Form, useLocation, useNavigate } from "react-router-dom";
 
 const WbPostFilter = () => {
   const stars = Array.from({ length: 5 }, (_, index) => 5 - index);
   const { allCategories } = useSelector((store) => store.categories);
   const parents = allCategories?.filter((i) => i.parent_id === null);
   const [children, setChildren] = useState([]);
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryString = new URLSearchParams(search);
 
   const [form, setForm] = useState({
-    cat: "",
-    scat: "",
-    min: "",
-    max: "",
+    cat: queryString.get("cat") || "",
+    scat: queryString.get("scat") || "",
+    min: queryString.get("min") || "",
+    max: queryString.get("max") || "",
     rating: "",
   });
 
@@ -30,6 +33,11 @@ const WbPostFilter = () => {
         .sort((a, b) => a.category.localeCompare(b.category));
       setChildren(ch);
     }
+  };
+
+  const resetForm = () => {
+    setForm({ ...form, cat: "", scat: "", min: "", max: "", rating: "" });
+    navigate(`/products/recent`);
   };
 
   return (
@@ -86,6 +94,8 @@ const WbPostFilter = () => {
               name="min"
               id="min"
               placeholder="Min."
+              value={form.min}
+              onChange={handleChange}
             />
             <input
               type="number"
@@ -93,6 +103,8 @@ const WbPostFilter = () => {
               name="max"
               id="max"
               placeholder="Max."
+              value={form.max}
+              onChange={handleChange}
             />
           </span>
         </div>
@@ -124,7 +136,12 @@ const WbPostFilter = () => {
             >
               SEARCH
             </Button>
-            <Button type="button" variant="outline" className="basis-1/2">
+            <Button
+              type="button"
+              variant="ghost"
+              className="basis-1/2"
+              onClick={resetForm}
+            >
               RESET
             </Button>
           </SearchBtnLayout>

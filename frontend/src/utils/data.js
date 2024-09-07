@@ -12,3 +12,10 @@ export const postStatus = [
   { value: "featured", label: "featured" },
   { value: "not_featured", label: "not featured" },
 ];
+
+export const sortBy = [
+  { value: "1-2", label: "Price low to high" },
+  { value: "2-1", label: "Price high to low" },
+  { value: "a-b", label: "A to z" },
+  { value: "b-a", label: "Z to a" },
+];
