@@ -10,7 +10,7 @@ const WbProductCard = ({ product, type }) => {
     title.split("").length > 58 ? title.substring(0, 58) + " ..." : title;
 
   return (
-    <Link to={`#`}>
+    <Link to={`/products/${product.slug}`}>
       <article
         className={`rounded-lg bg-white border-2 border-gray-200 transition duration-500 hover:border-b hover:border-b-fuchsia-700 ${
           type === "featured" ? null : "hover:shadow-2xl"

@@ -53,7 +53,7 @@ export const loader = async ({ request }) => {
   const search = Object.fromEntries([
     ...new URL(request.url).searchParams.entries(),
   ]);
-  console.log(search);
+
   try {
     const response = await customFetch.get(`/website/posts`, {
       params: search,

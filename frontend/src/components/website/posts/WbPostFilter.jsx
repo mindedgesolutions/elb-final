@@ -37,7 +37,7 @@ const WbPostFilter = () => {
 
   const resetForm = () => {
     setForm({ ...form, cat: "", scat: "", min: "", max: "", rating: "" });
-    navigate(`/products/recent`);
+    navigate(`/products/all`);
   };
 
   return (

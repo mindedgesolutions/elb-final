@@ -5,7 +5,7 @@ import { wbPaginationLogic } from "../../utils/functions.js";
 // ------
 export const featuredProducts = async (req, res) => {
   const data = await pool.query(
-    `select title, price from elb_product where is_feature=true and is_active=true order by updated_at, title`,
+    `select id, slug, title, price from elb_product where is_feature=true and is_active=true order by updated_at, title`,
     []
   );
 
@@ -110,4 +110,55 @@ export const wbListPosts = async (req, res) => {
   };
 
   res.status(StatusCodes.OK).json({ data, meta });
+};
+
+// ------
+export const wbSinglePost = async (req, res) => {
+  const { slug } = req.params;
+
+  const master = await pool.query(
+    `select pm.*,
+    cat.category as cat,
+    scat.category as subcat,
+    um.first_name,
+    um.last_name,
+    um.email,
+    um.mobile,
+    um.slug
+    from elb_product pm
+    join elb_users um on pm.user_id = um.id
+    join master_categories cat on cat.id = pm.cat_id
+    join master_categories scat on scat.id = pm.subcat_id
+    where pm.slug=$1`,
+    [slug]
+  );
+
+  const productDetails = await pool.query(
+    `select pd.* from elb_product_details pd where product_id=$1`,
+    [master.rows[0].id]
+  );
+
+  let details = [];
+  for (const row of productDetails.rows) {
+    const label = await pool.query(
+      `select field_label from elb_form_attributes where id=$1`,
+      [row.attr_id]
+    );
+
+    let value = "";
+    if (row.attr_db_value) {
+      const dbValue = await pool.query(
+        `select option_value from elb_formfield_options where id=$1`,
+        [row.attr_db_value]
+      );
+      value = dbValue.rows[0].option_value;
+    } else {
+      value = row.attr_entry;
+    }
+
+    const obj = { label: label.rows[0].field_label, value: value };
+    details.push(obj);
+  }
+
+  res.status(StatusCodes.OK).json({ master, details });
 };
