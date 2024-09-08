@@ -26,7 +26,7 @@ const WebsiteSingleProductPage = () => {
       <WbPageBanner />
       <WbPageWrapper>
         <div className="flex sm:flex-col md:flex-row gap-4">
-          <div className="basis-1/3 p-6 bg-pink-200">
+          <div className="basis-1/3">
             <WbProductCarousel />
           </div>
           <div className="basis-2/3 flex gap-4">
@@ -59,6 +59,7 @@ const WebsiteSingleProductPage = () => {
                 </h3>
                 <p className="py-4">{master.description}</p>
               </div>
+              {/* Product specifications starts ------ */}
               {product.details.length > 0 && (
                 <>
                   <Separator />
@@ -82,6 +83,7 @@ const WebsiteSingleProductPage = () => {
                   </div>
                 </>
               )}
+              {/* Product specifications ends ------ */}
             </div>
 
             {/* Seller section starts ------ */}
