@@ -1,13 +1,11 @@
-Immediate worklist
+File upload
+Filter > sub-category not selected - /products/all
 
 Admin:
-Image upload - Saturday
+update post
+view post
+view seller profile
 
-Website:
-Homepage > Remaining - WIP
-Product details page
-Static review section
-
-User:
-Post list
-Add post
+Single product page :
+Search for a better slider
+With thumbnail display

@@ -11,6 +11,7 @@ import { loader as websiteLayoutLoader } from "@/pages/website/WebsiteLayout";
 import { loader as editFormFieldLoader } from "@/pages/admin/masters/AdminFormFieldEdit";
 import { loader as wbHomeLoader } from "@/pages/website/WebsiteHome";
 import { loader as productLoader } from "@/pages/website/WebsiteProductsPage";
+import { loader as singleProductLoader } from "@/pages/website/WebsiteSingleProductPage";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -27,9 +28,14 @@ const router = createBrowserRouter([
       { path: `sellers`, element: <Elb.WebsiteSellers /> },
       { path: `seller/:slug`, element: <Elb.WebsiteSeller /> },
       {
-        path: `products/:filter?`,
+        path: `products/all`,
         element: <Elb.WebsiteProductsPage />,
         loader: productLoader,
+      },
+      {
+        path: `products/:slug`,
+        element: <Elb.WebsiteSingleProductPage />,
+        loader: singleProductLoader,
       },
     ],
   },

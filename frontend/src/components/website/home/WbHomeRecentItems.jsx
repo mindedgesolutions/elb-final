@@ -6,7 +6,7 @@ const WbHomeRecentItems = ({ recentData }) => {
       <WbSectionTitle
         title={`recent products`}
         description={`Get some recent products`}
-        href={`/products/recent`}
+        href={`/products/all`}
       />
       <div className="grid md:grid-cols-5 gap-2">
         {recentData?.map((product) => {

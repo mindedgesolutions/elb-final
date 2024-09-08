@@ -30,3 +30,4 @@ export { default as WebsiteSearch } from "./website/WebsiteSearch";
 export { default as WebsiteSeller } from "./website/WebsiteSeller";
 export { default as WebsiteSellers } from "./website/WebsiteSellers";
 export { default as WebsiteProductsPage } from "./website/WebsiteProductsPage";
+export { default as WebsiteSingleProductPage } from "./website/WebsiteSingleProductPage";

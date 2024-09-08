@@ -54,5 +54,6 @@ export { default as WbSellerCard } from "./website/globals/WbSellerCard";
 export { default as WbTopSellers } from "./website/home/WbTopSellers";
 export { default as WbTestimonials } from "./website/home/WbTestimonials";
 export { default as WbPostFilter } from "./website/posts/WbPostFilter";
-export { default as WbPostSorting } from "./website/posts/WbPostSorting";
 export { default as WbPaginationContainer } from "./website/globals/WbPaginationContainer";
+export { default as WbPostSorting } from "./website/posts/WbPostSorting";
+export { default as WbProductCarousel } from "./website/posts/WbProductCarousel";
