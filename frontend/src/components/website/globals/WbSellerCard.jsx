@@ -28,7 +28,10 @@ const WbSellerCard = () => {
               <span className="text-xs">4.9 (399 Reviews)</span>
             </p>
           </div>
-          <WbCustomBtn href={`#`} title={`view profile`} />
+          <WbCustomBtn
+            href={`/seller/souvik-nag-admin`}
+            title={`view profile`}
+          />
         </div>
       </div>
     </div>

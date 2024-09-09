@@ -1,14 +1,20 @@
 File upload
 Filter > sub-category not selected - /products/all
 
+<!-- ------ -->
+
 Admin:
 update post
 view post
 view seller profile
 
+<!-- ------ -->
+
 Single product page :
 Search for a better slider
 With thumbnail display
+
+<!-- ------ -->
 
 Changes in elb_reviews:
 review_by bigint
@@ -16,11 +22,15 @@ rating smallint
 created_at timestamp without time zone
 updated_at timestamp without time zone
 
+<!-- ------ -->
+
 CONSTRAINT post_id FOREIGN KEY (post_id)
 REFERENCES public.elb_product (id) MATCH SIMPLE
 ON UPDATE SET NULL
 ON DELETE SET NULL
 NOT VALID
+
+<!-- ------ -->
 
 -- Table: public.elb_reviews
 
@@ -49,3 +59,9 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.elb_reviews
 OWNER to postgres;
+
+<!-- ------ -->
+
+change redirection URL in seller card
+
+<!-- ------ -->

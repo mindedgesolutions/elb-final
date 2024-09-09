@@ -183,7 +183,6 @@ export const wbPostReviews = async (req, res) => {
   const postId = await pool.query(`select id from elb_product where slug=$1`, [
     slug,
   ]);
-  console.log(postId.rows[0].id);
 
   const data = await pool.query(
     `select

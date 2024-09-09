@@ -12,6 +12,7 @@ import { loader as editFormFieldLoader } from "@/pages/admin/masters/AdminFormFi
 import { loader as wbHomeLoader } from "@/pages/website/WebsiteHome";
 import { loader as productLoader } from "@/pages/website/WebsiteProductsPage";
 import { loader as singleProductLoader } from "@/pages/website/WebsiteSingleProductPage";
+import { loader as sellerProfileLoader } from "@/pages/website/WebsiteSeller";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -26,7 +27,11 @@ const router = createBrowserRouter([
       { path: `cat/:category/:subcategory?`, element: <Elb.WebsiteCategory /> },
       { path: `search`, element: <Elb.WebsiteSearch /> },
       { path: `sellers`, element: <Elb.WebsiteSellers /> },
-      { path: `seller/:slug`, element: <Elb.WebsiteSeller /> },
+      {
+        path: `seller/:slug`,
+        element: <Elb.WebsiteSeller />,
+        loader: sellerProfileLoader,
+      },
       {
         path: `products/all`,
         element: <Elb.WebsiteProductsPage />,

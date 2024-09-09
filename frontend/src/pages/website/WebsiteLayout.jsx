@@ -5,7 +5,7 @@ import "../../assets/website/css/style.css";
 import "../../assets/website/css/abc.css";
 import "../../assets/website/css/resposive.css";
 
-import { WbFooter, WbTopMenu, WbTopnav } from "@/components";
+import { WbFooter, WbLoginPopup, WbTopMenu, WbTopnav } from "@/components";
 import splitErrors from "@/utils/splitErrors";
 import customFetch from "@/utils/customFetch";
 import { setAllCategories } from "@/features/categorySlice";
@@ -17,6 +17,7 @@ const WebsiteLayout = () => {
       <WbTopMenu />
       <Outlet />
       <WbFooter />
+      <WbLoginPopup />
     </div>
   );
 };

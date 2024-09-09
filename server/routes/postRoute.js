@@ -14,6 +14,7 @@ import {
   validateAddReview,
 } from "../middleware/postMiddleware.js";
 import { addPostReview } from "../controllers/user/userPostController.js";
+import { getSellerProfile } from "../controllers/user/profileController.js";
 
 router.route(`/admin`).post(validateAddPost, addPost).get(adminListPost);
 router
@@ -25,5 +26,6 @@ router
 router.patch(`/toggle-featured/:id`, toggleFeatured);
 router.patch(`/toggle-sold/:id`, toggleSold);
 router.post(`/add-review/:id`, validateAddReview, addPostReview);
+router.get(`/seller-profile/:slug`, getSellerProfile);
 
 export default router;

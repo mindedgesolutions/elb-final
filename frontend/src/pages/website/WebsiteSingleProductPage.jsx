@@ -124,7 +124,10 @@ const WebsiteSingleProductPage = () => {
                       <p className="text-md font-medium tracking-widest uppercase mb-2">
                         Want to buy?
                       </p>
-                      <WbCustomBtn href={`#`} title={`contact me`} />
+                      <WbCustomBtn
+                        href={`/seller/${master.slug}`}
+                        title={`contact me`}
+                      />
                     </div>
                   </div>
                 </div>
@@ -133,7 +136,7 @@ const WebsiteSingleProductPage = () => {
             {/* Seller section ends ------ */}
           </div>
         </div>
-        <div className="flex mt-10">
+        <div className="flex mt-10 pb-16">
           <WbProductReviews />
         </div>
       </WbPageWrapper>
