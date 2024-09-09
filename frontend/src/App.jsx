@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       {
         path: `products/:slug`,
         element: <Elb.WebsiteSingleProductPage />,
-        loader: singleProductLoader,
+        loader: singleProductLoader(store),
       },
     ],
   },

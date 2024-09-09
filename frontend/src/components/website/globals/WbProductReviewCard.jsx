@@ -1,40 +1,43 @@
 import { WbRepeatStars } from "@/components";
+import dayjs from "dayjs";
 import { useState } from "react";
 
-const WbProductReviewCard = () => {
+const WbProductReviewCard = ({ review }) => {
+  const { rating, message, first_name, last_name, updated_at } = review;
   const [showMore, setShowMore] = useState(false);
-
-  const review =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt delectus praesentium ipsum quis at corrupti incidunt numquam mollitia consequatur dolores. Eos quisquam nihil, inventore delectus, mollitia consequuntur in odio earum dolores, dignissimos dolor vero nobis labore ea sit veniam aspernatur!";
 
   const toggleMore = () => {
     setShowMore(!showMore);
   };
 
+  if (!message) {
+    return null;
+  }
+
   const reviewLabel = showMore
-    ? review
-    : review.length > 150
-    ? review.substring(0, 150) + ` ...`
-    : review;
+    ? message
+    : message.length > 150
+    ? message.substring(0, 150) + ` ...`
+    : message;
 
   return (
-    <section className="p-4 border border-gray-200 rounded-md">
+    <section className="p-[10px] border border-gray-200 rounded-md group">
       <div className="flex justify-between items-center">
         <div className="flex gap-1">
-          <WbRepeatStars count={5} />
+          <WbRepeatStars count={rating} />
         </div>
         <span className="text-xs font-extralight">
-          Tuesday, September 3, 2024 8:34 PM
+          {dayjs(new Date(updated_at)).format("dddd, MMMM D, YYYY h:mm A")}
         </span>
       </div>
-      <div className="flex gap-4 mt-4 group">
-        <div className="min-w-20 h-20 text-4xl font-bold tracking-wider text-gray-700 group-hover:text-gray-600 bg-gray-100 flex justify-center items-center">
+      <div className="flex gap-4 mt-4">
+        <div className="min-w-20 h-20 text-4xl font-bold tracking-wider text-gray-950 group-hover:text-gray-700 bg-gray-100 flex justify-center items-center">
           SN
         </div>
         <div className="flex flex-col">
-          <p className="text-xs font-extralight italic tracking-wider text-justify">
+          <p className="text-xs font-normal italic tracking-wider text-justify">
             {reviewLabel}
-            {review.length > 120 && (
+            {message.length > 120 && (
               <button
                 type="button"
                 className="ml-4 text-sm font-medium text-fuchsia-500 hover:text-fuchsia-600 capitalize"
@@ -44,7 +47,9 @@ const WbProductReviewCard = () => {
               </button>
             )}
           </p>
-          <h3 className="mt-3 text-md font-medium text-gray-800">Souvik Nag</h3>
+          <h3 className="mt-3 text-md font-medium text-gray-800 uppercase tracking-wide">
+            Souvik Nag
+          </h3>
         </div>
       </div>
     </section>

@@ -46,3 +46,16 @@ export const validateAddPost = withValidationErrors([
     .isLength({ min: 3, max: 500 })
     .withMessage(`Post title must be between 3 to 500 characters`),
 ]);
+
+export const validateAddReview = withValidationErrors([
+  body("rating").custom((value) => {
+    if (!value || value === 0) {
+      throw new BadRequestError(`Rating is required`);
+    }
+    return true;
+  }),
+  body("review")
+    .optional()
+    .isLength({ max: 500 })
+    .withMessage(`Review cannot be more than 500 characters`),
+]);
