@@ -4,6 +4,7 @@ import {
   WbPageBanner,
   WbPageWrapper,
   WbProductCarousel,
+  WbProductReviews,
   WbRepeatStars,
 } from "@/components";
 import { Separator } from "@/components/ui/separator";
@@ -17,7 +18,7 @@ import profile from "@/assets/profile.jpg";
 const WebsiteSingleProductPage = () => {
   const { product } = useLoaderData();
   const master = product.master.rows[0];
-  // product.details;
+  document.title = `${master.title} | ${import.meta.env.VITE_APP_TITLE}`;
   const sellerName = master.first_name + " " + master.last_name;
   const rating = 4;
 
@@ -35,7 +36,7 @@ const WebsiteSingleProductPage = () => {
                 <h3 className="text-3xl font-bold text-gray-900 tracking-wide pb-4">
                   {master.title}
                 </h3>
-                <div className="flex justify-start items-center text-md text-gray-800 font-medium">
+                <div className="flex justify-start items-center text-sm text-gray-800 font-medium">
                   <p className="tracking-wide leading-loose">
                     Posted by{" "}
                     <span className="ml-1 mr-2 cursor-pointer text-fuchsia-500 hover:text-fuchsia-400 visited:text-purple-600">
@@ -45,7 +46,7 @@ const WebsiteSingleProductPage = () => {
                   <WbRepeatStars count={4} />{" "}
                   <span className="ml-2 tracking-wide">(201 ratings)</span>
                 </div>
-                <p className="tracking-wide pb-2 font-medium">
+                <p className="tracking-wide text-sm pb-2 font-medium">
                   on{" "}
                   <span className="mx-1">
                     {dayjs(new Date(master.created_at)).format(
@@ -57,19 +58,20 @@ const WebsiteSingleProductPage = () => {
                 <h3 className="py-2 mb-2 text-3xl font-medium tracking-wide">
                   {currencyFormat().format(master.price)}
                 </h3>
-                <p className="py-4">{master.description}</p>
+                <p className="py-4 text-sm leading-relaxed">
+                  {master.description}
+                </p>
               </div>
               {/* Product specifications starts ------ */}
               {product.details.length > 0 && (
                 <>
-                  <Separator />
-                  <div className="py-4">
+                  <div className="py-4 mt-4">
                     <h3 className="mb-4 text-xl font-medium tracking-wide uppercase">
                       Specifications
                     </h3>
                     {product.details.map((info, index) => {
                       return (
-                        <div key={index}>
+                        <div key={index} className="text-sm">
                           <div className="flex gap-4 py-3">
                             <div className="basis-1/2 uppercase">
                               {info.label}
@@ -130,9 +132,9 @@ const WebsiteSingleProductPage = () => {
             {/* Seller section ends ------ */}
           </div>
         </div>
-        <div className="flex">
-          <div className="basis-2/3 p-6 bg-purple-200 my-8">
-            Seller reviews and ratings
+        <div className="flex mt-10">
+          <div className="basis-2/3">
+            <WbProductReviews reviews={master.product_reviews} />
           </div>
         </div>
       </WbPageWrapper>
