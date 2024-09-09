@@ -42,7 +42,7 @@ const WebsiteProductsPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex mt-16">
+        <div className="flex mt-16 pb-16">
           <div className="basis-1/5">&nbsp;</div>
           <div className="basis-4/5">
             {postMeta?.totalPages > 1 && <WbPaginationContainer />}

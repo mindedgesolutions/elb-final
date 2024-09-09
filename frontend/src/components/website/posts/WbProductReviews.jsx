@@ -32,7 +32,7 @@ const WbProductReviews = () => {
       : 0;
 
   return (
-    <div className="flex flex-col pb-16 w-full">
+    <div className="flex flex-col w-full">
       <div className="flex">
         <div className="basis-1/2">
           <div className="flex flex-col">
