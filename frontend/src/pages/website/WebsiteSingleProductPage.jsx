@@ -14,9 +14,10 @@ import splitErrors from "@/utils/splitErrors";
 import dayjs from "dayjs";
 import { useLoaderData } from "react-router-dom";
 import profile from "@/assets/profile.jpg";
+import { setListReviews } from "@/features/postSlice";
 
 const WebsiteSingleProductPage = () => {
-  const { product } = useLoaderData();
+  const { product, reviews } = useLoaderData();
   const master = product.master.rows[0];
   document.title = `${master.title} | ${import.meta.env.VITE_APP_TITLE}`;
   const sellerName = master.first_name + " " + master.last_name;
@@ -133,9 +134,7 @@ const WebsiteSingleProductPage = () => {
           </div>
         </div>
         <div className="flex mt-10">
-          <div className="basis-2/3">
-            <WbProductReviews reviews={master.product_reviews} />
-          </div>
+          <WbProductReviews />
         </div>
       </WbPageWrapper>
     </>
@@ -144,16 +143,24 @@ const WebsiteSingleProductPage = () => {
 export default WebsiteSingleProductPage;
 
 // Loader function starts ------
-export const loader = async ({ params }) => {
-  const { slug } = params;
+export const loader =
+  (store) =>
+  async ({ params }) => {
+    const { slug } = params;
 
-  try {
-    const response = await customFetch.get(`/website/posts/${slug}`);
-    const product = response.data;
+    try {
+      const response = await customFetch.get(`/website/posts/${slug}`);
+      const product = response.data;
 
-    return { product };
-  } catch (error) {
-    splitErrors(error?.response?.data?.msg);
-    return error;
-  }
-};
+      const productReviews = await customFetch.get(
+        `/website/posts/reviews/${slug}`
+      );
+      const reviews = productReviews.data;
+      store.dispatch(setListReviews(productReviews.data.data.rows));
+
+      return { product, reviews };
+    } catch (error) {
+      splitErrors(error?.response?.data?.msg);
+      return error;
+    }
+  };

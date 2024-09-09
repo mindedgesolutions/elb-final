@@ -118,6 +118,7 @@ export const wbSinglePost = async (req, res) => {
 
   const master = await pool.query(
     `select pm.*,
+    pm.slug as productSlug,
     cat.category as cat,
     scat.category as subcat,
     um.first_name,
@@ -173,4 +174,25 @@ export const wbSinglePost = async (req, res) => {
   }
 
   res.status(StatusCodes.OK).json({ master, details });
+};
+
+// ------
+export const wbPostReviews = async (req, res) => {
+  const { slug } = req.params;
+
+  const postId = await pool.query(`select id from elb_product where slug=$1`, [
+    slug,
+  ]);
+  console.log(postId.rows[0].id);
+
+  const data = await pool.query(
+    `select
+    er.*,
+    um.first_name,
+    um.last_name
+    from elb_reviews er
+    join elb_users um on er.review_by = um.id where er.post_id=$1 order by er.updated_at desc`,
+    [postId.rows[0].id]
+  );
+  res.status(StatusCodes.OK).json({ data });
 };
