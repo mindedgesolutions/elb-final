@@ -124,12 +124,24 @@ export const wbSinglePost = async (req, res) => {
     um.last_name,
     um.email,
     um.mobile,
-    um.slug
+    um.slug,
+    json_agg(
+      json_build_object(
+        'id', pr.id,
+        'review_by', pr.review_by,
+        'rating', pr.rating,
+        'message', pr.message,
+        'updated_at', pr.updated_at,
+        'is_publish', pr.is_publish,
+        'is_active', pr.is_active
+      )
+    ) AS product_reviews
     from elb_product pm
     join elb_users um on pm.user_id = um.id
     join master_categories cat on cat.id = pm.cat_id
     join master_categories scat on scat.id = pm.subcat_id
-    where pm.slug=$1`,
+    left join elb_reviews pr on pr.post_id = pm.id
+    where pm.slug=$1 group by pm.id, cat.category, scat.category, um.first_name, um.last_name, um.email, um.mobile, um.slug`,
     [slug]
   );
 

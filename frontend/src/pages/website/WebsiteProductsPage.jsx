@@ -12,6 +12,10 @@ import splitErrors from "@/utils/splitErrors";
 import { useLoaderData, useNavigation } from "react-router-dom";
 
 const WebsiteProductsPage = () => {
+  document.title = `All the Products we Offer! | ${
+    import.meta.env.VITE_APP_TITLE
+  }`;
+
   const { posts, postMeta } = useLoaderData();
   window.scrollTo(0, 0);
   const navigation = useNavigation();
@@ -26,8 +30,10 @@ const WebsiteProductsPage = () => {
       <WbPageBanner />
       <WbPageWrapper>
         <div className="flex flex-row gap-4">
-          <WbPostFilter />
-          <div className="basis-3/4">
+          <div className="w-[350px] p-4 rounded-sm">
+            <WbPostFilter />
+          </div>
+          <div className="basis-4/5">
             <WbPostSorting />
             <div className="grid md:grid-cols-4 gap-3">
               {posts?.map((post) => {
@@ -37,8 +43,8 @@ const WebsiteProductsPage = () => {
           </div>
         </div>
         <div className="flex mt-16">
-          <div className="basis-1/4">&nbsp;</div>
-          <div className="basis-3/4">
+          <div className="basis-1/5">&nbsp;</div>
+          <div className="basis-4/5">
             {postMeta?.totalPages > 1 && <WbPaginationContainer />}
           </div>
         </div>

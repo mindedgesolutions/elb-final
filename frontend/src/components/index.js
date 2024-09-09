@@ -51,9 +51,12 @@ export { default as WbHomeFeaturedItems } from "./website/home/WbHomeFeaturedIte
 export { default as WbHomeRecentItems } from "./website/home/WbHomeRecentItems";
 export { default as WbCustomBtn } from "./website/globals/WbCustomBtn";
 export { default as WbSellerCard } from "./website/globals/WbSellerCard";
+export { default as WbProductReviewCard } from "./website/globals/WbProductReviewCard";
+export { default as WbRatingStatusbar } from "./website/globals/WbRatingStatusbar";
 export { default as WbTopSellers } from "./website/home/WbTopSellers";
 export { default as WbTestimonials } from "./website/home/WbTestimonials";
 export { default as WbPostFilter } from "./website/posts/WbPostFilter";
 export { default as WbPaginationContainer } from "./website/globals/WbPaginationContainer";
 export { default as WbPostSorting } from "./website/posts/WbPostSorting";
 export { default as WbProductCarousel } from "./website/posts/WbProductCarousel";
+export { default as WbProductReviews } from "./website/posts/WbProductReviews";
