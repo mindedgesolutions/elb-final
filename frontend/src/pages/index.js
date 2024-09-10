@@ -8,6 +8,7 @@ export { default as AdminMasters } from "./admin/AdminMasters";
 export { default as AdminUsers } from "./admin/AdminUsers";
 export { default as AdminPosts } from "./admin/posts/AdminPosts";
 export { default as AdminNewPost } from "./admin/posts/AdminNewPost";
+export { default as AdminPostReviews } from "./admin/posts/AdminPostReviews";
 export { default as AdminCategories } from "./admin/masters/AdminCategories";
 export { default as AdminFormFields } from "./admin/masters/AdminFormFields";
 export { default as AdminFormFieldEdit } from "./admin/masters/AdminFormFieldEdit";

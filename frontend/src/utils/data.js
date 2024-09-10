@@ -19,3 +19,10 @@ export const sortBy = [
   { value: "a-b", label: "A to z" },
   { value: "b-a", label: "Z to a" },
 ];
+
+export const reviewTypes = [
+  { value: "all", label: "all reviews" },
+  { value: "new", label: "new / unpublished reviews" },
+  { value: "published", label: "published reviews" },
+  { value: "rejected", label: "rejected reviews" },
+];

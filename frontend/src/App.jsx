@@ -88,6 +88,7 @@ const router = createBrowserRouter([
       { path: `users`, element: <Elb.AdminUsers /> },
       { path: `posts`, element: <Elb.AdminPosts /> },
       { path: `post/new`, element: <Elb.AdminNewPost /> },
+      { path: `post/reviews`, element: <Elb.AdminPostReviews /> },
     ],
   },
   // Admin routes end ------
