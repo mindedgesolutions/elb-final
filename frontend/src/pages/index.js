@@ -31,3 +31,5 @@ export { default as WebsiteSeller } from "./website/WebsiteSeller";
 export { default as WebsiteSellers } from "./website/WebsiteSellers";
 export { default as WebsiteProductsPage } from "./website/WebsiteProductsPage";
 export { default as WebsiteSingleProductPage } from "./website/WebsiteSingleProductPage";
+export { default as WebsiteSellerProducts } from "./website/WebsiteSellerProducts";
+export { default as WebsiteSellerReviews } from "./website/WebsiteSellerReviews";

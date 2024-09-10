@@ -1,10 +1,12 @@
 import { WbRepeatStars } from "@/components";
+import { namePrefix } from "@/utils/functions";
 import dayjs from "dayjs";
 import { useState } from "react";
 
 const WbProductReviewCard = ({ review }) => {
   const { rating, message, first_name, last_name, updated_at } = review;
   const [showMore, setShowMore] = useState(false);
+  const reviewer = first_name + " " + last_name;
 
   const toggleMore = () => {
     setShowMore(!showMore);
@@ -21,7 +23,7 @@ const WbProductReviewCard = ({ review }) => {
     : message;
 
   return (
-    <section className="p-[10px] border border-gray-200 rounded-md group">
+    <section className="p-2 border border-gray-200 rounded-md group">
       <div className="flex justify-between items-center">
         <div className="flex gap-1">
           <WbRepeatStars count={rating} />
@@ -30,9 +32,9 @@ const WbProductReviewCard = ({ review }) => {
           {dayjs(new Date(updated_at)).format("dddd, MMMM D, YYYY h:mm A")}
         </span>
       </div>
-      <div className="flex gap-4 mt-4">
+      <div className="flex gap-4 mt-[10px]">
         <div className="min-w-20 h-20 text-4xl font-bold tracking-wider text-gray-950 group-hover:text-gray-700 bg-gray-100 flex justify-center items-center">
-          SN
+          {namePrefix(reviewer)}
         </div>
         <div className="flex flex-col">
           <p className="text-xs font-normal italic tracking-wider text-justify">
@@ -48,7 +50,7 @@ const WbProductReviewCard = ({ review }) => {
             )}
           </p>
           <h3 className="mt-3 text-md font-medium text-gray-800 uppercase tracking-wide">
-            Souvik Nag
+            {first_name} {last_name}
           </h3>
         </div>
       </div>

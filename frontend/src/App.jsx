@@ -42,6 +42,8 @@ const router = createBrowserRouter([
         element: <Elb.WebsiteSingleProductPage />,
         loader: singleProductLoader(store),
       },
+      { path: `seller/posts/:slug`, element: <Elb.WebsiteSellerProducts /> },
+      { path: `seller/reviews/:slug`, element: <Elb.WebsiteSellerReviews /> },
     ],
   },
   // Website unprotected routes end ------
