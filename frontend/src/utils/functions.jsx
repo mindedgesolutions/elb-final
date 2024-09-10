@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import customFetch from "./customFetch";
 
+// ------
 export const activeBadge = (status) => {
   switch (status) {
     case true:
@@ -14,7 +15,7 @@ export const activeBadge = (status) => {
       );
   }
 };
-
+// ------
 export const requiredBadge = (status) => {
   switch (status) {
     case true:
@@ -31,6 +32,7 @@ export const requiredBadge = (status) => {
   }
 };
 
+// ------
 export const adminBadge = (isAdmin) => {
   switch (isAdmin) {
     case 1:
@@ -44,6 +46,7 @@ export const adminBadge = (isAdmin) => {
   }
 };
 
+// ------
 export const fieldTypeBadge = (fieldType) => {
   switch (fieldType) {
     case "text":
@@ -79,6 +82,7 @@ export const fieldTypeBadge = (fieldType) => {
   }
 };
 
+// ------
 export const serialNo = (page) => {
   const srno = !page || page <= 1 ? 1 : (page - 1) * 10 + 1;
   return srno;
@@ -119,10 +123,43 @@ export const currencyFormat = () => {
   return formatter;
 };
 
+// ------
 export const getCityState = async (code) => {
   const response = await customFetch.get(
     `https://api.postalpincode.in/pincode/${Number(code)}`
   );
 
   return response;
+};
+
+// ------
+export const calculateRating = (reviews) => {
+  const oneStar = reviews && reviews?.filter((i) => i.rating === 1).length;
+  const twoStar = reviews && reviews?.filter((i) => i.rating === 2).length;
+  const threeStar = reviews && reviews?.filter((i) => i.rating === 3).length;
+  const fourStar = reviews && reviews?.filter((i) => i.rating === 4).length;
+  const fiveStar = reviews && reviews?.filter((i) => i.rating === 5).length;
+
+  const rating =
+    reviews.length > 0
+      ? (
+          (fiveStar * 5 +
+            fourStar * 4 +
+            threeStar * 3 +
+            twoStar * 2 +
+            oneStar * 1) /
+          reviews.length
+        ).toFixed(1)
+      : 0;
+
+  return [oneStar, twoStar, threeStar, fourStar, fiveStar, rating];
+};
+
+// ------
+export const namePrefix = (name) => {
+  const arr = name.split(" ");
+  const pref =
+    arr[0].substring(0, 1).toUpperCase() + arr[1].substring(0, 1).toUpperCase();
+
+  return pref;
 };
