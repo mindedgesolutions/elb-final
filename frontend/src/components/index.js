@@ -27,6 +27,7 @@ export { default as AdminPostImage } from "./admin/posts/AdminPostImage";
 export { default as AdminSearchPosts } from "./admin/posts/AdminSearchPosts";
 export { default as ToggleFeatured } from "./admin/posts/ToggleFeatured";
 export { default as ToggleSold } from "./admin/posts/ToggleSold";
+export { default as AdminSearchReview } from "./admin/posts/AdminSearchReview";
 
 // Website starts ------
 export { default as WbTopSearch } from "./website/globals/WbTopSearch";

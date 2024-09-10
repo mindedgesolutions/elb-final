@@ -17,6 +17,7 @@ import {
   MapPinHouse,
   ClipboardPlus,
   Settings,
+  Star,
 } from "lucide-react";
 
 export const sidebarLinks = [
@@ -26,6 +27,7 @@ export const sidebarLinks = [
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Posts", href: "/admin/posts", icon: Rss },
   { label: "New Post", href: "/admin/post/new", icon: ClipboardPlus },
+  { label: "Reviews", href: "/admin/post/reviews", icon: Star },
 ];
 
 export const wbProfileLinks = [
