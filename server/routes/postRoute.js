@@ -17,7 +17,6 @@ import { addPostReview } from "../controllers/user/userPostController.js";
 import { getSellerProfile } from "../controllers/user/profileController.js";
 import {
   adminReviews,
-  rejectReview,
   togglePublishReview,
 } from "../controllers/admin/reviewController.js";
 
@@ -34,6 +33,6 @@ router.post(`/add-review/:id`, validateAddReview, addPostReview);
 router.get(`/seller-profile/:slug`, getSellerProfile);
 
 router.get(`/reviews`, adminReviews);
-router.route(`/reviews/:id`).patch(togglePublishReview).delete(rejectReview);
+router.route(`/reviews/:id`).patch(togglePublishReview);
 
 export default router;

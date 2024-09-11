@@ -1,9 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import pool from "../../db.js";
-import { paginationLogic, removeSpecialChars } from "../../utils/functions.js";
-import dayjs from "dayjs";
-import slug from "slug";
-import { BadRequestError } from "../../errors/customErrors.js";
+import { paginationLogic } from "../../utils/functions.js";
 
 // ------
 export const adminReviews = async (req, res) => {
@@ -18,7 +15,7 @@ export const adminReviews = async (req, res) => {
     pm.title
     from elb_reviews er
     join elb_users um on er.review_by = um.id
-    join elb_product pm on pm.id = er.post_id`,
+    join elb_product pm on pm.id = er.post_id order by er.created_at desc`,
     []
   );
 
@@ -26,7 +23,15 @@ export const adminReviews = async (req, res) => {
 };
 
 // ------
-export const togglePublishReview = async (req, res) => {};
+export const togglePublishReview = async (req, res) => {
+  const { type } = req.body;
+  const { id } = req.params;
+  console.log(id);
 
-// ------
-export const rejectReview = async (req, res) => {};
+  await pool.query(`update elb_reviews set is_publish=$1 where id=$2`, [
+    type,
+    id,
+  ]);
+
+  res.status(StatusCodes.ACCEPTED).json(`success`);
+};

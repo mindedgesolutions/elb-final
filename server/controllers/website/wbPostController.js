@@ -190,7 +190,7 @@ export const wbPostReviews = async (req, res) => {
     um.first_name,
     um.last_name
     from elb_reviews er
-    join elb_users um on er.review_by = um.id where er.post_id=$1 order by er.updated_at desc`,
+    join elb_users um on er.review_by = um.id where er.post_id=$1 and er.is_publish=2 and er.is_active=true order by er.updated_at desc`,
     [postId.rows[0].id]
   );
   res.status(StatusCodes.OK).json({ data });
