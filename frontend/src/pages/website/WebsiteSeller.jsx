@@ -7,6 +7,7 @@ import {
   WbRatingStatusbar,
   WbSellerSidebar,
 } from "@/components";
+import { setSellerProfile } from "@/features/usersSlice";
 import customFetch from "@/utils/customFetch";
 import { calculateRating } from "@/utils/functions";
 import splitErrors from "@/utils/splitErrors";
@@ -14,8 +15,8 @@ import { nanoid } from "nanoid";
 import { useLoaderData } from "react-router-dom";
 
 const WebsiteSeller = () => {
-  const { profile, products, reviews } = useLoaderData();
-  const sellerRating = calculateRating(reviews);
+  const { profile, products, reviews, rating } = useLoaderData();
+  const sellerRating = calculateRating(rating);
   document.title = `${profile.first_name.toUpperCase()} ${profile.last_name.toUpperCase()} | ${
     import.meta.env.VITE_APP_TITLE
   }`;
@@ -26,48 +27,48 @@ const WebsiteSeller = () => {
       <WbPageWrapper>
         <div className="flex gap-8 pb-8">
           <div className="basis-1/4">
-            <WbSellerSidebar sellerRating={sellerRating} />
+            <WbSellerSidebar rating={rating} overall={sellerRating[5]} />
           </div>
           <div className="basis-3/4">
             <div className="flex flex-row gap-3">
-              <div className="w-36 p-4 rounded-lg bg-gray-100 flex flex-col justify-center items-center">
+              <div className="w-40 p-4 rounded-lg bg-gray-100 flex flex-col justify-center items-center">
                 <h3 className="text-5xl text-fuchsia-700 font-semibold">
                   {sellerRating[5]}
                 </h3>
-                <p className="text-lg font-medium text-gray-800 mt-2">
-                  {reviews.length} review{reviews.length > 1 ? "s" : null}
+                <p className="text-sm font-medium text-gray-800 mt-2">
+                  {rating[5]} review{rating[5] > 1 ? "s" : null}
                 </p>
               </div>
               <div className="flex flex-col w-full space-y-2">
                 <WbRatingStatusbar
                   stars={5}
                   review={sellerRating[4]}
-                  totalReview={reviews.length}
+                  totalReview={rating[5]}
                 />
                 <WbRatingStatusbar
                   stars={4}
                   review={sellerRating[3]}
-                  totalReview={reviews.length}
+                  totalReview={rating[5]}
                 />
                 <WbRatingStatusbar
                   stars={3}
                   review={sellerRating[2]}
-                  totalReview={reviews.length}
+                  totalReview={rating[5]}
                 />
                 <WbRatingStatusbar
                   stars={2}
                   review={sellerRating[1]}
-                  totalReview={reviews.length}
+                  totalReview={rating[5]}
                 />
                 <WbRatingStatusbar
                   stars={1}
                   review={sellerRating[0]}
-                  totalReview={reviews.length}
+                  totalReview={rating[5]}
                 />
               </div>
             </div>
 
-            {reviews.length > 0 ? (
+            {rating[5] > 0 ? (
               <>
                 <div className="grid grid-cols-2 gap-3 mt-12">
                   {reviews.map((review) => {
@@ -111,19 +112,30 @@ const WebsiteSeller = () => {
 export default WebsiteSeller;
 
 // Loader function starts ------
-export const loader = async ({ params }) => {
-  const { slug } = params;
+export const loader =
+  (store) =>
+  async ({ params }) => {
+    const { slug } = params;
 
-  try {
-    const response = await customFetch.get(`/posts/seller-profile/${slug}`);
-    const profile = response.data.data.rows[0];
-    const products = response.data.products.rows;
-    const reviews = response.data.reviews.rows;
-    const totalPosts = response.data.totalPosts;
+    try {
+      const response = await customFetch.get(`/posts/sellerProfile/${slug}`);
+      const profile = response.data.data.rows[0];
+      const products = response.data.products.rows;
+      const reviews = response.data.reviews.rows;
+      const totalPosts = response.data.totalPosts;
 
-    return { profile, products, reviews, totalPosts };
-  } catch (error) {
-    splitErrors(error?.response?.data?.msg);
-    return error;
-  }
-};
+      const sellerRating = await customFetch.get(
+        `/website/posts/rating/${slug}`
+      );
+      const rating = sellerRating.data.data;
+
+      store.dispatch(
+        setSellerProfile({ profile: response.data, rating: rating })
+      );
+
+      return { profile, products, reviews, totalPosts, rating };
+    } catch (error) {
+      splitErrors(error?.response?.data?.msg);
+      return error;
+    }
+  };

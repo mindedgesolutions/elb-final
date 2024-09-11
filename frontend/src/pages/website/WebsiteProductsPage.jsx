@@ -16,7 +16,7 @@ const WebsiteProductsPage = () => {
     import.meta.env.VITE_APP_TITLE
   }`;
 
-  const { posts, postMeta } = useLoaderData();
+  const { posts, meta } = useLoaderData();
   window.scrollTo(0, 0);
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
@@ -29,7 +29,7 @@ const WebsiteProductsPage = () => {
     <>
       <WbPageBanner />
       <WbPageWrapper>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 mb-16">
           <div className="w-[350px] p-4 rounded-sm">
             <WbPostFilter />
           </div>
@@ -42,12 +42,14 @@ const WebsiteProductsPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex mt-16 pb-16">
-          <div className="basis-1/5">&nbsp;</div>
-          <div className="basis-4/5">
-            {postMeta?.totalPages > 1 && <WbPaginationContainer />}
+        {meta?.totalPages > 1 && (
+          <div className="flex pb-8">
+            <div className="basis-1/5">&nbsp;</div>
+            <div className="basis-4/5">
+              && <WbPaginationContainer />
+            </div>
           </div>
-        </div>
+        )}
       </WbPageWrapper>
     </>
   );
@@ -65,9 +67,9 @@ export const loader = async ({ request }) => {
       params: search,
     });
     const posts = response.data.data.rows;
-    const postMeta = response.data.meta;
+    const meta = response.data.meta;
 
-    return { posts, postMeta };
+    return { posts, meta };
   } catch (error) {
     splitErrors(error?.response?.data?.msg);
     return error;

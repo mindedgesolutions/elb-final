@@ -157,26 +157,20 @@ export const getCityState = async (code) => {
 };
 
 // ------
-export const calculateRating = (reviews) => {
-  const oneStar = reviews && reviews?.filter((i) => i.rating === 1).length;
-  const twoStar = reviews && reviews?.filter((i) => i.rating === 2).length;
-  const threeStar = reviews && reviews?.filter((i) => i.rating === 3).length;
-  const fourStar = reviews && reviews?.filter((i) => i.rating === 4).length;
-  const fiveStar = reviews && reviews?.filter((i) => i.rating === 5).length;
-
-  const rating =
-    reviews.length > 0
+export const calculateRating = (rating) => {
+  const sellerRating =
+    Number(rating[5]) > 0
       ? (
-          (fiveStar * 5 +
-            fourStar * 4 +
-            threeStar * 3 +
-            twoStar * 2 +
-            oneStar * 1) /
-          reviews.length
+          (Number(rating[0]) * 1 +
+            Number(rating[1]) * 2 +
+            Number(rating[2]) * 3 +
+            Number(rating[3]) * 4 +
+            Number(rating[4]) * 5) /
+          Number(rating[5])
         ).toFixed(1)
       : 0;
 
-  return [oneStar, twoStar, threeStar, fourStar, fiveStar, rating];
+  return [rating[0], rating[1], rating[2], rating[3], rating[4], sellerRating];
 };
 
 // ------
