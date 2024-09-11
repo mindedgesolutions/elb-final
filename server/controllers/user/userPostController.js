@@ -11,7 +11,7 @@ export const addPostReview = async (req, res) => {
   const timeStamp = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
   const message = review ? review : null;
 
-  const data = await pool.query(
+  await pool.query(
     `insert into elb_reviews(post_id, review_by, rating, message, created_at, updated_at) values($1, $2, $3, $4, $5, $6)`,
     [id, userId, rating, message, timeStamp, timeStamp]
   );

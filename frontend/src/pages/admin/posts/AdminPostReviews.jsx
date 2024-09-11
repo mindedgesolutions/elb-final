@@ -1,12 +1,11 @@
 import {
+  AdminDeleteReview,
   AdminPageLayout,
   AdminPagination,
   AdminSearchReview,
   AdminSmallerTitle,
   PageHeader,
   TableRowSkeleton,
-  ToggleFeatured,
-  ToggleSold,
   WbRepeatStars,
 } from "@/components";
 import {
@@ -18,17 +17,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import customFetch from "@/utils/customFetch";
-import { activeBadge, serialNo } from "@/utils/functions";
+import { reviewBadge, serialNo } from "@/utils/functions";
 import splitErrors from "@/utils/splitErrors";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ThumbsDown, ThumbsUp } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
+import { updateCounter } from "@/features/commonSlice";
 
 const AdminPostReviews = () => {
   document.title = `List of All Reviews | ${import.meta.env.VITE_APP_TITLE}`;
+  const dispatch = useDispatch();
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
   const page = queryString.get("page");
@@ -52,6 +61,25 @@ const AdminPostReviews = () => {
   useEffect(() => {
     fetchData();
   }, [counter, queryString.get("s"), queryString.get("t")]);
+
+  const toggleReview = async ({ id, type }) => {
+    setIsLoading(true);
+    try {
+      await customFetch.patch(`/posts/reviews/${id}`, { type: type });
+      dispatch(updateCounter());
+
+      const title = type === 1 ? "Unpublished" : "Published";
+      const message =
+        type === 1 ? "Review is unpublished" : "Review is published";
+      toast({ title: title, description: message });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      splitErrors(error?.response?.data?.msg);
+      return error;
+    }
+  };
 
   return (
     <>
@@ -104,29 +132,75 @@ const AdminPostReviews = () => {
                           </span>
                         </TableCell>
                         <TableCell>
-                          <AdminSmallerTitle title={review.message} />
-                        </TableCell>
-                        {/* <TableCell>{activeBadge(post.is_active)}</TableCell>
-                        <TableCell>
-                          <ToggleFeatured
-                            id={post.id}
-                            title={post.title}
-                            current={post.is_feature}
-                            isSold={post.is_sold}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <ToggleSold
-                            id={post.id}
-                            title={post.title}
-                            current={post.is_sold}
-                          />
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button variant="outline">
+                                {review.message.substring(0, 10) + ` ...`}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[350px] p-3 text-sm text-justify">
+                              <div className="grid gap-1">{review.message}</div>
+                            </PopoverContent>
+                          </Popover>
                         </TableCell>
                         <TableCell>
-                          {dayjs(new Date(post.created_at)).format(
+                          {dayjs(new Date(review.created_at)).format(
                             "ddd, MMM D, YYYY h:mm A"
                           )}
-                        </TableCell> */}
+                        </TableCell>
+                        <TableCell>{reviewBadge(review.is_publish)}</TableCell>
+                        <TableCell>
+                          <span className="flex items-center">
+                            {review.is_publish === 1 ? (
+                              <>
+                                <Button
+                                  variant="outline"
+                                  className={`w-10 h-10 p-1 text-green-400 hover:text-green-400`}
+                                  onClick={() =>
+                                    toggleReview({ id: review.id, type: 2 })
+                                  }
+                                >
+                                  PUB
+                                </Button>
+                                <AdminDeleteReview id={review.id} />
+                              </>
+                            ) : review.is_publish === 2 ? (
+                              <>
+                                <Button
+                                  variant="outline"
+                                  className={`w-10 h-10 p-1 text-gray-400 hover:text-gray-400`}
+                                  onClick={() =>
+                                    toggleReview({ id: review.id, type: 1 })
+                                  }
+                                >
+                                  UN
+                                </Button>
+                                <AdminDeleteReview id={review.id} />
+                              </>
+                            ) : (
+                              <>
+                                <Button
+                                  variant="outline"
+                                  className={`w-10 h-10 p-1 text-green-400 hover:text-green-400`}
+                                  onClick={() =>
+                                    toggleReview({ id: review.id, type: 2 })
+                                  }
+                                >
+                                  PUB
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  className={`w-10 h-10 p-1 text-gray-400 hover:text-gray-400`}
+                                  onClick={() =>
+                                    toggleReview({ id: review.id, type: 1 })
+                                  }
+                                >
+                                  UN
+                                </Button>
+                              </>
+                            )}
+                          </span>
+                        </TableCell>
                       </TableRow>
                     );
                   })

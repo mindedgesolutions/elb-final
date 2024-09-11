@@ -83,6 +83,30 @@ export const fieldTypeBadge = (fieldType) => {
 };
 
 // ------
+export const reviewBadge = (status) => {
+  switch (status) {
+    case 1:
+      return (
+        <Badge className="bg-gray-400 group-hover:bg-gray-500 capitalize">
+          Unpublished
+        </Badge>
+      );
+    case 2:
+      return (
+        <Badge className="bg-green-400 group-hover:bg-green-500 capitalize">
+          Published
+        </Badge>
+      );
+    case 3:
+      return (
+        <Badge className="bg-red-400 group-hover:bg-red-500 capitalize">
+          Rejected
+        </Badge>
+      );
+  }
+};
+
+// ------
 export const serialNo = (page) => {
   const srno = !page || page <= 1 ? 1 : (page - 1) * 10 + 1;
   return srno;

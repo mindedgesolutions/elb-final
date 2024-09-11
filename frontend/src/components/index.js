@@ -28,6 +28,7 @@ export { default as AdminSearchPosts } from "./admin/posts/AdminSearchPosts";
 export { default as ToggleFeatured } from "./admin/posts/ToggleFeatured";
 export { default as ToggleSold } from "./admin/posts/ToggleSold";
 export { default as AdminSearchReview } from "./admin/posts/AdminSearchReview";
+export { default as AdminDeleteReview } from "./admin/posts/AdminDeleteReview";
 
 // Website starts ------
 export { default as WbTopSearch } from "./website/globals/WbTopSearch";
