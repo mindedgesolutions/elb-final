@@ -3,7 +3,7 @@ import { WbCustomBtn } from "@/components";
 import dayjs from "dayjs";
 import { Star } from "lucide-react";
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 const WbSellerSidebar = ({ rating, overall }) => {
   const { profile, totalPosts, reviews } = useLoaderData();
@@ -29,13 +29,15 @@ const WbSellerSidebar = ({ rating, overall }) => {
   return (
     <>
       <div className="w-full p-4 flex flex-col justify-center items-center border-[1px] border-gray-200 rounded-md transition duration-500 hover:shadow-2xl">
-        <div className="w-40 h-40 flex justify-center items-center rounded-full overflow-hidden">
-          <img
-            src={profileImg}
-            alt={import.meta.env.VITE_APP_TITLE}
-            className="object-cover"
-          />
-        </div>
+        <Link to={`/seller/${profile.slug}`}>
+          <div className="w-40 h-40 flex justify-center items-center rounded-full overflow-hidden">
+            <img
+              src={profileImg}
+              alt={import.meta.env.VITE_APP_TITLE}
+              className="object-cover"
+            />
+          </div>
+        </Link>
         <h3 className="text-xl font-extrabold uppercase tracking-wide pt-10 pb-2 text-gray-800">
           {profile.first_name} {profile.last_name}
         </h3>
