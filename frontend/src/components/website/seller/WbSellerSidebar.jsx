@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
 const WbSellerSidebar = ({ rating, overall }) => {
-  const { profile, totalPosts, reviews } = useLoaderData();
+  const { profile, totalPosts } = useLoaderData();
   const [showMore, setShowMore] = useState(false);
 
   const toggleMore = () => {

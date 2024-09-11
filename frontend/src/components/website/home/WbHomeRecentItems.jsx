@@ -8,7 +8,7 @@ const WbHomeRecentItems = ({ recentData }) => {
         description={`Get some recent products`}
         href={`/products/all`}
       />
-      <div className="grid md:grid-cols-5 gap-2">
+      <div className="grid sm:grid-cols-2 md:grid-cols-5 gap-2">
         {recentData?.map((product) => {
           return <WbProductCard key={product.slug} product={product} />;
         })}

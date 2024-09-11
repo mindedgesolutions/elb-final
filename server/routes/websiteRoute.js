@@ -9,6 +9,7 @@ import {
   wbSellerReviewsLtd,
   wbSellerReviewsAll,
   wbSellerRating,
+  wbSellerProductsAll,
 } from "../controllers/website/wbPostController.js";
 
 router.get(`/categories`, allCategories);
@@ -19,5 +20,6 @@ router.get(`/posts/:slug`, wbSinglePost);
 router.get(`/posts/reviewsLtd/:slug`, wbSellerReviewsLtd);
 router.get(`/posts/reviewsAll/:slug`, wbSellerReviewsAll);
 router.get(`/posts/rating/:slug`, wbSellerRating);
+router.get(`/posts/sellerProducts/:slug`, wbSellerProductsAll);
 
 export default router;

@@ -16,11 +16,14 @@ const usersSlice = createSlice({
     },
     setUsers: (state, action) => {},
     setSellerProfile: (state, action) => {
-      state.sellerProfile = action.payload.profile;
-      state.sellerRating = action.payload.rating;
+      state.sellerProfile = action.payload;
+    },
+    setSellerRating: (state, action) => {
+      state.sellerRating = action.payload;
     },
   },
 });
 
-export const { setListUsers, setUsers, setSellerProfile } = usersSlice.actions;
+export const { setListUsers, setUsers, setSellerProfile, setSellerRating } =
+  usersSlice.actions;
 export default usersSlice.reducer;

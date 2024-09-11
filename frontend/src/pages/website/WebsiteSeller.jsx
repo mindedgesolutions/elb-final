@@ -7,7 +7,7 @@ import {
   WbRatingStatusbar,
   WbSellerSidebar,
 } from "@/components";
-import { setSellerProfile } from "@/features/usersSlice";
+import { setSellerProfile, setSellerRating } from "@/features/usersSlice";
 import customFetch from "@/utils/customFetch";
 import { calculateRating } from "@/utils/functions";
 import splitErrors from "@/utils/splitErrors";
@@ -85,7 +85,7 @@ const WebsiteSeller = () => {
                 </div>
               </>
             ) : (
-              <h3 className="text-3xl font-semibold">No review found</h3>
+              <h3 className="text-3xl font-semibold py-20">No review found</h3>
             )}
             <div className="flex flex-col pt-0">
               <h3 className="text-2xl font-bold uppercase tracking-wide text-gray-800">
@@ -129,9 +129,8 @@ export const loader =
       );
       const rating = sellerRating.data.data;
 
-      store.dispatch(
-        setSellerProfile({ profile: response.data, rating: rating })
-      );
+      store.dispatch(setSellerProfile({ profile: response.data }));
+      store.dispatch(setSellerRating({ rating }));
 
       return { profile, products, reviews, totalPosts, rating };
     } catch (error) {
