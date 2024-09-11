@@ -13,6 +13,7 @@ import { loader as wbHomeLoader } from "@/pages/website/WebsiteHome";
 import { loader as productLoader } from "@/pages/website/WebsiteProductsPage";
 import { loader as singleProductLoader } from "@/pages/website/WebsiteSingleProductPage";
 import { loader as sellerProfileLoader } from "@/pages/website/WebsiteSeller";
+import { loader as sellerReviewsLoader } from "@/pages/website/WebsiteSellerReviews";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       {
         path: `seller/:slug`,
         element: <Elb.WebsiteSeller />,
-        loader: sellerProfileLoader,
+        loader: sellerProfileLoader(store),
       },
       {
         path: `products/all`,
@@ -43,7 +44,11 @@ const router = createBrowserRouter([
         loader: singleProductLoader(store),
       },
       { path: `seller/posts/:slug`, element: <Elb.WebsiteSellerProducts /> },
-      { path: `seller/reviews/:slug`, element: <Elb.WebsiteSellerReviews /> },
+      {
+        path: `seller/reviews/:slug`,
+        element: <Elb.WebsiteSellerReviews />,
+        loader: sellerReviewsLoader(store),
+      },
     ],
   },
   // Website unprotected routes end ------

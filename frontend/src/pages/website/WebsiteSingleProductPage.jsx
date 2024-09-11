@@ -9,19 +9,20 @@ import {
 } from "@/components";
 import { Separator } from "@/components/ui/separator";
 import customFetch from "@/utils/customFetch";
-import { currencyFormat } from "@/utils/functions";
+import { calculateRating, currencyFormat } from "@/utils/functions";
 import splitErrors from "@/utils/splitErrors";
 import dayjs from "dayjs";
 import { useLoaderData } from "react-router-dom";
 import profile from "@/assets/profile.jpg";
 import { setListReviews } from "@/features/postSlice";
+import { toast } from "@/components/ui/use-toast";
 
 const WebsiteSingleProductPage = () => {
-  const { product, reviews } = useLoaderData();
+  const { product, reviews, rating } = useLoaderData();
   const master = product.master.rows[0];
   document.title = `${master.title} | ${import.meta.env.VITE_APP_TITLE}`;
   const sellerName = master.first_name + " " + master.last_name;
-  const rating = 4;
+  const sellerRating = calculateRating(rating);
 
   return (
     <>
@@ -44,8 +45,10 @@ const WebsiteSingleProductPage = () => {
                       {sellerName}
                     </span>{" "}
                   </p>
-                  <WbRepeatStars count={4} />{" "}
-                  <span className="ml-2 tracking-wide">(201 ratings)</span>
+                  <WbRepeatStars count={sellerRating[5]} />{" "}
+                  <span className="ml-2 tracking-wide">
+                    ({rating[5]} ratings)
+                  </span>
                 </div>
                 <p className="tracking-wide text-sm pb-2 font-medium">
                   on{" "}
@@ -115,9 +118,9 @@ const WebsiteSingleProductPage = () => {
                     <div className="top-seller-rating mt-2 mb-8">
                       <p className="flex flex-col items-center space-y-2">
                         <span className="flex">
-                          <WbRepeatStars count={4} />
+                          <WbRepeatStars count={sellerRating[5]} />
                         </span>
-                        <span className="text-xs">(201 Reviews)</span>
+                        <span className="text-xs">({rating[5]} Reviews)</span>
                       </p>
                     </div>
                     <div className="flex flex-col justify-center items-center">
@@ -136,7 +139,7 @@ const WebsiteSingleProductPage = () => {
             {/* Seller section ends ------ */}
           </div>
         </div>
-        <div className="flex mt-10 pb-16">
+        <div className="flex mt-10 pb-8">
           <WbProductReviews />
         </div>
       </WbPageWrapper>
@@ -155,13 +158,25 @@ export const loader =
       const response = await customFetch.get(`/website/posts/${slug}`);
       const product = response.data;
 
-      const productReviews = await customFetch.get(
-        `/website/posts/reviews/${slug}`
-      );
-      const reviews = productReviews.data;
-      store.dispatch(setListReviews(productReviews.data.data.rows));
+      if (product) {
+        const sellerSlug = product.master.rows[0].slug;
 
-      return { product, reviews };
+        const productReviews = await customFetch.get(
+          `/website/posts/reviewsLtd/${sellerSlug}`
+        );
+        const reviews = productReviews.data;
+        store.dispatch(setListReviews(productReviews.data.data.rows));
+
+        const productRating = await customFetch.get(
+          `/website/posts/rating/${sellerSlug}`
+        );
+        const rating = productRating.data.data;
+
+        return { product, reviews, rating };
+      } else {
+        toast({ title: "Not found", description: "Product not found!" });
+        return;
+      }
     } catch (error) {
       splitErrors(error?.response?.data?.msg);
       return error;

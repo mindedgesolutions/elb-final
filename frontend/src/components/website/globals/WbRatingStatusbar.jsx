@@ -1,5 +1,5 @@
 const WbRatingStatusbar = ({ stars, review, totalReview }) => {
-  const width = Math.ceil((review / totalReview) * 100);
+  const width = Math.round((review / totalReview) * 100);
 
   return (
     <div className="flex justify-start items-center gap-2">

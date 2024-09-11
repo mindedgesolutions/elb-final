@@ -39,7 +39,7 @@ const WbAddEditReview = ({ openModal, setOpenModal }) => {
       });
 
       const reviews = await customFetch.get(
-        `/website/posts/reviews/${postSlug}`
+        `/website/posts/reviewsLtd/${postSlug}`
       );
       dispatch(setListReviews(reviews.data.data.rows));
 

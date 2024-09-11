@@ -25,8 +25,12 @@ export const paginationLogic = (page, limit) => {
   return { pageLimit, offset, pageNo };
 };
 
-export const wbPaginationLogic = (page, limit) => {
-  const pageLimit = limit || process.env.WEBSITE_ITEMS_PER_PAGE;
+export const wbPaginationLogic = (
+  page,
+  limit,
+  perPage = process.env.WEBSITE_ITEMS_PER_PAGE
+) => {
+  const pageLimit = limit || perPage;
   const pageNo = Number(page) || 1;
   const offset = (pageNo - 1) * Number(pageLimit);
 

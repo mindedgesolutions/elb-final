@@ -177,10 +177,10 @@ export const wbSinglePost = async (req, res) => {
 };
 
 // ------
-export const wbPostReviews = async (req, res) => {
+export const wbSellerReviewsLtd = async (req, res) => {
   const { slug } = req.params;
 
-  const postId = await pool.query(`select id from elb_product where slug=$1`, [
+  const user = await pool.query(`select id from elb_users where slug=$1`, [
     slug,
   ]);
 
@@ -190,8 +190,81 @@ export const wbPostReviews = async (req, res) => {
     um.first_name,
     um.last_name
     from elb_reviews er
-    join elb_users um on er.review_by = um.id where er.post_id=$1 and er.is_publish=2 and er.is_active=true order by er.updated_at desc`,
-    [postId.rows[0].id]
+    join elb_users um on er.review_by = um.id 
+    join elb_product pm on pm.id = er.post_id
+    where pm.user_id=$1 and er.is_publish=2 and er.is_active=true 
+    order by er.updated_at desc limit 6`,
+    [user.rows[0].id]
   );
+
+  res.status(StatusCodes.OK).json({ data });
+};
+
+// ------
+export const wbSellerReviewsAll = async (req, res) => {
+  const { page } = req.query;
+  const { slug } = req.params;
+  const pagination = wbPaginationLogic(page, null, 10);
+
+  const user = await pool.query(`select id from elb_users where slug=$1`, [
+    slug,
+  ]);
+
+  const data = await pool.query(
+    `select
+    er.*,
+    um.first_name,
+    um.last_name
+    from elb_reviews er
+    join elb_users um on er.review_by = um.id 
+    join elb_product pm on pm.id = er.post_id
+    where pm.user_id=$1 and er.is_publish=2 and er.is_active=true 
+    order by er.updated_at desc offset $2 limit $3`,
+    [user.rows[0].id, pagination.offset, pagination.pageLimit]
+  );
+
+  const records = await pool.query(
+    `select er.* from elb_reviews er join elb_product pm on pm.id = er.post_id where pm.user_id=$1`,
+    [user.rows[0].id]
+  );
+  const totalPages = Math.ceil(records.rowCount / pagination.pageLimit);
+  const meta = {
+    totalPages: totalPages,
+    currentPage: pagination.pageNo,
+    totalRecords: records.rowCount,
+  };
+
+  res.status(StatusCodes.OK).json({ data, meta });
+};
+
+// ------
+export const wbSellerRating = async (req, res) => {
+  const { slug } = req.params;
+
+  const user = await pool.query(`select id from elb_users where slug=$1`, [
+    slug,
+  ]);
+
+  const total = await pool.query(
+    `select count(er.id) as count 
+    from elb_reviews er
+    join elb_product pm on pm.id = er.post_id
+    where pm.user_id=$1 and er.is_publish=2 and er.is_active=true`,
+    [user.rows[0].id]
+  );
+  const arr = [1, 2, 3, 4, 5];
+  let count = [];
+  for (const star of arr) {
+    const getCount = await pool.query(
+      `select count(er.id) as count 
+      from elb_reviews er 
+      join elb_product pm on pm.id = er.post_id
+      where pm.user_id=$1 and er.is_publish=2 and er.is_active=true and er.rating=$2`,
+      [user.rows[0].id, star]
+    );
+    count = [...count, getCount.rows[0].count];
+  }
+  const data = [...count, total.rows[0].count];
+
   res.status(StatusCodes.OK).json({ data });
 };

@@ -3,8 +3,8 @@ import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 
 const WbPaginationContainer = () => {
   const { search, pathname } = useLocation();
-  const { postMeta } = useLoaderData();
-  const { totalPages, currentPage } = postMeta;
+  const { meta } = useLoaderData();
+  const { totalPages, currentPage } = meta;
   const navigate = useNavigate();
 
   const handlePageChange = (pageNum) => {

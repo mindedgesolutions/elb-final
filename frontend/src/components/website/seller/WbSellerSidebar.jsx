@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
-const WbSellerSidebar = ({ sellerRating }) => {
+const WbSellerSidebar = ({ rating, overall }) => {
   const { profile, totalPosts, reviews } = useLoaderData();
   const [showMore, setShowMore] = useState(false);
 
@@ -41,9 +41,9 @@ const WbSellerSidebar = ({ sellerRating }) => {
         </h3>
         <div className="flex gap-1 justify-center items-center font-medium text-gray-700 pb-4 text-sm">
           <Star size={16} className="fill-yellow-400 text-yellow-400" />
-          <p>{sellerRating[5]}</p>
+          <p>{overall}</p>
           <p>
-            ({reviews.length} review{reviews.length > 1 ? "s" : null})
+            ({rating[5]} review{rating[5] > 1 ? "s" : null})
           </p>
         </div>
         <div className="bg-gray-100 w-full flex justify-between items-center py-3 rounded-lg">

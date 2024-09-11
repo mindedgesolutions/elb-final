@@ -30,7 +30,7 @@ router
 router.patch(`/toggle-featured/:id`, toggleFeatured);
 router.patch(`/toggle-sold/:id`, toggleSold);
 router.post(`/add-review/:id`, validateAddReview, addPostReview);
-router.get(`/seller-profile/:slug`, getSellerProfile);
+router.get(`/sellerProfile/:slug`, getSellerProfile);
 
 router.get(`/reviews`, adminReviews);
 router.route(`/reviews/:id`).patch(togglePublishReview);
