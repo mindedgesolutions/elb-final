@@ -268,3 +268,32 @@ export const wbSellerRating = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ data });
 };
+
+// ------
+export const wbSellerProductsAll = async (req, res) => {
+  const { page } = req.query;
+  const { slug } = req.params;
+  const pagination = wbPaginationLogic(page, null, 12);
+
+  const user = await pool.query(`select id from elb_users where slug=$1`, [
+    slug,
+  ]);
+
+  const data = await pool.query(
+    `select pm.title, pm.price, pm.slug, pm.id from elb_product pm where pm.user_id=$1 and pm.is_active=true order by pm.updated_at desc offset $2 limit $3`,
+    [user.rows[0].id, pagination.offset, pagination.pageLimit]
+  );
+
+  const records = await pool.query(
+    `select pm.* from elb_product pm where pm.user_id=$1 and pm.is_active=true`,
+    [user.rows[0].id]
+  );
+  const totalPages = Math.ceil(records.rowCount / pagination.pageLimit);
+  const meta = {
+    totalPages: totalPages,
+    currentPage: pagination.pageNo,
+    totalRecords: records.rowCount,
+  };
+
+  res.status(StatusCodes.OK).json({ data, meta });
+};

@@ -26,7 +26,6 @@ export const adminReviews = async (req, res) => {
 export const togglePublishReview = async (req, res) => {
   const { type } = req.body;
   const { id } = req.params;
-  console.log(id);
 
   await pool.query(`update elb_reviews set is_publish=$1 where id=$2`, [
     type,

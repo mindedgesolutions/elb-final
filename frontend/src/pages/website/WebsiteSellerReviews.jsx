@@ -6,6 +6,7 @@ import {
   WbRatingStatusbar,
   WbSellerSidebar,
 } from "@/components";
+import { setSellerProfile, setSellerRating } from "@/features/usersSlice";
 import customFetch from "@/utils/customFetch";
 import { calculateRating } from "@/utils/functions";
 import splitErrors from "@/utils/splitErrors";
@@ -103,19 +104,21 @@ export const loader =
     const { sellerProfile, sellerRating } = store.getState().users;
 
     try {
-      let profile = sellerProfile?.data?.rows?.[0];
-      let rating = sellerRating;
+      let profile = sellerProfile?.profile?.data?.rows[0];
+      let rating = sellerRating.rating;
 
-      if (!sellerProfile?.data?.rows?.[0]?.first_name) {
+      if (!sellerProfile?.profile?.data?.rows[0]?.first_name) {
         const response = await customFetch.get(`/posts/sellerProfile/${slug}`);
         profile = response.data.data.rows[0];
+        store.dispatch(setSellerProfile({ profile: response.data }));
       }
 
-      if (sellerRating?.length === 0 || !sellerRating?.length) {
+      if (sellerRating?.rating?.length === 0 || !sellerRating?.rating?.length) {
         const reviewRating = await customFetch.get(
           `/website/posts/rating/${slug}`
         );
         rating = reviewRating.data.data;
+        store.dispatch(setSellerRating({ rating }));
       }
 
       const sellerReviews = await customFetch.get(
