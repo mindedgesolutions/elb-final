@@ -1,26 +1,42 @@
 import {
   WbAddEditReview,
-  WbCustomBtn,
   WbProductReviewCard,
   WbRatingStatusbar,
 } from "@/components";
 import { setLoginForm } from "@/features/commonSlice";
-import { calculateRating } from "@/utils/functions";
+import { calculateRating, checkLoginStatus } from "@/utils/functions";
 import { MoveRight } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 const WbProductReviews = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const { product, rating } = useLoaderData();
   const sellerSlug = product.master.rows[0].slug;
   const { listReviews } = useSelector((store) => store.posts);
-  const { loginStatus } = useSelector((store) => store.currentUser);
   const reviews = listReviews;
   const sellerRating = calculateRating(rating);
+
+  // Login check starts ------
+  const checkLogin = async (type) => {
+    const status = await checkLoginStatus();
+    if (status) {
+      type === "review-modal"
+        ? setOpenModal(true)
+        : navigate(`/seller/${sellerSlug}`);
+    } else {
+      const history = type === "review-modal" ? "review-modal" : "seller-page";
+      const href =
+        type === "review-modal" ? "" : `/seller/reviews/${sellerSlug}`;
+
+      dispatch(setLoginForm({ history, href }));
+    }
+  };
+  // Login check ends ------
 
   return (
     <div className="flex flex-col w-full">
@@ -68,32 +84,14 @@ const WbProductReviews = () => {
               </div>
             </div>
             <div className="flex justify-start items-start my-10">
-              {loginStatus ? (
-                <button
-                  type="button"
-                  className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
-                  onClick={() => setOpenModal(true)}
-                >
-                  leave a review
-                  <MoveRight size={18} className="font-normal" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
-                  onClick={() => {
-                    dispatch(
-                      setLoginForm({
-                        history: "review-modal",
-                        href: "",
-                      })
-                    );
-                  }}
-                >
-                  leave a review
-                  <MoveRight size={18} className="font-normal" />
-                </button>
-              )}
+              <button
+                type="button"
+                className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
+                onClick={() => checkLogin("review-modal")}
+              >
+                leave a review
+                <MoveRight size={18} className="font-normal" />
+              </button>
             </div>
 
             <WbAddEditReview
@@ -112,28 +110,14 @@ const WbProductReviews = () => {
           </div>
           {rating[5] > 6 && (
             <div className="flex justify-end items-end mt-4">
-              {loginStatus ? (
-                <WbCustomBtn
-                  title={`show all`}
-                  href={`/seller/reviews/${sellerSlug}`}
-                />
-              ) : (
-                <button
-                  type="button"
-                  className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
-                  onClick={() => {
-                    dispatch(
-                      setLoginForm({
-                        history: "seller-page",
-                        href: `/seller/reviews/${sellerSlug}`,
-                      })
-                    );
-                  }}
-                >
-                  show all
-                  <MoveRight size={18} className="font-normal" />
-                </button>
-              )}
+              <button
+                type="button"
+                className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
+                onClick={() => checkLogin("seller-page")}
+              >
+                show all
+                <MoveRight size={18} className="font-normal" />
+              </button>
             </div>
           )}
         </>

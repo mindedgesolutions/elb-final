@@ -1,6 +1,5 @@
 import {
   AdminSmallerTitle,
-  WbCustomBtn,
   WbPageBanner,
   WbPageWrapper,
   WbProductCarousel,
@@ -9,25 +8,45 @@ import {
 } from "@/components";
 import { Separator } from "@/components/ui/separator";
 import customFetch from "@/utils/customFetch";
-import { calculateRating, currencyFormat } from "@/utils/functions";
+import {
+  calculateRating,
+  checkLoginStatus,
+  currencyFormat,
+} from "@/utils/functions";
 import splitErrors from "@/utils/splitErrors";
 import dayjs from "dayjs";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import profile from "@/assets/profile.jpg";
 import { setListReviews } from "@/features/postSlice";
 import { toast } from "@/components/ui/use-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { MoveRight } from "lucide-react";
 import { setLoginForm } from "@/features/commonSlice";
 
 const WebsiteSingleProductPage = () => {
+  const navigate = useNavigate();
   const { product, rating } = useLoaderData();
   const master = product.master.rows[0];
   const dispatch = useDispatch();
-  const { loginStatus } = useSelector((store) => store.currentUser);
   document.title = `${master.title} | ${import.meta.env.VITE_APP_TITLE}`;
   const sellerName = master.first_name + " " + master.last_name;
   const sellerRating = calculateRating(rating);
+
+  // Login check starts ------
+  const checkLogin = async () => {
+    const status = await checkLoginStatus();
+    if (status) {
+      navigate(`/seller/${master.slug}`);
+    } else {
+      dispatch(
+        setLoginForm({
+          history: "seller-page",
+          href: `/seller/${master.slug}`,
+        })
+      );
+    }
+  };
+  // Login check ends ------
 
   return (
     <>
@@ -137,28 +156,14 @@ const WebsiteSingleProductPage = () => {
                       <p className="text-md font-medium tracking-widest uppercase mb-2">
                         Want to buy?
                       </p>
-                      {loginStatus ? (
-                        <WbCustomBtn
-                          href={`/seller/${master.slug}`}
-                          title={`contact me`}
-                        />
-                      ) : (
-                        <button
-                          type="button"
-                          className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
-                          onClick={() => {
-                            dispatch(
-                              setLoginForm({
-                                history: "seller-page",
-                                href: `/seller/${master.slug}`,
-                              })
-                            );
-                          }}
-                        >
-                          contact me
-                          <MoveRight size={18} className="font-normal" />
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
+                        onClick={checkLogin}
+                      >
+                        contact me
+                        <MoveRight size={18} className="font-normal" />
+                      </button>
                     </div>
                   </div>
                 </div>

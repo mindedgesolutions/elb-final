@@ -1,9 +1,27 @@
-import seller from "@/assets/website/img/top-seller/default-img.jpg";
-import { WbCustomBtn } from "@/components";
 import { FaRegStar } from "react-icons/fa6";
 import profile from "@/assets/profile.jpg";
+import { useDispatch } from "react-redux";
+import { setLoginForm } from "@/features/commonSlice";
+import { checkLoginStatus } from "@/utils/functions";
+import { useNavigate } from "react-router-dom";
 
 const WbSellerCard = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Login check starts ------
+  const checkLogin = async () => {
+    const status = await checkLoginStatus();
+    if (status) {
+      navigate(`/seller/souvik-nag-admin`);
+    } else {
+      const history = "seller-page";
+      const href = `/seller/souvik-nag-admin`;
+      dispatch(setLoginForm({ history, href }));
+    }
+  };
+  // Login check ends ------
+
   return (
     <div className="bg-white relative px-2 py-8 rounded-lg border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 hover:shadow-2xl">
       <div className="job-type-badge position-absolute d-flex flex-column gap-2">
@@ -28,10 +46,13 @@ const WbSellerCard = () => {
               <span className="text-xs">4.9 (399 Reviews)</span>
             </p>
           </div>
-          <WbCustomBtn
-            href={`/seller/souvik-nag-admin`}
-            title={`view profile`}
-          />
+          <button
+            type="button"
+            className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
+            onClick={checkLogin}
+          >
+            view profile
+          </button>
         </div>
       </div>
     </div>
