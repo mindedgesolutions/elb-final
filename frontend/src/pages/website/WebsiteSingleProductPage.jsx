@@ -18,7 +18,7 @@ import { setListReviews } from "@/features/postSlice";
 import { toast } from "@/components/ui/use-toast";
 
 const WebsiteSingleProductPage = () => {
-  const { product, reviews, rating } = useLoaderData();
+  const { product, rating } = useLoaderData();
   const master = product.master.rows[0];
   document.title = `${master.title} | ${import.meta.env.VITE_APP_TITLE}`;
   const sellerName = master.first_name + " " + master.last_name;
@@ -29,26 +29,31 @@ const WebsiteSingleProductPage = () => {
       <WbPageBanner />
       <WbPageWrapper>
         <div className="flex sm:flex-col md:flex-row gap-4">
-          <div className="basis-1/3">
+          <h3 className="sm:text-xl md:text-3xl font-bold text-gray-900 tracking-wide pb-0 sm:block md:hidden">
+            {master.title}
+          </h3>
+          <div className="sm:w-full md:basis-1/3">
             <WbProductCarousel />
           </div>
-          <div className="basis-2/3 flex gap-4">
-            <div className="basis-3/4 px-6 pb-6">
+          <div className="sm:w-full md:basis-2/3 flex sm:flex-col md:flex-row sm:gap-2 md:gap-4">
+            <div className="sm:w-full md:w-[calc(100%_-_275px)] sm:px-2 md:px-6 sm:pb-4 md:pb-6">
               <div className="flex flex-col">
-                <h3 className="text-3xl font-bold text-gray-900 tracking-wide pb-4">
+                <h3 className="sm:text-xl md:text-3xl font-bold text-gray-900 tracking-wide pb-4 sm:hidden md:block">
                   {master.title}
                 </h3>
-                <div className="flex justify-start items-center text-sm text-gray-800 font-medium">
+                <div className="flex sm:flex-col md:flex-row justify-start sm:items-start md:items-center text-sm text-gray-800 font-medium">
                   <p className="tracking-wide leading-loose">
                     Posted by{" "}
                     <span className="ml-1 mr-2 cursor-pointer text-fuchsia-500 hover:text-fuchsia-400 visited:text-purple-600">
                       {sellerName}
                     </span>{" "}
                   </p>
-                  <WbRepeatStars count={sellerRating[5]} />{" "}
-                  <span className="ml-2 tracking-wide">
-                    ({rating[5]} ratings)
-                  </span>
+                  <div className="flex">
+                    <WbRepeatStars count={sellerRating[5]} />{" "}
+                    <span className="ml-2 tracking-wide">
+                      ({rating[5]} ratings)
+                    </span>
+                  </div>
                 </div>
                 <p className="tracking-wide text-sm pb-2 font-medium">
                   on{" "}
@@ -59,25 +64,25 @@ const WebsiteSingleProductPage = () => {
                   </span>
                 </p>
                 <Separator />
-                <h3 className="py-2 mb-2 text-3xl font-medium tracking-wide">
+                <h3 className="py-2 sm:mb-0 md:mb-2 sm:text-xl md:text-3xl font-medium tracking-wide">
                   {currencyFormat().format(master.price)}
                 </h3>
-                <p className="py-4 text-sm leading-relaxed">
+                <p className="sm:py-2 md:py-4 text-sm leading-relaxed">
                   {master.description}
                 </p>
               </div>
               {/* Product specifications starts ------ */}
               {product.details.length > 0 && (
                 <>
-                  <div className="py-4 mt-4">
+                  <div className="sm:py-2 md:py-4 mt-4">
                     <h3 className="mb-4 text-xl font-medium tracking-wide uppercase">
                       Specifications
                     </h3>
                     {product.details.map((info, index) => {
                       return (
                         <div key={index} className="text-sm">
-                          <div className="flex gap-4 py-3">
-                            <div className="basis-1/2 uppercase">
+                          <div className="flex sm:flex-col md:flex-row sm:gap-2 md:gap-4 py-3">
+                            <div className="sm:w-full md:basis-1/2 uppercase sm:font-semibold md:font-normal">
                               {info.label}
                             </div>
                             <div className="basis-1/2">{info.value}</div>
@@ -93,7 +98,7 @@ const WebsiteSingleProductPage = () => {
             </div>
 
             {/* Seller section starts ------ */}
-            <div className="basis-1/4">
+            <div className="sm:w-full md:w-[275px]">
               <div className="bg-white relative px-2 py-8 rounded-lg border-2 border-gray-100 transition duration-500 hover:shadow-2xl">
                 {rating >= 4 && (
                   <div className="job-type-badge position-absolute d-flex flex-column gap-2">
@@ -139,7 +144,7 @@ const WebsiteSingleProductPage = () => {
             {/* Seller section ends ------ */}
           </div>
         </div>
-        <div className="flex mt-10 pb-8">
+        <div className="flex sm:mt-5 md:mt-10 sm:pb-4 md:pb-8">
           <WbProductReviews />
         </div>
       </WbPageWrapper>

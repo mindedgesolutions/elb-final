@@ -63,7 +63,7 @@ const WbProductCarousel = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="h-[400px] w-[520px] relative flex justify-center items-center overflow-hidden group">
+      <div className="sm:h-[250px] md:h-[400px] sm:w-full md:w-[520px] relative flex justify-center items-center overflow-hidden group">
         <img
           src={images[currentIndex].original}
           alt={import.meta.env.VITE_APP_TITLE}

@@ -24,7 +24,7 @@ const WbProductReviewCard = ({ review }) => {
 
   return (
     <section className="p-2 border border-gray-200 rounded-md group">
-      <div className="flex justify-between items-center">
+      <div className="flex sm:flex-col md:flex-row sm:justify-start md:justify-between sm:items-start md:items-center sm:gap-2 md:gap-0">
         <div className="flex gap-1">
           <WbRepeatStars count={rating} />
         </div>
@@ -32,8 +32,8 @@ const WbProductReviewCard = ({ review }) => {
           {dayjs(new Date(updated_at)).format("dddd, MMMM D, YYYY h:mm A")}
         </span>
       </div>
-      <div className="flex gap-4 mt-[10px]">
-        <div className="min-w-20 h-20 text-4xl font-bold tracking-wider text-gray-950 group-hover:text-gray-700 bg-gray-100 flex justify-center items-center">
+      <div className="flex sm:flex-col md:flex-row gap-4 mt-[10px]">
+        <div className="min-w-20 h-20 text-4xl font-bold tracking-wider text-gray-950 group-hover:text-gray-700 bg-gray-100 flex justify-center items-center sm:hidden md:block">
           {namePrefix(reviewer)}
         </div>
         <div className="flex flex-col">

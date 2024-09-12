@@ -21,14 +21,14 @@ const WbProductReviews = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex">
-        <div className="basis-1/2">
+      <div className="flex sm:flex-col md:flex-row">
+        <div className="sm:w-full md:basis-1/2">
           <div className="flex flex-col">
             <h3 className="py-2 mb-2 text-3xl font-medium tracking-wide">
               Reviews
             </h3>
-            <div className="flex flex-row gap-4">
-              <div className="w-36 rounded-lg bg-gray-200 flex flex-col justify-center items-center space-y-2">
+            <div className="flex sm:flex-col md:flex-row sm:gap-2 md:gap-4">
+              <div className="w-36 sm:h-36 md:h-auto rounded-lg bg-gray-200 flex flex-col justify-center items-center space-y-2">
                 <h3 className="text-4xl font-bold tracking-wide text-gray-800">
                   {sellerRating[5]}
                 </h3>
@@ -84,7 +84,7 @@ const WbProductReviews = () => {
       </div>
       {reviews.length > 0 ? (
         <>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-3">
             {reviews.map((review) => {
               return <WbProductReviewCard key={nanoid()} review={review} />;
             })}

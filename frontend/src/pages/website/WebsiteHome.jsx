@@ -31,7 +31,7 @@ const WebsiteHome = () => {
     <>
       <WbHeroSection />
 
-      <div className="md:max-w-[1640px] mx-auto">
+      <div className="md:max-w-[1600px] mx-auto">
         <WbHomeFeaturedItems featuredData={featuredData} />
 
         {/* Top static banner starts ------ */}

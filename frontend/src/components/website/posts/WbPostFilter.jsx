@@ -2,7 +2,7 @@ import { SearchBtnLayout, WbRepeatStars } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Form, useLocation, useNavigate } from "react-router-dom";
 
@@ -23,17 +23,27 @@ const WbPostFilter = () => {
     rating: "",
   });
 
+  const getScat = (value) => {
+    const pid = allCategories?.find((i) => i.slug === value).id;
+    const ch = allCategories
+      .filter((i) => i.parent_id === pid)
+      .sort((a, b) => a.category.localeCompare(b.category));
+    setChildren(ch);
+  };
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
     if (e.target.name === "cat") {
-      const pid = allCategories?.find((i) => i.slug === e.target.value).id;
-      const ch = allCategories
-        .filter((i) => i.parent_id === pid)
-        .sort((a, b) => a.category.localeCompare(b.category));
-      setChildren(ch);
+      getScat(e.target.value);
     }
   };
+
+  useEffect(() => {
+    if (queryString.get("cat")) {
+      getScat(queryString.get("cat"));
+    }
+  }, [queryString.get("cat")]);
 
   const resetForm = () => {
     setForm({ ...form, cat: "", scat: "", min: "", max: "", rating: "" });
@@ -71,6 +81,8 @@ const WbPostFilter = () => {
           name="scat"
           id="scat"
           className="flex h-10 w-full items-center justify-between rounded-sm border-[1px] p-2 text-sm"
+          value={form.scat}
+          onChange={handleChange}
         >
           <option value="">Select a sub-category</option>
           {children?.map((i) => {

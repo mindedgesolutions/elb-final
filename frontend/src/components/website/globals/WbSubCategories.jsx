@@ -16,7 +16,7 @@ const WbSubCategories = ({ parent, pslug, handleClose }) => {
           <Link
             key={cat.id}
             className="w-[230px]"
-            to={`/cat/${pslug}/${cat.slug}`}
+            to={`/products/all?cat=${pslug}&scat=${cat.slug}`}
             onClick={handleClose}
           >
             <div className="group flex flex-col p-[6px] rounded-lg justify-start text-sm font-normal hover:font-medium hover:text-purple-800 hover:bg-gray-100 cursor-pointer">

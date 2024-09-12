@@ -36,7 +36,7 @@ const WbCategoryModal = ({ show, handleClose }) => {
                     return (
                       <div key={pcat.id} className="flex flex-col pb-4">
                         <Link
-                          to={`/cat/${pcat.slug}`}
+                          to={`/products/all?cat=${pcat.slug}`}
                           className="group flex flex-col pb-2 justify-start text-sm font-medium tracking-normal cursor-pointer"
                           onClick={handleClose}
                         >

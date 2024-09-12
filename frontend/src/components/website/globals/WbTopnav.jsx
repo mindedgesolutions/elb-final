@@ -1,7 +1,6 @@
 import {
   TopNavProfileDropdown,
   WbThemeSwitch,
-  WbTopMenu,
   WbTopSearch,
 } from "@/components";
 import logo from "@/assets/website/img/logo/logo-white.svg";
