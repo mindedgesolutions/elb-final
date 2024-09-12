@@ -7,7 +7,7 @@ const WbProductCard = ({ product, type }) => {
   const { title, price } = product;
   const imgSrc = "";
   const titleLabel =
-    title.split("").length > 66 ? title.substring(0, 66) + " ..." : title;
+    title.split("").length > 60 ? title.substring(0, 60) + " ..." : title;
 
   return (
     <Link to={`/products/${product.slug}`}>
@@ -30,10 +30,10 @@ const WbProductCard = ({ product, type }) => {
               </div>
             </section>
             <div className="flex flex-col px-2">
-              <p className="sm:text-xs md:text-[16px] sm:h-8 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-tight md:leading-5 font-normal mt-3">
+              <p className="sm:text-xs md:text-sm sm:h-10 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-tight md:leading-5 font-normal mt-3">
                 {titleLabel}
               </p>
-              <p className="sm:text-sm md:text-lg flex items-baseline font-semibold text-gray-900 group-hover:text-gray-700 tracking-tighter mt-6 pb-3">{`${currencyFormat().format(
+              <p className="sm:text-sm md:text-[16px] flex items-baseline font-semibold text-gray-900 group-hover:text-gray-700 tracking-tighter mt-6 pb-3">{`${currencyFormat().format(
                 price
               )}`}</p>
             </div>

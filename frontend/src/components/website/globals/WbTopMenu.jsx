@@ -22,11 +22,14 @@ const WbTopMenu = () => {
         <div className="position-relative">
           <nav className="secondary-nav-container position-absolute w-100 start-0 z-3">
             <ul className="secondary-nav d-flex justify-content-between align-items-center">
+              <Link to={`/products/all`} className="text-decoration-none">
+                <li>All</li>
+              </Link>
               {wbSearchCategories?.map((cat) => {
                 return (
                   <Link
                     key={cat.id}
-                    to={`/cat/${cat.slug}`}
+                    to={`/products/all?cat=${cat.slug}`}
                     className="text-decoration-none"
                   >
                     <li>{cat.category}</li>

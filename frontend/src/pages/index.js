@@ -21,7 +21,6 @@ export { default as UserPostEdit } from "./website/user/post/UserPostEdit";
 export { default as UserPostList } from "./website/user/post/UserPostList";
 export { default as UserLayout } from "./website/user/UserLayout";
 export { default as UserDashboard } from "./website/user/UserDashboard";
-export { default as WebsiteCategory } from "./website/WebsiteCategory";
 export { default as WebsiteContactUs } from "./website/WebsiteContactUs";
 export { default as WebsiteHome } from "./website/WebsiteHome";
 export { default as WebsiteLayout } from "./website/WebsiteLayout";

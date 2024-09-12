@@ -29,13 +29,13 @@ const WebsiteProductsPage = () => {
     <>
       <WbPageBanner />
       <WbPageWrapper>
-        <div className="flex flex-row gap-4 mb-16">
-          <div className="w-[350px] p-4 rounded-sm">
+        <div className="flex sm:flex-col md:flex-row gap-4 mb-8">
+          <div className="sm:w-full md:w-[350px] sm:p-2 md:p-4 rounded-sm">
             <WbPostFilter />
           </div>
-          <div className="basis-4/5">
+          <div className="sm:w-full md:basis-4/5">
             <WbPostSorting />
-            <div className="grid md:grid-cols-4 gap-3">
+            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3">
               {posts?.map((post) => {
                 return <WbProductCard key={post.id} product={post} />;
               })}
@@ -44,9 +44,9 @@ const WebsiteProductsPage = () => {
         </div>
         {meta?.totalPages > 1 && (
           <div className="flex pb-8">
-            <div className="basis-1/5">&nbsp;</div>
-            <div className="basis-4/5">
-              && <WbPaginationContainer />
+            <div className="sm:hidden md:block md:basis-1/5">&nbsp;</div>
+            <div className="sm:w-full md:basis-4/5">
+              <WbPaginationContainer />
             </div>
           </div>
         )}

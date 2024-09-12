@@ -17,14 +17,16 @@ const WbTestimonials = () => {
       const el = (
         <div className="swiper-slide" key={index + 1}>
           <div className="rounded-lg border-2 bg-white border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 hover:shadow-2xl">
-            <div className="testimonial-content">
+            <div className="testimonial-content p-4">
               <div className="flex gap-3 justify-start items-center">
-                <span className="bg-gray-200 w-12 h-12 flex justify-center items-center rounded-full">
+                <span className="basis-1/5 bg-gray-200 p-3 flex justify-center items-center rounded-full">
                   <Quote className="rotate-180 fill-black font-normal" />
                 </span>
-                <span className="testimonial-title">Very Solid!!</span>
+                <span className="basis-4/5 text-[16px] font-medium testimonial-title">
+                  Very solid!!
+                </span>
               </div>
-              <p className="testimonial-feedback text-justify tracking-tighter">
+              <p className="text-sm testimonial-feedback text-justify tracking-tighter">
                 There are many variations of a passages of Lorem Ipsum
                 available, but the as majority have suffered alteration in some
                 form.
