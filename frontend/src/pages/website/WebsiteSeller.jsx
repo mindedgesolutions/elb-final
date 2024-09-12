@@ -25,12 +25,12 @@ const WebsiteSeller = () => {
     <>
       <WbPageBanner />
       <WbPageWrapper>
-        <div className="flex gap-8 pb-8">
-          <div className="basis-1/4">
+        <div className="flex sm:flex-col md:flex-row gap-8 pb-8">
+          <div className="sm:w-full md:basis-1/4">
             <WbSellerSidebar rating={rating} overall={sellerRating[5]} />
           </div>
           <div className="basis-3/4">
-            <div className="flex flex-row gap-3">
+            <div className="flex sm:flex-col md:flex-row gap-3">
               <div className="w-40 p-4 rounded-lg bg-gray-100 flex flex-col justify-center items-center">
                 <h3 className="text-5xl text-fuchsia-700 font-semibold">
                   {sellerRating[5]}
@@ -70,7 +70,7 @@ const WebsiteSeller = () => {
 
             {rating[5] > 0 ? (
               <>
-                <div className="grid grid-cols-2 gap-3 mt-12">
+                <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-3 mt-12">
                   {reviews.map((review) => {
                     return (
                       <WbProductReviewCard key={nanoid()} review={review} />
@@ -88,10 +88,10 @@ const WebsiteSeller = () => {
               <h3 className="text-3xl font-semibold py-20">No review found</h3>
             )}
             <div className="flex flex-col pt-0">
-              <h3 className="text-2xl font-bold uppercase tracking-wide text-gray-800">
+              <h3 className="sm:text-xl md:text-2xl font-bold uppercase tracking-wide text-gray-800">
                 My posts
               </h3>
-              <div className="grid md:grid-cols-4 gap-3 mt-8">
+              <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mt-8">
                 {products?.map((product) => {
                   return <WbProductCard key={product.slug} product={product} />;
                 })}

@@ -16,10 +16,15 @@ import { useLoaderData } from "react-router-dom";
 import profile from "@/assets/profile.jpg";
 import { setListReviews } from "@/features/postSlice";
 import { toast } from "@/components/ui/use-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { MoveRight } from "lucide-react";
+import { setLoginForm } from "@/features/commonSlice";
 
 const WebsiteSingleProductPage = () => {
   const { product, rating } = useLoaderData();
   const master = product.master.rows[0];
+  const dispatch = useDispatch();
+  const { loginStatus } = useSelector((store) => store.currentUser);
   document.title = `${master.title} | ${import.meta.env.VITE_APP_TITLE}`;
   const sellerName = master.first_name + " " + master.last_name;
   const sellerRating = calculateRating(rating);
@@ -49,7 +54,7 @@ const WebsiteSingleProductPage = () => {
                     </span>{" "}
                   </p>
                   <div className="flex">
-                    <WbRepeatStars count={sellerRating[5]} />{" "}
+                    <WbRepeatStars count={Math.ceil(sellerRating[5])} />{" "}
                     <span className="ml-2 tracking-wide">
                       ({rating[5]} ratings)
                     </span>
@@ -123,7 +128,7 @@ const WebsiteSingleProductPage = () => {
                     <div className="top-seller-rating mt-2 mb-8">
                       <p className="flex flex-col items-center space-y-2">
                         <span className="flex">
-                          <WbRepeatStars count={sellerRating[5]} />
+                          <WbRepeatStars count={Math.ceil(sellerRating[5])} />
                         </span>
                         <span className="text-xs">({rating[5]} Reviews)</span>
                       </p>
@@ -132,10 +137,28 @@ const WebsiteSingleProductPage = () => {
                       <p className="text-md font-medium tracking-widest uppercase mb-2">
                         Want to buy?
                       </p>
-                      <WbCustomBtn
-                        href={`/seller/${master.slug}`}
-                        title={`contact me`}
-                      />
+                      {loginStatus ? (
+                        <WbCustomBtn
+                          href={`/seller/${master.slug}`}
+                          title={`contact me`}
+                        />
+                      ) : (
+                        <button
+                          type="button"
+                          className="w-btn-secondary-lg flex gap-[10px] border font-normal border-white px-4 py-3 text-[15px] tracking-wide capitalize"
+                          onClick={() => {
+                            dispatch(
+                              setLoginForm({
+                                history: "seller-page",
+                                href: `/seller/${master.slug}`,
+                              })
+                            );
+                          }}
+                        >
+                          contact me
+                          <MoveRight size={18} className="font-normal" />
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentUser: {},
+  loginStatus: false,
 };
 
 const currentUserSlice = createSlice({
@@ -14,8 +15,12 @@ const currentUserSlice = createSlice({
     unsetCurrentUser: (state, action) => {
       state.currentUser = {};
     },
+    setLoginStatus: (state, action) => {
+      state.loginStatus = action.payload;
+    },
   },
 });
 
-export const { setCurrentUser, unsetCurrentUser } = currentUserSlice.actions;
+export const { setCurrentUser, unsetCurrentUser, setLoginStatus } =
+  currentUserSlice.actions;
 export default currentUserSlice.reducer;
