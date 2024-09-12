@@ -22,6 +22,7 @@ const router = createBrowserRouter([
     path: `/`,
     element: <Elb.WebsiteLayout />,
     loader: websiteLayoutLoader(store),
+    errorElement: <Elb.WebsiteErrorPage />,
     children: [
       { index: true, element: <Elb.WebsiteHome />, loader: wbHomeLoader },
       { path: `sign-in`, element: <Elb.WebsiteLogin /> },

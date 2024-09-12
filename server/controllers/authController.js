@@ -69,3 +69,16 @@ export const logout = async (req, res) => {
 
   res.status(StatusCodes.NO_CONTENT).json({ msg: "User logged out" });
 };
+
+// ------
+export const checkLoginStatus = async (req, res) => {
+  const { token_elb } = req.cookies;
+  let status = true;
+  if (token_elb) {
+    const { uuid } = verifyJWT(token_elb);
+    status = uuid ? true : false;
+  } else {
+    status = false;
+  }
+  res.status(StatusCodes.OK).json({ status });
+};

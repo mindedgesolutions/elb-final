@@ -33,8 +33,10 @@ const WbProductReviewCard = ({ review }) => {
         </span>
       </div>
       <div className="flex sm:flex-col md:flex-row gap-4 mt-[10px]">
-        <div className="min-w-20 h-20 text-4xl font-bold tracking-wider text-gray-950 group-hover:text-gray-700 bg-gray-100 flex justify-center items-center sm:hidden md:block">
-          {namePrefix(reviewer)}
+        <div className="sm:hidden md:block">
+          <div className="min-w-20 h-20 text-4xl font-bold tracking-wider text-gray-950 group-hover:text-gray-700 bg-gray-100 flex justify-center items-center">
+            {namePrefix(reviewer)}
+          </div>
         </div>
         <div className="flex flex-col">
           <p className="text-xs font-normal italic tracking-wider text-justify">
