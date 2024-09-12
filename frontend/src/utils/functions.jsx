@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import customFetch from "./customFetch";
+import splitErrors from "./splitErrors";
 
 // ------
 export const activeBadge = (status) => {
@@ -180,4 +181,15 @@ export const namePrefix = (name) => {
     arr[0].substring(0, 1).toUpperCase() + arr[1].substring(0, 1).toUpperCase();
 
   return pref;
+};
+
+// ------
+export const checkLoginStatus = async () => {
+  try {
+    const status = await customFetch.get(`/auth/login-status`);
+    return status.data.status;
+  } catch (error) {
+    splitErrors(error?.response?.data?.msg);
+    return error;
+  }
 };

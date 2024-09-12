@@ -2,7 +2,7 @@ import { SubmitBtn } from "@/components";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import { unsetLoginForm } from "@/features/commonSlice";
+import { setLoginForm, unsetLoginForm } from "@/features/commonSlice";
 import { setLoginStatus } from "@/features/currentUserSlice";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";

@@ -37,12 +37,6 @@ const WbAddEditReview = ({ openModal, setOpenModal }) => {
         title: "Review added",
         description: "Your review await admin approval",
       });
-
-      const reviews = await customFetch.get(
-        `/website/posts/reviewsLtd/${postSlug}`
-      );
-      dispatch(setListReviews(reviews.data.data.rows));
-
       setOpenModal(false);
       setRating(0);
     } catch (error) {
