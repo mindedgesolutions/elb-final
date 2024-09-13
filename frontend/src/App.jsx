@@ -4,6 +4,8 @@ import { store } from "./store";
 
 // Actions ------
 import { action as loginAction } from "@/pages/admin/auth/AdminLogin";
+import { action as registerAction } from "@/pages/website/WebsiteRegister";
+import { action as wbLoginAction } from "@/pages/website/WebsiteLogin";
 
 // Loaders ------
 import { loader as adminLayoutLoader } from "@/pages/admin/AdminLayout";
@@ -25,8 +27,12 @@ const router = createBrowserRouter([
     errorElement: <Elb.WebsiteErrorPage />,
     children: [
       { index: true, element: <Elb.WebsiteHome />, loader: wbHomeLoader },
-      { path: `sign-in`, element: <Elb.WebsiteLogin /> },
-      { path: `sign-up`, element: <Elb.WebsiteRegister /> },
+      { path: `sign-in`, element: <Elb.WebsiteLogin />, action: wbLoginAction },
+      {
+        path: `sign-up`,
+        element: <Elb.WebsiteRegister />,
+        action: registerAction,
+      },
       { path: `search`, element: <Elb.WebsiteSearch /> },
       { path: `sellers`, element: <Elb.WebsiteSellers /> },
       {

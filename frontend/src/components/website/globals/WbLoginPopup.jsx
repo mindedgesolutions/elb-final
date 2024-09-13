@@ -1,11 +1,13 @@
 import { SubmitBtn } from "@/components";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import { setLoginForm, unsetLoginForm } from "@/features/commonSlice";
+import { unsetLoginForm } from "@/features/commonSlice";
 import { setLoginStatus } from "@/features/currentUserSlice";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
+import { Eye } from "lucide-react";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +18,7 @@ const WbLoginPopup = () => {
   const navigate = useNavigate();
   const { loginForm, history, href } = useSelector((store) => store.common);
   const [isLoading, setIsLoading] = useState(false);
+  const [type, setType] = useState("password");
 
   const handleClose = () => {
     dispatch(unsetLoginForm());
@@ -48,8 +51,20 @@ const WbLoginPopup = () => {
     }
   };
 
+  const handleRedirect = (href) => {
+    dispatch(unsetLoginForm());
+    navigate(href);
+  };
+
+  const modalClass = "sm:w-full md:w-[350px] sm:p-0 sm:m-0 md:mx-auto";
+
   return (
-    <Modal show={loginForm} size="sm" centered onHide={handleClose}>
+    <Modal
+      show={loginForm}
+      centered
+      onHide={handleClose}
+      dialogClassName={modalClass}
+    >
       <form autoComplete="off" onSubmit={handleSubmit}>
         <Modal.Body>
           <div className="flex flex-col justify-center items-center">
@@ -70,23 +85,47 @@ const WbLoginPopup = () => {
               </div>
               <div className="flex flex-col space-y-2 my-2">
                 <Label>Password</Label>
-                <input
-                  type="password"
-                  className="flex h-10 w-full rounded-md border-[1px] bg-background px-2 py-2 text-sm"
-                  name="password"
-                  id="password"
-                />
+                <span className="flex flex-row justify-center items-center">
+                  <input
+                    type={type}
+                    className="flex h-10 w-full rounded-md border-[1px] bg-background px-2 py-2 text-sm relative"
+                    name="password"
+                    id="password"
+                  />
+                  <Eye
+                    className="text-gray-600 w-9 h-9 px-2 cursor-pointer border-l absolute right-4"
+                    onClick={() =>
+                      setType(type === "password" ? "text" : "password")
+                    }
+                  />
+                </span>
               </div>
             </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer className="flex gap-2">
           <SubmitBtn
             label="login"
             className={`w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white hover:from-pink-500 hover:to-orange-500 px-4 py-3 text-[15px] tracking-wide capitalize`}
             isLoading={isLoading}
           />
-        </Modal.Footer>
+          <div className="flex flex-row mt-4 gap-4">
+            <Button
+              type="button"
+              variant="ghost"
+              className="basis-1/2 text-sm font-normal text-fuchsia-500 hover:text-fuchsia-600"
+              onClick={() => handleRedirect(`/sign-up`)}
+            >
+              Not a member?
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              className="basis-1/2 text-sm font-normal text-fuchsia-500 hover:text-fuchsia-600"
+              onClick={() => handleRedirect(`/forgot-password`)}
+            >
+              Forgot password?
+            </Button>
+          </div>
+        </Modal.Body>
       </form>
     </Modal>
   );

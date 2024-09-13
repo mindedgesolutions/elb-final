@@ -43,8 +43,8 @@ const WbProductReviews = () => {
       <div className="flex sm:flex-col md:flex-row">
         <div className="sm:w-full md:basis-1/2">
           <div className="flex flex-col">
-            <h3 className="py-2 mb-2 text-3xl font-medium tracking-wide">
-              Reviews
+            <h3 className="py-2 mb-2 text-3xl font-medium tracking-wide capitalize">
+              seller reviews
             </h3>
             <div className="flex sm:flex-col md:flex-row sm:gap-2 md:gap-4">
               <div className="w-36 sm:h-36 md:h-auto rounded-lg bg-gray-200 flex flex-col justify-center items-center space-y-2">
