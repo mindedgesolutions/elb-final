@@ -1,8 +1,11 @@
 import { StatusCodes } from "http-status-codes";
 import pool from "../db.js";
-import { checkPassword } from "../utils/passwordUtils.js";
+import { checkPassword, hashPassword } from "../utils/passwordUtils.js";
 import { BadRequestError } from "../errors/customErrors.js";
 import { createJWT, verifyJWT } from "../utils/tokenUtils.js";
+import dayjs from "dayjs";
+import { v4 as uuidv4 } from "uuid";
+import { generateSlug } from "../utils/functions.js";
 
 // ------
 export const login = async (req, res) => {
@@ -16,7 +19,7 @@ export const login = async (req, res) => {
     throw new BadRequestError(`Incorrect username`);
 
   const user = await pool.query(
-    `select * from elb_users where email=$1 and is_active=true and rid=1`,
+    `select * from elb_users where email=$1 and is_active=true`,
     [username]
   );
 
@@ -81,4 +84,33 @@ export const checkLoginStatus = async (req, res) => {
     status = false;
   }
   res.status(StatusCodes.OK).json({ status });
+};
+
+// ------
+export const register = async (req, res) => {
+  const { firstName, lastName, email, mobile, password } = req.body;
+  const createdAt = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
+  const updatedAt = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
+  const userUuid = uuidv4();
+  const userPass = await hashPassword(password);
+  const userSlug = await generateSlug(firstName.trim(), lastName.trim());
+  const roleId = 2;
+
+  const data = await pool.query(
+    `insert into elb_users(first_name, last_name, email, mobile, password, created_at, updated_at, uuid, slug, rid) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *`,
+    [
+      firstName.trim(),
+      lastName.trim(),
+      email,
+      mobile,
+      userPass,
+      createdAt,
+      updatedAt,
+      userUuid,
+      userSlug,
+      roleId,
+    ]
+  );
+
+  res.status(StatusCodes.CREATED).json({ data });
 };

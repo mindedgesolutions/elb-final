@@ -154,7 +154,7 @@ const WebsiteSingleProductPage = () => {
                     </div>
                     <div className="flex flex-col justify-center items-center">
                       <p className="text-md font-medium tracking-widest uppercase mb-2">
-                        Want to buy?
+                        interested?
                       </p>
                       <button
                         type="button"
