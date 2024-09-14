@@ -11,7 +11,7 @@ import customFetch from "@/utils/customFetch";
 import { calculateRating } from "@/utils/functions";
 import splitErrors from "@/utils/splitErrors";
 import { nanoid } from "nanoid";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 
 const WebsiteSellerReviews = () => {
   const { profile, rating, reviews, meta } = useLoaderData();
@@ -132,6 +132,6 @@ export const loader =
     } catch (error) {
       splitErrors(error?.response?.data?.msg);
       console.log(error);
-      return error;
+      return redirect(`/`);
     }
   };

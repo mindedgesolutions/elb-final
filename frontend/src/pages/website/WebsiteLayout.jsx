@@ -10,14 +10,40 @@ import splitErrors from "@/utils/splitErrors";
 import customFetch from "@/utils/customFetch";
 import { setAllCategories } from "@/features/categorySlice";
 import { setCurrentUser, setLoginStatus } from "@/features/currentUserSlice";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useState } from "react";
 
 const WebsiteLayout = () => {
+  const useScreenWidth = () => {
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+      const handleResize = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return width;
+  };
+  const screenWidth = useScreenWidth();
+
   return (
     <div>
-      <WbTopnav />
-      <WbTopMenu />
-      <Outlet />
-      <WbFooter />
+      {screenWidth >= 768 ? (
+        <ScrollArea className="md:overflow-y-auto md:h-screen">
+          <WbTopnav />
+          <WbTopMenu />
+          <Outlet />
+          <WbFooter />
+        </ScrollArea>
+      ) : (
+        <>
+          <WbTopnav />
+          <WbTopMenu />
+          <Outlet />
+          <WbFooter />
+        </>
+      )}
       <WbLoginPopup />
     </div>
   );
