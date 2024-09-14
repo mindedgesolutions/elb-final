@@ -10,6 +10,7 @@ import splitErrors from "@/utils/splitErrors";
 import customFetch from "@/utils/customFetch";
 import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
+import { setCurrentUser } from "@/features/currentUserSlice";
 
 const socialArray = [
   { icon: LinkedinIcon, href: "#" },
@@ -28,7 +29,7 @@ const WebsiteLogin = () => {
       <WbPageBanner />
       <WbPageWrapper>
         <div className="flex flex-col p-4 sm:w-full md:w-[500px] mx-auto mb-10 bg-gray-100 rounded-lg">
-          <h3 className="text-3xl font-bold tracking-widest">Login</h3>
+          <h3 className="text-3xl font-bold tracking-widest">Sign-in</h3>
           <Separator
             className={`flex justify-start items-start w-40 my-4 bg-gray-300`}
           />
@@ -153,16 +154,35 @@ const WebsiteLogin = () => {
 export default WebsiteLogin;
 
 // Action function starts ------
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    try {
+      const response = await customFetch.post(`/auth/login`, data);
+      const title = `Welcome ${response.data.data.first_name.toUpperCase()} ${response.data.data.last_name.toUpperCase()}`;
+
+      store.dispatch(setCurrentUser(response.data.data));
+
+      toast({ title: title, description: `Happy surfing!!` });
+      return redirect(`/`);
+    } catch (error) {
+      splitErrors(error?.response?.data?.msg);
+      return error;
+    }
+  };
+
+// Loader function starts ------
+export const loader = async () => {
   try {
-    const response = await customFetch.post(`/auth/login`, data);
-    const title = `Welcome ${response.data.data.first_name.toUpperCase()} ${response.data.data.last_name.toUpperCase()}`;
-    toast({ title: title, description: `Happy surfing!!` });
-    return redirect(`/`);
+    const status = await customFetch.get(`/auth/login-status`);
+    if (status.data.status) {
+      return redirect(`/`);
+    }
+    return null;
   } catch (error) {
     splitErrors(error?.response?.data?.msg);
-    return error;
+    return redirect(`/`);
   }
 };

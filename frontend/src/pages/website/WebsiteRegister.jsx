@@ -177,3 +177,17 @@ export const action = async ({ request }) => {
     return error;
   }
 };
+
+// Loader function starts ------
+export const loader = async () => {
+  try {
+    const status = await customFetch.get(`/auth/login-status`);
+    if (status.data.status) {
+      return redirect(`/`);
+    }
+    return null;
+  } catch (error) {
+    splitErrors(error?.response?.data?.msg);
+    return redirect(`/`);
+  }
+};

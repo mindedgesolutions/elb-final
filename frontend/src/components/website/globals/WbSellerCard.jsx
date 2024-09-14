@@ -23,7 +23,7 @@ const WbSellerCard = () => {
   // Login check ends ------
 
   return (
-    <div className="bg-white relative px-2 py-8 rounded-lg border-2 border-gray-100 transition duration-500 hover:border-b hover:border-b-fuchsia-700 hover:shadow-2xl">
+    <div className="bg-white relative px-2 py-8 rounded-lg border-[1px] border-gray-100 transition duration-500 hover:border-b-2 hover:border-b-fuchsia-700 hover:shadow-2xl">
       <div className="job-type-badge position-absolute d-flex flex-column gap-2">
         <p className="job-type-badge-tertiary px-[6px]">Top Seller</p>
       </div>

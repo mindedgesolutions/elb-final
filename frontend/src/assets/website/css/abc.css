@@ -21,7 +21,6 @@ body,
 
 .header-primary {
   background: transparent;
-  position: fixed;
   background: linear-gradient(227.3deg, #8a208c 0%, #331e7e 100.84%);
 }
 

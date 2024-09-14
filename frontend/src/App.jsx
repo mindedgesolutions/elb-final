@@ -17,6 +17,8 @@ import { loader as singleProductLoader } from "@/pages/website/WebsiteSingleProd
 import { loader as sellerProfileLoader } from "@/pages/website/WebsiteSeller";
 import { loader as sellerReviewsLoader } from "@/pages/website/WebsiteSellerReviews";
 import { loader as sellerProductsLoader } from "@/pages/website/WebsiteSellerProducts";
+import { loader as wbLoginLoader } from "@/pages/website/WebsiteLogin";
+import { loader as wbRegisterLoader } from "@/pages/website/WebsiteRegister";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -27,11 +29,17 @@ const router = createBrowserRouter([
     errorElement: <Elb.WebsiteErrorPage />,
     children: [
       { index: true, element: <Elb.WebsiteHome />, loader: wbHomeLoader },
-      { path: `sign-in`, element: <Elb.WebsiteLogin />, action: wbLoginAction },
+      {
+        path: `sign-in`,
+        element: <Elb.WebsiteLogin />,
+        action: wbLoginAction(store),
+        loader: wbLoginLoader,
+      },
       {
         path: `sign-up`,
         element: <Elb.WebsiteRegister />,
         action: registerAction,
+        loader: wbRegisterLoader,
       },
       { path: `search`, element: <Elb.WebsiteSearch /> },
       { path: `sellers`, element: <Elb.WebsiteSellers /> },
