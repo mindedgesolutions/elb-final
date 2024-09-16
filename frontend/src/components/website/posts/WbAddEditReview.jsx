@@ -1,20 +1,17 @@
 import { SubmitBtn } from "@/components";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
-import { setListReviews } from "@/features/postSlice";
 import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
 import { Star } from "lucide-react";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
 
 const WbAddEditReview = ({ openModal, setOpenModal }) => {
-  const dispatch = useDispatch();
   const { product } = useLoaderData();
   const postId = product.master.rows[0].id;
-  const postSlug = product.master.rows[0].productslug;
+  const sellerId = product.master.rows[0].seller_id;
   const [isLoading, setIsLoading] = useState(false);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
@@ -29,7 +26,7 @@ const WbAddEditReview = ({ openModal, setOpenModal }) => {
     setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     let data = Object.fromEntries(formData);
-    data = { ...data, rating: rating };
+    data = { ...data, rating: rating, sellerId: sellerId };
     try {
       await customFetch.post(`/posts/add-review/${postId}`, data);
       setIsLoading(false);

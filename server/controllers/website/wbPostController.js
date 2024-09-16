@@ -4,8 +4,23 @@ import { wbPaginationLogic } from "../../utils/functions.js";
 
 // ------
 export const featuredProducts = async (req, res) => {
-  const data = await pool.query(
-    `select id, slug, title, price from elb_product where is_feature=true and is_active=true order by updated_at, title`,
+  let data = await pool.query(
+    `select 
+    pm.id, 
+    pm.slug, 
+    pm.title, 
+    pm.price, 
+    pm.updated_at,
+    um.id as seller_id,
+    um.first_name,
+    um.last_name,
+    avg(er.rating) as seller_rating
+    from elb_product pm
+    join elb_users um on pm.user_id = um.id
+    left join elb_reviews er on er.seller_id = um.id
+    where pm.is_feature=true and pm.is_active=true 
+    group by pm.id, um.id
+    order by pm.updated_at, pm.title`,
     []
   );
 
@@ -15,7 +30,22 @@ export const featuredProducts = async (req, res) => {
 // ------
 export const recentProducts = async (req, res) => {
   const data = await pool.query(
-    `select id, slug, title, price from elb_product where is_active=true order by updated_at desc limit 10`,
+    `select
+    pm.id, 
+    pm.slug, 
+    pm.title, 
+    pm.price, 
+    pm.updated_at,
+    um.id as seller_id,
+    um.first_name,
+    um.last_name,
+    avg(er.rating) as seller_rating
+    from elb_product pm
+    join elb_users um on pm.user_id = um.id
+    left join elb_reviews er on er.seller_id = um.id
+    where pm.is_active=true
+    group by pm.id, um.id
+    order by pm.updated_at desc limit 10`,
     []
   );
 
@@ -88,13 +118,15 @@ export const wbListPosts = async (req, res) => {
     um.id as user_id,
     um.first_name,
     um.last_name,
+    avg(er.rating) as seller_rating,
     cat.category as cat,
     scat.category as subcat
     from elb_product pm
     join elb_users um on pm.user_id = um.id
+    left join elb_reviews er on er.seller_id = um.id
     join master_categories cat on cat.id = pm.cat_id
     join master_categories scat on scat.id = pm.subcat_id
-    where pm.id is not null ${searchStr} order by ${orderStr} um.first_name, um.last_name asc offset $1 limit $2`,
+    where pm.id is not null ${searchStr} group by pm.id, um.id, cat.category, scat.category order by ${orderStr} um.first_name, um.last_name asc offset $1 limit $2`,
     [pagination.offset, pagination.pageLimit]
   );
 
@@ -121,6 +153,7 @@ export const wbSinglePost = async (req, res) => {
     pm.slug as productSlug,
     cat.category as cat,
     scat.category as subcat,
+    um.id as seller_id,
     um.first_name,
     um.last_name,
     um.email,
@@ -142,7 +175,7 @@ export const wbSinglePost = async (req, res) => {
     join master_categories cat on cat.id = pm.cat_id
     join master_categories scat on scat.id = pm.subcat_id
     left join elb_reviews pr on pr.post_id = pm.id
-    where pm.slug=$1 group by pm.id, cat.category, scat.category, um.first_name, um.last_name, um.email, um.mobile, um.slug`,
+    where pm.slug=$1 group by pm.id, um.id, cat.category, scat.category, um.first_name, um.last_name, um.email, um.mobile, um.slug`,
     [slug]
   );
 
@@ -238,6 +271,7 @@ export const wbSellerReviewsAll = async (req, res) => {
 };
 
 // ------
+// seller_id is added in later stage... thus everything is channelled through products
 export const wbSellerRating = async (req, res) => {
   const { slug } = req.params;
 
