@@ -4,13 +4,20 @@ import { Link } from "react-router-dom";
 import productImg from "@/assets/website/img/job/camera.jpg";
 import { setLoginForm } from "@/features/commonSlice";
 import { useDispatch } from "react-redux";
+import { Separator } from "@/components/ui/separator";
+import sellerImg from "@/assets/profile.jpg";
+import dayjs from "dayjs";
+import { WbRepeatStars } from "@/components";
 
 const WbProductCard = ({ product, type }) => {
   const dispatch = useDispatch();
   const { title, price } = product;
   const imgSrc = "";
   const titleLabel =
-    title.split("").length > 60 ? title.substring(0, 60) + " ..." : title;
+    title.split("").length > 25 ? title.substring(0, 25) + " ..." : title;
+  const sellerName = product.first_name + " " + product.last_name;
+  const sellerNameLabel =
+    sellerName.length > 20 ? sellerName.substring(0, 20) + ` ...` : sellerName;
 
   // Login check starts ------
   const checkLogin = async () => {
@@ -50,14 +57,42 @@ const WbProductCard = ({ product, type }) => {
               </button>
             </div>
           </section>
-          <Link to={`/products/${product.slug}`}>
+          <Link to={`/products/${product.slug}`} className="px-1">
             <div className="flex flex-col px-2">
-              <p className="sm:text-xs md:text-sm sm:h-10 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-normal md:leading-5 font-normal mt-3">
+              <p className="sm:text-xs md:text-[16px] sm:h-10 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-wider md:leading-5 font-semibold mt-3">
                 {titleLabel}
               </p>
-              <p className="sm:text-sm md:text-[16px] flex items-baseline font-semibold text-gray-900 group-hover:text-gray-700 tracking-tighter mt-6 pb-3">{`${currencyFormat().format(
-                price
-              )}`}</p>
+              <section className="">
+                <p className="text-sm font-normal tracking-wide capitalize">
+                  Posted on:{" "}
+                  {dayjs(new Date(product.updated_at)).format("MMMM D, YYYY")}
+                </p>
+              </section>
+              <section className="flex items-baseline mt-3 pb-3">
+                <p className="sm:text-sm md:text-[16px] font-semibold text-gray-900 group-hover:text-gray-700 tracking-wide">{`${currencyFormat().format(
+                  price
+                )}`}</p>
+              </section>
+              <Separator />
+              <section className="flex flex-row gap-3 py-3">
+                <div className="w-10 h-10 flex justify-center items-center object-cover overflow-hidden rounded-full">
+                  <img
+                    src={sellerImg}
+                    alt={import.meta.env.VITE_APP_TITLE}
+                    className=""
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span>
+                    <h3 className="text-sm font-normal tracking-wider capitalize">
+                      {sellerNameLabel}
+                    </h3>
+                  </span>
+                  <span className="flex flex-row">
+                    <WbRepeatStars count={Math.round(product.seller_rating)} />
+                  </span>
+                </div>
+              </section>
             </div>
           </Link>
         </div>
