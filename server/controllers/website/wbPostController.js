@@ -54,7 +54,16 @@ export const recentProducts = async (req, res) => {
 
 // ------
 export const wbListPosts = async (req, res) => {
-  const { page, cat, scat, min: minPrice, max: maxPrice, sort } = req.query;
+  const {
+    page,
+    cat,
+    scat,
+    loc,
+    s: search,
+    min: minPrice,
+    max: maxPrice,
+    sort,
+  } = req.query;
   const pagination = wbPaginationLogic(page, null);
 
   let catId = "",
@@ -82,6 +91,12 @@ export const wbListPosts = async (req, res) => {
 
   searchStr += subcatId
     ? searchStr + ` and pm.subcat_id=${subcatId}`
+    : searchStr;
+
+  searchStr += loc ? searchStr + ` and pm.city ilike '%${loc}%'` : searchStr;
+
+  searchStr += search
+    ? searchStr + ` and pm.title ilike '%${search}%'`
     : searchStr;
 
   searchStr = maxPrice

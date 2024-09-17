@@ -84,11 +84,11 @@ const WbProductCard = ({ product, type }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span>
-                    <h3 className="text-sm font-normal tracking-wider capitalize">
+                    <h3 className="text-xs font-normal tracking-wider uppercase">
                       {sellerNameLabel}
                     </h3>
                   </span>
-                  <span className="flex flex-row">
+                  <span className="flex flex-row gap-1">
                     <WbRepeatStars count={Math.round(product.seller_rating)} />
                   </span>
                 </div>
