@@ -20,7 +20,19 @@ const WbTopSearch = () => {
     searchParams.get("search") || ""
   );
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const location =
+      locationLabel && locationLabel !== "Location" ? locationLabel : "";
+    const category =
+      categoryLabel && categoryLabel !== "Category"
+        ? categoryLabel.toLowerCase()
+        : "";
+    const search = enteredSearch ? enteredSearch : "";
+    navigate(
+      `/products/all?cat=${category}&scat=&loc=${location}&min=&max=&s=${search}`
+    );
+  };
 
   return (
     <>
@@ -51,7 +63,9 @@ const WbTopSearch = () => {
               type="text"
               name="search"
               className="form-control shadow-none"
-              placeholder="Search for any service..."
+              placeholder="Search product title..."
+              value={enteredSearch}
+              onChange={(e) => setEnteredSearch(e.target.value)}
             />
             <button type="submit" className="hero-form-btn position-absolute">
               <Search />

@@ -11,10 +11,12 @@ import {
   wbSellerRating,
   wbSellerProductsAll,
 } from "../controllers/website/wbPostController.js";
+import { allLocations } from "../controllers/admin/locationController.js";
 
 router.get(`/categories`, allCategories);
 router.get(`/featured-products`, featuredProducts);
 router.get(`/recent-products`, recentProducts);
+router.get(`/locations`, allLocations);
 router.get(`/posts`, wbListPosts);
 router.get(`/posts/:slug`, wbSinglePost);
 router.get(`/posts/reviewsLtd/:slug`, wbSellerReviewsLtd);

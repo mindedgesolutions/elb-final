@@ -46,6 +46,7 @@
     "react-router-dom": "^6.26.1",
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
+    "slug": "^9.1.0",
     "swiper": "^11.1.11",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
