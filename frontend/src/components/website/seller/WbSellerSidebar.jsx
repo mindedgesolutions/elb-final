@@ -3,11 +3,13 @@ import { WbCustomBtn } from "@/components";
 import dayjs from "dayjs";
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLoaderData } from "react-router-dom";
 
 const WbSellerSidebar = ({ rating, overall }) => {
   const { profile, totalPosts } = useLoaderData();
   const [showMore, setShowMore] = useState(false);
+  const { sellerProfile } = useSelector((store) => store.users);
 
   const toggleMore = () => {
     setShowMore(!showMore);
@@ -55,7 +57,7 @@ const WbSellerSidebar = ({ rating, overall }) => {
           </div>
           <div className="basis-1/2 flex flex-col justify-center items-center px-3 text-sm text-gray-600 font-medium leading-5">
             <p>Posts</p>
-            <p>{totalPosts}</p>
+            <p>{totalPosts || sellerProfile.profile.totalPosts}</p>
           </div>
         </div>
         <div className="flex flex-col w-full mt-4 text-sm leading-6 px-4">
