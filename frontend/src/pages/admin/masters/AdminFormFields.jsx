@@ -218,7 +218,7 @@ const AdminFormFields = () => {
                       )}
                     </TableBody>
                   </Table>
-                  {!editId && (
+                  {!editId && meta.totalPages > 1 && (
                     <AdminPagination
                       currentPage={meta.currentPage}
                       totalPages={meta.totalPages}

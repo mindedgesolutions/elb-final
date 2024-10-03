@@ -34,58 +34,121 @@ const WbProductCard = ({ product, type }) => {
   // Login check ends ------
 
   return (
-    <article
-      className={`rounded-lg bg-white border-[1px] border-gray-200 transition duration-500 hover:border-b-2 hover:border-b-fuchsia-700 ${
-        type === "featured" ? null : "md:hover:shadow-2xl"
-      }`}
-    >
-      <div className="position-relative">
-        <div className="flex flex-col group justify-start">
+    <>
+      {/* For desktop starts ------ */}
+      <article
+        className={`hidden md:block rounded-lg bg-white border-[1px] border-gray-200 transition duration-500 hover:border-b-2 hover:border-b-fuchsia-700 ${
+          type === "featured" ? null : "md:hover:shadow-2xl"
+        }`}
+      >
+        <div className="position-relative">
+          <div className="flex flex-col group justify-start">
+            <section className="p-1">
+              <div className="w-full h-48 md:h-60 rounded-lg object-cover overflow-hidden">
+                <Link to={`/products/${product.slug}`}>
+                  <img
+                    src={imgSrc || productImg}
+                    className="rounded-lg border border-gray-100"
+                  />
+                </Link>
+                <button
+                  className="service-card-wishlist-btn z-10"
+                  onClick={checkLogin}
+                >
+                  <FaRegHeart />
+                </button>
+              </div>
+            </section>
+            <Link to={`/products/${product.slug}`} className="px-1">
+              <div className="flex flex-col px-2">
+                <p className="text-xs md:text-[16px] h-10 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-wider md:leading-5 font-semibold mt-3">
+                  {titleLabel}
+                </p>
+                <section className="">
+                  <p className="text-sm font-normal tracking-wide capitalize">
+                    Posted on:{" "}
+                    {dayjs(new Date(product.updated_at)).format("MMMM D, YYYY")}
+                  </p>
+                </section>
+                <section className="flex items-baseline mt-3 pb-3">
+                  <p className="text-sm md:text-[16px] font-semibold text-gray-900 group-hover:text-gray-700 tracking-wide">{`${currencyFormat().format(
+                    price
+                  )}`}</p>
+                </section>
+                <Separator />
+                <section className="flex flex-row gap-3 py-3">
+                  <div className="w-10 h-10 flex justify-center items-center object-cover overflow-hidden rounded-full">
+                    <img
+                      src={sellerImg}
+                      alt={import.meta.env.VITE_APP_TITLE}
+                      className=""
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      <h3 className="text-sm font-normal tracking-wider capitalize">
+                        {sellerNameLabel}
+                      </h3>
+                    </span>
+                    <span className="flex flex-row">
+                      <WbRepeatStars
+                        count={Math.round(product.seller_rating)}
+                      />
+                    </span>
+                  </div>
+                </section>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </article>
+      {/* For desktop ends ------ */}
+
+      {/* For mobile view starts ------ */}
+      <article
+        className={`block md:hidden rounded-lg bg-white border-[1px] border-gray-200 transition duration-500 hover:border-b-2 hover:border-b-fuchsia-700 ${
+          type === "featured" ? null : "md:hover:shadow-2xl"
+        }`}
+      >
+        <div className="flex flex-row gap-2 relative group">
           <section className="p-1">
-            <div className="w-full sm:h-36 md:h-60 rounded-lg object-cover overflow-hidden">
+            <div className="w-24 h-24 rounded-lg overflow-hidden">
               <Link to={`/products/${product.slug}`}>
                 <img
                   src={imgSrc || productImg}
-                  className="rounded-lg border border-gray-100"
+                  className="rounded-lg border border-gray-100 object-cover"
                 />
               </Link>
-              <button
-                className="service-card-wishlist-btn z-10"
-                onClick={checkLogin}
-              >
-                <FaRegHeart />
-              </button>
             </div>
           </section>
-          <Link to={`/products/${product.slug}`} className="px-1">
-            <div className="flex flex-col px-2">
-              <p className="sm:text-xs md:text-[16px] sm:h-10 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-wider md:leading-5 font-semibold mt-3">
+          <div className="flex flex-row justify-between items-start gap-1">
+            <button
+              className="absolute top-0 right-0 service-card-wishlist-btn z-10"
+              onClick={checkLogin}
+            >
+              <FaRegHeart />
+            </button>
+            <div className="flex flex-col justify-start items-start space-y-2">
+              <p className="text-xs text-gray-900 group-hover:text-gray-700 tracking-wider font-medium mt-3">
                 {titleLabel}
               </p>
               <section className="">
-                <p className="text-sm font-normal tracking-wide capitalize">
+                <p className="text-xs font-normal tracking-wide capitalize my-1">
                   Posted on:{" "}
                   {dayjs(new Date(product.updated_at)).format("MMMM D, YYYY")}
                 </p>
               </section>
-              <section className="flex items-baseline mt-3 pb-3">
-                <p className="sm:text-sm md:text-[16px] font-semibold text-gray-900 group-hover:text-gray-700 tracking-wide">{`${currencyFormat().format(
+              <section className="flex items-baseline pb-1">
+                <p className="text-sm font-semibold text-gray-900 group-hover:text-gray-700 tracking-wide">{`${currencyFormat().format(
                   price
                 )}`}</p>
               </section>
               <Separator />
-              <section className="flex flex-row gap-3 py-3">
-                <div className="w-10 h-10 flex justify-center items-center object-cover overflow-hidden rounded-full">
-                  <img
-                    src={sellerImg}
-                    alt={import.meta.env.VITE_APP_TITLE}
-                    className=""
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
+              <section className="flex flex-row gap-3 pb-1">
+                <div className="flex flex-col">
                   <span>
-                    <h3 className="text-xs font-normal tracking-wider uppercase">
-                      {sellerNameLabel}
+                    <h3 className="text-xs font-normal tracking-wider capitalize">
+                      Posted By: {sellerNameLabel}
                     </h3>
                   </span>
                   <span className="flex flex-row gap-1">
@@ -94,10 +157,11 @@ const WbProductCard = ({ product, type }) => {
                 </div>
               </section>
             </div>
-          </Link>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+      {/* For mobile view ends ------ */}
+    </>
   );
 };
 export default WbProductCard;

@@ -130,6 +130,7 @@ export const wbListPosts = async (req, res) => {
     pm.is_sold,
     pm.is_active,
     pm.created_at,
+    pm.updated_at,
     um.id as user_id,
     um.first_name,
     um.last_name,
@@ -329,7 +330,20 @@ export const wbSellerProductsAll = async (req, res) => {
   ]);
 
   const data = await pool.query(
-    `select pm.title, pm.price, pm.slug, pm.id from elb_product pm where pm.user_id=$1 and pm.is_active=true order by pm.updated_at desc offset $2 limit $3`,
+    `select
+    pm.title,
+    pm.price,
+    pm.slug,
+    pm.id,
+    um.first_name,
+    um.last_name,
+    avg(er.rating) as seller_rating
+    from elb_product pm
+    join elb_users um on pm.user_id = um.id
+    left join elb_reviews er on er.seller_id = um.id
+    where pm.user_id=$1 and pm.is_active=true
+    group by pm.title, pm.id, um.first_name, um.last_name
+    order by pm.updated_at desc offset $2 limit $3`,
     [user.rows[0].id, pagination.offset, pagination.pageLimit]
   );
 

@@ -29,22 +29,22 @@ const WebsiteProductsPage = () => {
     <>
       <WbPageBanner />
       <WbPageWrapper>
-        <div className="flex sm:flex-col md:flex-row gap-4 mb-8">
-          <div className="sm:w-full md:w-[350px] sm:p-2 md:p-4 rounded-sm">
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="w-full md:w-[350px] p-2 md:p-4 rounded-sm">
             <WbPostFilter />
           </div>
-          <div className="sm:w-full md:basis-4/5">
+          <div className="w-full md:basis-4/5">
             <WbPostSorting />
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
               {posts.length === 0 ? (
                 <>
-                  <h3 className="text-3xl font-medium sm:col-span-2 md:col-span-4 tracking-widest">
+                  <h3 className="text-3xl font-medium col-span-2 md:col-span-4 tracking-widest">
                     Oops!... There's no post yet!
                   </h3>
-                  <p className="sm:col-span-2 md:col-span-4 tracking-widest">
+                  <p className="col-span-2 md:col-span-4 tracking-widest">
                     We've ton of other products, I'm sure you will find one
                   </p>
-                  <span className="sm:col-span-2 md:col-span-4 tracking-widest font-medium text-purple-500 hover:text-purple-600">
+                  <span className="col-span-2 md:col-span-4 tracking-widest font-medium text-purple-500 hover:text-purple-600">
                     <Link to={`/products/all`}>Keep browsing ...</Link>
                   </span>
                 </>
@@ -58,8 +58,8 @@ const WebsiteProductsPage = () => {
         </div>
         {meta?.totalPages > 1 && (
           <div className="flex pb-8">
-            <div className="sm:hidden md:block md:basis-1/5">&nbsp;</div>
-            <div className="sm:w-full md:basis-4/5">
+            <div className="hidden md:block md:basis-1/5">&nbsp;</div>
+            <div className="w-full md:basis-4/5">
               <WbPaginationContainer />
             </div>
           </div>

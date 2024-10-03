@@ -44,12 +44,20 @@ const AdminPostReviews = () => {
   const { counter } = useSelector((store) => store.common);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const [meta, setMeta] = useState([]);
 
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get(`/posts/reviews`);
+      const response = await customFetch.get(`/posts/reviews`, {
+        params: {
+          page: page || "",
+          search: queryString.get("s") || "",
+          type: queryString.get("t") || "",
+        },
+      });
       setReviews(response.data.data.rows);
+      setMeta(response.data.meta);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -60,7 +68,7 @@ const AdminPostReviews = () => {
 
   useEffect(() => {
     fetchData();
-  }, [counter, queryString.get("s"), queryString.get("t")]);
+  }, [counter, page, queryString.get("s"), queryString.get("t")]);
 
   const toggleReview = async ({ id, type }) => {
     setIsLoading(true);
@@ -207,10 +215,12 @@ const AdminPostReviews = () => {
                 )}
               </TableBody>
             </Table>
-            {/* <AdminPagination
-              currentPage={meta.currentPage}
-              totalPages={meta.totalPages}
-            /> */}
+            {meta.totalPages > 1 && (
+              <AdminPagination
+                currentPage={meta.currentPage}
+                totalPages={meta.totalPages}
+              />
+            )}
           </>
         )}
       </AdminPageLayout>

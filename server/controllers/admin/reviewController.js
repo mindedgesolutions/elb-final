@@ -15,11 +15,20 @@ export const adminReviews = async (req, res) => {
     pm.title
     from elb_reviews er
     join elb_users um on er.review_by = um.id
-    join elb_product pm on pm.id = er.post_id order by er.created_at desc`,
-    []
+    join elb_product pm on pm.id = er.post_id order by er.created_at desc offset $1 limit $2`,
+    [pagination.offset, pagination.pageLimit]
   );
 
-  res.status(StatusCodes.OK).json({ data });
+  const records = await pool.query(`select er.* from elb_reviews er`, []);
+
+  const totalPages = Math.ceil(records.rowCount / pagination.pageLimit);
+  const meta = {
+    totalPages: totalPages,
+    currentPage: pagination.pageNo,
+    totalRecords: records.rowCount,
+  };
+
+  res.status(StatusCodes.OK).json({ data, meta });
 };
 
 // ------

@@ -15,7 +15,21 @@ export const getSellerProfile = async (req, res) => {
   );
 
   const products = await pool.query(
-    `select slug, title, price from elb_product where user_id=$1 order by updated_at desc limit 8`,
+    `select
+    pm.id,
+    pm.slug,
+    pm.title,
+    pm.price,
+    pm.updated_at,
+    um.first_name,
+    um.last_name,
+    avg(er.rating) as seller_rating
+    from elb_product pm
+    join elb_users um on pm.user_id = um.id
+    left join elb_reviews er on er.seller_id = um.id
+    where pm.user_id=$1
+    group by pm.id, um.first_name, um.last_name
+    order by pm.updated_at desc limit 8`,
     [seller.rows[0].id]
   );
 
