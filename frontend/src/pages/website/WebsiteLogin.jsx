@@ -49,8 +49,9 @@ const WebsiteLogin = () => {
                   type="text"
                   name="username"
                   id="username"
-                  className="flex h-10 w-full rounded-md bg-background px-2 py-2 text-sm"
+                  className="flex h-10 w-full rounded-sm border-[1px] bg-background p-2 text-sm focus:outline-none"
                   autoFocus={true}
+                  placeholder="johndoe@test.com"
                 />
               </div>
               <div className="flex flex-col space-y-1.5 mb-2">
@@ -68,7 +69,8 @@ const WebsiteLogin = () => {
                     type={type}
                     name="password"
                     id="password"
-                    className="flex h-10 w-full rounded-md bg-background px-2 py-2 text-sm"
+                    className="flex h-10 w-full rounded-sm border-[1px] bg-background p-2 text-sm focus:outline-none"
+                    placeholder="********"
                   />
                   <button
                     type="button"

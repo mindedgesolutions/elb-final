@@ -28,7 +28,7 @@ const WbTopnav = () => {
             {currentUser?.first_name ? (
               <>
                 <Link
-                  to="/sign-in"
+                  to={`/user/${currentUser?.slug}/dashboard`}
                   className="w-btn-secondary-lg border font-medium border-white px-4 py-[11px] text-md w-32 rounded-full capitalize tracking-wider"
                 >
                   add post

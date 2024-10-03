@@ -19,6 +19,7 @@ import { loader as sellerReviewsLoader } from "@/pages/website/WebsiteSellerRevi
 import { loader as sellerProductsLoader } from "@/pages/website/WebsiteSellerProducts";
 import { loader as wbLoginLoader } from "@/pages/website/WebsiteLogin";
 import { loader as wbRegisterLoader } from "@/pages/website/WebsiteRegister";
+import { loader as userLayoutLoader } from "@/pages/website/user/UserLayout";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
     loader: websiteLayoutLoader(store),
     errorElement: <Elb.WebsiteErrorPage />,
     children: [
-      { index: true, element: <Elb.WebsiteHome />, loader: wbHomeLoader },
+      {
+        index: true,
+        element: <Elb.WebsiteHome />,
+        loader: wbHomeLoader,
+      },
       {
         path: `sign-in`,
         element: <Elb.WebsiteLogin />,
@@ -74,10 +79,13 @@ const router = createBrowserRouter([
 
   // User protected routes start ------
   {
-    path: `/:slug`,
+    path: `/user/:slug`,
     element: <Elb.UserLayout />,
+    loader: userLayoutLoader(store),
     children: [
       { path: `dashboard`, element: <Elb.UserDashboard /> },
+      { path: `settings`, element: <Elb.UserProfileSettings /> },
+      { path: `change-password`, element: <Elb.UserChangePassword /> },
       { path: `posts`, element: <Elb.UserPostList /> },
       { path: `posts/add`, element: <Elb.UserPostAdd /> },
       { path: `posts/edit/:id`, element: <Elb.UserPostEdit /> },

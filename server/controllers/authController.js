@@ -57,7 +57,7 @@ export const currentUser = async (req, res) => {
   const { token_elb } = req.cookies;
   const { uuid } = verifyJWT(token_elb);
   const data = await pool.query(
-    `select id, first_name, last_name, rid, is_active from elb_users where uuid=$1`,
+    `select id, first_name, last_name, rid, is_active, slug from elb_users where uuid=$1`,
     [uuid]
   );
   return res.status(StatusCodes.OK).json({ data });
