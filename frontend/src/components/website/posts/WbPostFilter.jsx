@@ -9,6 +9,7 @@ import { Form, useLocation, useNavigate } from "react-router-dom";
 const WbPostFilter = () => {
   const stars = Array.from({ length: 5 }, (_, index) => 5 - index);
   const { allCategories } = useSelector((store) => store.categories);
+  const { allLocations } = useSelector((store) => store.locations);
   const parents = allCategories?.filter((i) => i.parent_id === null);
   const [children, setChildren] = useState([]);
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ const WbPostFilter = () => {
   const [form, setForm] = useState({
     cat: queryString.get("cat") || "",
     scat: queryString.get("scat") || "",
+    loc: queryString.get("loc") || "",
+    s: queryString.get("s") || "",
     min: queryString.get("min") || "",
     max: queryString.get("max") || "",
     rating: "",
@@ -46,7 +49,16 @@ const WbPostFilter = () => {
   }, [queryString.get("cat")]);
 
   const resetForm = () => {
-    setForm({ ...form, cat: "", scat: "", min: "", max: "", rating: "" });
+    setForm({
+      ...form,
+      cat: "",
+      scat: "",
+      loc: "",
+      s: "",
+      min: "",
+      max: "",
+      rating: "",
+    });
     navigate(`/products/all`);
   };
 
@@ -93,6 +105,40 @@ const WbPostFilter = () => {
             );
           })}
         </select>
+      </div>
+      <div className="flex flex-col space-y-1.5 mb-4">
+        <Label htmlFor={`loc`} className="uppercase text-md text-gray-700">
+          location
+        </Label>
+        <select
+          name="loc"
+          id="loc"
+          className="flex h-10 w-full items-center justify-between rounded-sm border-[1px] p-2 text-sm"
+          value={form.loc}
+          onChange={handleChange}
+        >
+          <option value="">All</option>
+          {allLocations?.map((i) => {
+            return (
+              <option key={i.id} value={i.city.trim()}>
+                {i.city.trim()}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className="flex flex-col space-y-1.5 mb-4">
+        <Label htmlFor={`s`} className="uppercase text-md text-gray-700">
+          search
+        </Label>
+        <input
+          type="text"
+          className="h-10 w-full rounded-sm border-[1px] px-3 py-2"
+          name="s"
+          id="s"
+          value={form.s}
+          onChange={handleChange}
+        />
       </div>
       <div className="flex flex-col space-y-1.5 mb-4">
         <Label htmlFor={`min`} className="uppercase text-md text-gray-700">

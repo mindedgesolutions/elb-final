@@ -12,6 +12,7 @@ import { setAllCategories } from "@/features/categorySlice";
 import { setCurrentUser, setLoginStatus } from "@/features/currentUserSlice";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
+import { setAllLocations } from "@/features/locationSlice";
 
 const WebsiteLayout = () => {
   const useScreenWidth = () => {
@@ -54,6 +55,7 @@ export default WebsiteLayout;
 export const loader = (store) => async () => {
   const { allCategories } = store.getState().categories;
   const { currentUser } = store.getState().currentUser;
+  const { allLocations } = store.getState().locations;
 
   try {
     if (allCategories.length === 0) {
@@ -69,6 +71,10 @@ export const loader = (store) => async () => {
       store.dispatch(setCurrentUser(user.data.data.rows[0]));
     }
 
+    if (allLocations.length === 0) {
+      const locations = await customFetch.get(`/website/locations`);
+      store.dispatch(setAllLocations(locations.data.data.rows));
+    }
     return null;
   } catch (error) {
     splitErrors(error?.response?.data?.msg);

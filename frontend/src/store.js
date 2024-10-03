@@ -6,6 +6,7 @@ import currentUserReducer from "@/features/currentUserSlice";
 import commonReducer from "@/features/commonSlice";
 import formFieldReducer from "@/features/formFieldSlice";
 import postReducer from "@/features/postSlice";
+import locationReducer from "@/features/locationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     common: commonReducer,
     formFields: formFieldReducer,
     posts: postReducer,
+    locations: locationReducer,
   },
 });
