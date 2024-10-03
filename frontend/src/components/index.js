@@ -65,3 +65,11 @@ export { default as WbPostSorting } from "./website/posts/WbPostSorting";
 export { default as WbProductCarousel } from "./website/posts/WbProductCarousel";
 export { default as WbProductReviews } from "./website/posts/WbProductReviews";
 export { default as WbSellerSidebar } from "./website/seller/WbSellerSidebar";
+
+// User starts ------
+export { default as UserTopnav } from "./users/globals/UserTopnav";
+export { default as UserSidebar } from "./users/globals/UserSidebar";
+export { default as UserFooter } from "./users/globals/UserFooter";
+export { default as UserProfileContainer } from "./users/globals/UserProfileContainer";
+export { default as UserPageWrapper } from "./users/wrappers/UserPageWrapper";
+export { default as UserContentWrapper } from "./users/wrappers/UserContentWrapper";

@@ -12,7 +12,6 @@ import customFetch from "@/utils/customFetch";
 import splitErrors from "@/utils/splitErrors";
 import { useLoaderData, useNavigation } from "react-router-dom";
 import topBanner from "@/assets/website/img/cta/cta-img.png";
-import secBannerImg from "@/assets/website/img/common/men-women.png";
 
 const WebsiteHome = () => {
   document.title = `Welcome to Easy Lending Buddy | ${
