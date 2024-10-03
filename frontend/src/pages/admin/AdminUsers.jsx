@@ -181,10 +181,12 @@ const AdminUsers = () => {
                   )}
                 </TableBody>
               </Table>
-              <AdminPagination
-                currentPage={meta.currentPage}
-                totalPages={meta.totalPages}
-              />
+              {meta.totalPages > 1 && (
+                <AdminPagination
+                  currentPage={meta.currentPage}
+                  totalPages={meta.totalPages}
+                />
+              )}
             </>
           )}
         </section>

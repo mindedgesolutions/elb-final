@@ -14,20 +14,20 @@ import { nanoid } from "nanoid";
 import { redirect, useLoaderData } from "react-router-dom";
 
 const WebsiteSellerProducts = () => {
-  const { rating, products, meta } = useLoaderData();
-  const sellerRating = calculateRating(rating);
   window.scrollTo(0, 0);
+  const { profile, rating, products, meta } = useLoaderData();
+  const sellerRating = calculateRating(rating);
 
   return (
     <>
       <WbPageBanner />
       <WbPageWrapper>
-        <div className="flex sm:flex-col md:flex-row gap-8 pb-8">
-          <div className="sm:w-full md:basis-1/4">
+        <div className="flex flex-col md:flex-row gap-8 pb-8">
+          <div className="w-full md:basis-1/4">
             <WbSellerSidebar rating={rating} overall={sellerRating[5]} />
           </div>
           <div className="basis-3/4">
-            <div className="flex sm:flex-col md:flex-row gap-3">
+            <div className="flex flex-col md:flex-row gap-3">
               <div className="w-40 p-4 rounded-lg bg-gray-100 flex flex-col justify-center items-center">
                 <h3 className="text-5xl text-fuchsia-700 font-semibold">
                   {sellerRating[5]}
@@ -66,7 +66,7 @@ const WebsiteSellerProducts = () => {
             </div>
             {products.length > 0 ? (
               <>
-                <div className="grid sm:grid-cols-2 md:grid-cols-4 sm:gap-2 md:gap-3 mt-12">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-3 mt-12">
                   {products.map((product) => {
                     return <WbProductCard key={nanoid()} product={product} />;
                   })}

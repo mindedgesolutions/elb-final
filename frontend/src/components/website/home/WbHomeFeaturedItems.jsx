@@ -48,7 +48,7 @@ const WbHomeFeaturedItems = ({ featuredData }) => {
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper"
           breakpoints={{
-            320: { slidesPerView: 2, spaceBetween: 4 },
+            320: { slidesPerView: 1, spaceBetween: 4 },
             640: { slidesPerView: 2, spaceBetween: 5 },
             768: { slidesPerView: 4, spaceBetween: 10 },
             1024: { slidesPerView: 5, spaceBetween: 10 },
