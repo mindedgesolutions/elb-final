@@ -9,9 +9,32 @@ import { setAllCategories } from "@/features/categorySlice";
 import { setCurrentUser, setLoginStatus } from "@/features/currentUserSlice";
 import { setAllLocations } from "@/features/locationSlice";
 import customFetch from "@/utils/customFetch";
-import { Outlet, redirect } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, redirect, useLocation, useNavigate } from "react-router-dom";
 
 const UserLayout = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const slug = pathname.split(`/`)[2];
+
+  const verifyUser = async () => {
+    try {
+      // check if user is logged in
+      // check if slug matches with the current user
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "Something went wrong! Login required",
+      });
+      navigate(`/`);
+    }
+  };
+
+  useEffect(() => {
+    verifyUser();
+  }, [pathname]);
+
   return (
     <div>
       <UserSidebar />

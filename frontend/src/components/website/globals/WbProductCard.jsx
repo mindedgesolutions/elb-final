@@ -37,18 +37,18 @@ const WbProductCard = ({ product, type }) => {
     <>
       {/* For desktop starts ------ */}
       <article
-        className={`hidden md:block rounded-lg bg-white border-[1px] border-gray-200 transition duration-500 hover:border-b-2 hover:border-b-fuchsia-700 ${
+        className={`rounded-lg bg-white border-[1px] border-gray-200 transition duration-500 hover:border-b-2 hover:border-b-fuchsia-700 ${
           type === "featured" ? null : "md:hover:shadow-2xl"
         }`}
       >
         <div className="position-relative">
           <div className="flex flex-col group justify-start">
             <section className="p-1">
-              <div className="w-full h-48 md:h-60 rounded-lg object-cover overflow-hidden">
+              <div className="w-full h-60 md:h-60 rounded-lg overflow-hidden">
                 <Link to={`/products/${product.slug}`}>
                   <img
                     src={imgSrc || productImg}
-                    className="rounded-lg border border-gray-100"
+                    className="rounded-lg border border-gray-100 object-cover"
                   />
                 </Link>
                 <button
@@ -61,7 +61,7 @@ const WbProductCard = ({ product, type }) => {
             </section>
             <Link to={`/products/${product.slug}`} className="px-1">
               <div className="flex flex-col px-2">
-                <p className="text-xs md:text-[16px] h-10 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-wider md:leading-5 font-semibold mt-3">
+                <p className="text-lg md:text-[16px] h-10 md:h-10 text-gray-900 group-hover:text-gray-700 tracking-wider md:leading-5 font-semibold mt-3">
                   {titleLabel}
                 </p>
                 <section className="">
@@ -71,7 +71,7 @@ const WbProductCard = ({ product, type }) => {
                   </p>
                 </section>
                 <section className="flex items-baseline mt-3 pb-3">
-                  <p className="text-sm md:text-[16px] font-semibold text-gray-900 group-hover:text-gray-700 tracking-wide">{`${currencyFormat().format(
+                  <p className="text-lg md:text-[16px] font-semibold text-gray-900 group-hover:text-gray-700 tracking-wide">{`${currencyFormat().format(
                     price
                   )}`}</p>
                 </section>
@@ -86,7 +86,7 @@ const WbProductCard = ({ product, type }) => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <span>
-                      <h3 className="text-sm font-normal tracking-wider capitalize">
+                      <h3 className="font-normal tracking-wider capitalize">
                         {sellerNameLabel}
                       </h3>
                     </span>
@@ -105,7 +105,7 @@ const WbProductCard = ({ product, type }) => {
       {/* For desktop ends ------ */}
 
       {/* For mobile view starts ------ */}
-      <article
+      {/* <article
         className={`block md:hidden rounded-lg bg-white border-[1px] border-gray-200 transition duration-500 hover:border-b-2 hover:border-b-fuchsia-700 ${
           type === "featured" ? null : "md:hover:shadow-2xl"
         }`}
@@ -159,7 +159,7 @@ const WbProductCard = ({ product, type }) => {
             </div>
           </div>
         </div>
-      </article>
+      </article> */}
       {/* For mobile view ends ------ */}
     </>
   );
