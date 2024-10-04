@@ -73,7 +73,7 @@ const WebsiteSingleProductPage = () => {
                     </span>{" "}
                   </p>
                   <div className="flex">
-                    <WbRepeatStars count={Math.ceil(sellerRating[5])} />{" "}
+                    <WbRepeatStars count={Math.round(sellerRating[5])} />{" "}
                     <span className="ml-2 tracking-wide">
                       ({rating[5]} ratings)
                     </span>
@@ -147,7 +147,7 @@ const WebsiteSingleProductPage = () => {
                     <div className="top-seller-rating mt-2 mb-8">
                       <p className="flex flex-col items-center space-y-2">
                         <span className="flex">
-                          <WbRepeatStars count={Math.ceil(sellerRating[5])} />
+                          <WbRepeatStars count={Math.round(sellerRating[5])} />
                         </span>
                         <span className="text-xs">({rating[5]} Reviews)</span>
                       </p>
