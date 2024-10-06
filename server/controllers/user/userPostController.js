@@ -84,24 +84,32 @@ export const getUserListPosts = async (req, res) => {
 };
 
 // ------
-// export const addUserPost = async (req, res) => {
-//   const obj = { ...req.body };
-//   const {
-//     catId,
-//     subcatId,
-//     title,
-//     description,
-//     price,
-//     city,
-//     state,
-//     address,
-//     isNew,
-//   } = obj;
-//   const { token_elb } = req.cookies;
-//   const { uuid } = verifyJWT(token_elb);
-//   const userId = await getUserId(uuid);
-//   const productAddress = address ? address : null;
-//   const productDesc = description || null;
-//   const productSlug = await generateOtherSlug("elb_product", title);
-//   const timeStamp = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
-// }
+export const getUserPostCount = async (req, res) => {
+  const userId = await getUserIdFromToken(req);
+
+  const data = await pool.query(
+    `select 
+      count(id) as total_all,
+      count(case when is_sold=false then 1 end) as total_posted,
+      count(case when is_sold=true then 1 end) as total_sold,
+      count(case when is_blocked=true then 1 end) as total_blocked
+    from elb_product where is_active=true and user_id=$1`,
+    [userId]
+  );
+
+  res.status(StatusCodes.OK).json({ data });
+};
+
+// ------
+export const addUserPost = async (req, res) => {
+  const obj = { ...req.body };
+  const { catId, subcatId, title, description, city, state, price, isNew } =
+    obj;
+  const { token_elb } = req.cookies;
+  const { uuid } = verifyJWT(token_elb);
+  const userId = await getUserId(uuid);
+  const productAddress = address ? address : null;
+  const productDesc = description || null;
+  const productSlug = await generateOtherSlug("elb_product", title);
+  const timeStamp = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
+};

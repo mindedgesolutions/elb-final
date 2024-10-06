@@ -296,7 +296,7 @@ const AdminNewPost = () => {
               <div className="col-span-1">
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor={`pinCode`} className="capitalize">
-                    Enter PIN code <span className="text-red-500">*</span>
+                    PIN code <span className="text-red-500">*</span>
                   </Label>
                   <div className="flex gap-3 items-center">
                     <Input

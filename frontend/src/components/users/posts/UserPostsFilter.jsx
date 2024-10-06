@@ -1,3 +1,4 @@
+import customFetch from "@/utils/customFetch";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -14,18 +15,18 @@ const UserPostsFilter = () => {
     navigate(`${pathname}${filterType.toString()}`);
   };
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await customFetch.get(`/users/post-count`);
-  //     setCounts(response.data.data.rows[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const fetchData = async () => {
+    try {
+      const response = await customFetch.get(`/users/post-count`);
+      setCounts(response.data.data.rows[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     setActiveFilter(searchParams.get("s") ? searchParams.get("s") : "all");
-    // fetchData();
+    fetchData();
   }, []);
 
   return (
@@ -37,7 +38,7 @@ const UserPostsFilter = () => {
         }`}
         onClick={() => handleChange("all")}
       >
-        All (14)
+        All ({counts.total_all || 0})
       </button>
       <button
         type="button"
@@ -46,7 +47,7 @@ const UserPostsFilter = () => {
         }`}
         onClick={() => handleChange("posted")}
       >
-        Posted (14)
+        Posted ({counts.total_posted || 0})
       </button>
       <button
         type="button"
@@ -55,7 +56,7 @@ const UserPostsFilter = () => {
         }`}
         onClick={() => handleChange("sold")}
       >
-        Sold (0)
+        Sold ({counts.total_sold || 0})
       </button>
       <button
         type="button"
@@ -64,7 +65,7 @@ const UserPostsFilter = () => {
         }`}
         onClick={() => handleChange("rejected")}
       >
-        Rejected (0)
+        Rejected ({counts.total_block || 0})
       </button>
     </div>
   );
