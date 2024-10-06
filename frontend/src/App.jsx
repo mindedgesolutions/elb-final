@@ -20,6 +20,7 @@ import { loader as sellerProductsLoader } from "@/pages/website/WebsiteSellerPro
 import { loader as wbLoginLoader } from "@/pages/website/WebsiteLogin";
 import { loader as wbRegisterLoader } from "@/pages/website/WebsiteRegister";
 import { loader as userLayoutLoader } from "@/pages/website/user/UserLayout";
+import { loader as userPostListLoader } from "@/pages/website/user/post/UserPostList";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -86,7 +87,11 @@ const router = createBrowserRouter([
       { path: `dashboard`, element: <Elb.UserDashboard /> },
       { path: `settings`, element: <Elb.UserProfileSettings /> },
       { path: `change-password`, element: <Elb.UserChangePassword /> },
-      { path: `posts`, element: <Elb.UserPostList /> },
+      {
+        path: `posts`,
+        element: <Elb.UserPostList />,
+        loader: userPostListLoader(store),
+      },
       { path: `posts/add`, element: <Elb.UserPostAdd /> },
       { path: `posts/edit/:id`, element: <Elb.UserPostEdit /> },
     ],

@@ -8,6 +8,9 @@ import { useSelector } from "react-redux";
 
 const UserDashboard = () => {
   const { currentUser } = useSelector((store) => store.currentUser);
+  document.title = `${currentUser.first_name}'s Dashboard | ${
+    import.meta.env.VITE_APP_TITLE
+  }`;
 
   return (
     <UserContentWrapper>

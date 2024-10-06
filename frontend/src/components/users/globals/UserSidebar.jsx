@@ -1,3 +1,4 @@
+import { UserAccountDelete, UserLogout } from "@/components";
 import {
   FolderPlus,
   Globe,
@@ -11,7 +12,7 @@ import {
 import { useSelector } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
-const UserSidebar = () => {
+const UserSidebar = ({ logout }) => {
   const { currentUser } = useSelector((store) => store.currentUser);
   const { pathname } = useLocation();
 
@@ -90,24 +91,8 @@ const UserSidebar = () => {
             change password
           </span>
         </NavLink>
-        <NavLink
-          to={`/user/${currentUser?.slug}/dashboard`}
-          className="flex flex-row justify-start items-center gap-3 p-2 rounded-md hover:bg-stone-200"
-        >
-          <UserMinus size={20} className="text-purple-600" />
-          <span className="font-medium text-gray-700 tracking-widest capitalize">
-            account delete
-          </span>
-        </NavLink>
-        <NavLink
-          to={`/user/${currentUser?.slug}/dashboard`}
-          className="flex flex-row justify-start items-center gap-3 p-2 rounded-md hover:bg-stone-200"
-        >
-          <LogOut size={20} className="text-purple-600" />
-          <span className="font-medium text-gray-700 tracking-widest capitalize">
-            logout
-          </span>
-        </NavLink>
+        <UserAccountDelete />
+        <UserLogout />
       </div>
     </div>
   );

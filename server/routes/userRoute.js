@@ -8,6 +8,7 @@ import {
   editUser,
   listUsers,
 } from "../controllers/admin/userController.js";
+import { getUserListPosts } from "../controllers/user/userPostController.js";
 
 router.route(`/users`).post(validateAddUser, addUser).get(listUsers);
 router
@@ -15,5 +16,6 @@ router
   .patch(validateAddUser, editUser)
   .delete(validateAddUser, deleteUser);
 router.patch(`/users/activate/:id`, validateAddUser, activateUser);
+router.get(`/:userId/posts`, getUserListPosts);
 
 export default router;
