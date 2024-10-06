@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import customFetch from "./customFetch";
 import splitErrors from "./splitErrors";
+import CryptoJS from "crypto-js";
 
 // ------
 export const activeBadge = (status) => {
@@ -31,6 +32,22 @@ export const requiredBadge = (status) => {
         <Badge className="bg-red-400 group-hover:bg-red-500">Optional</Badge>
       );
   }
+};
+
+// ------
+export const postStatusBadge = ({ is_sold, is_blocked }) => {
+  let badge, label;
+  if (is_sold) {
+    badge = `in-progress`;
+    label = `Sold`;
+  } else if (is_blocked) {
+    badge = `cancelled`;
+    label = `Rejected`;
+  } else {
+    badge = `pending`;
+    label = `Posted`;
+  }
+  return { badge, label };
 };
 
 // ------
@@ -192,4 +209,17 @@ export const checkLoginStatus = async () => {
     splitErrors(error?.response?.data?.msg);
     return error;
   }
+};
+
+// ------
+export const encParam = (value) => {
+  return encodeURIComponent(
+    CryptoJS.AES.encrypt(value, import.meta.env.VITE_ENC_KEY).toString()
+  );
+};
+
+export const decParam = (value) => {
+  const data = CryptoJS.AES.decrypt(value, import.meta.env.VITE_ENC_KEY);
+
+  return data.toString(CryptoJS.enc.Utf8);
 };

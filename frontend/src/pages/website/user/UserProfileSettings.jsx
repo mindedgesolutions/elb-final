@@ -5,6 +5,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import galleryImg from "@/assets/users/gallery-icon.png";
 
 const UserProfileSettings = () => {
+  document.title = `Profile Settings | ${import.meta.env.VITE_APP_TITLE}`;
+
   return (
     <UserContentWrapper>
       <UserPageHeader text={`your profile`} />
@@ -26,7 +28,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="text"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="firstName"
                 id="firstName"
                 placeholder="John"
@@ -44,7 +46,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="text"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="lastName"
                 id="lastName"
                 placeholder="Cena"
@@ -95,7 +97,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="text"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="email"
                 id="email"
                 placeholder="johncena@test.com"
@@ -113,7 +115,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="number"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="mobile"
                 id="mobile"
                 placeholder="98XXXXXXXX"
@@ -132,7 +134,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="text"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="address"
                 id="address"
                 placeholder="Your address goes here or may be not"
@@ -150,7 +152,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="number"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="pincode"
                 id="pincode"
                 placeholder="XXXXXX"
@@ -170,7 +172,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="text"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="location"
                 id="location"
                 placeholder="Your location (auto-fill)"
@@ -189,7 +191,7 @@ const UserProfileSettings = () => {
               </div>
               <input
                 type="text"
-                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm"
+                className="flex h-10 w-full rounded-md border-[1px] bg-background px-3 py-2 text-sm focus:outline-none"
                 name="country"
                 id="country"
                 placeholder="India (auto-fill)"
@@ -208,7 +210,7 @@ const UserProfileSettings = () => {
               <span className="text-lg text-red-600">*</span>
             </div>
             <textarea
-              className="flex min-h-[80px] w-full rounded-md border-1 border-input bg-background px-3 py-2 text-sm"
+              className="flex min-h-[80px] w-full rounded-md border-1 border-input bg-background px-3 py-2 text-sm focus:outline-none"
               name="location"
               id="location"
               placeholder="Lets brag!"

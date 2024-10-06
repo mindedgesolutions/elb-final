@@ -12,8 +12,8 @@ const UserNotificationContainer = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="relative flex flex-row justify-center items-center">
-          <span className="absolute bottom-5 left-5 min-w-6 p-1 rounded-full bg-purple-800 text-white text-xs flex justify-center items-center">
-            10
+          <span className="absolute bottom-5 left-5 w-8 h-8 rounded-full bg-purple-800 text-white text-xs flex justify-center items-center">
+            10+
           </span>
           <Bell size={26} />
         </div>
