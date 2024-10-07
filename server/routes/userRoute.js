@@ -12,8 +12,13 @@ import {
   addUserPost,
   getUserListPosts,
   getUserPostCount,
+  viewUserPost,
 } from "../controllers/user/userPostController.js";
 import upload from "../middleware/multerMiddleware.js";
+import {
+  validateUserDynamic,
+  validateUserPostForm,
+} from "../middleware/postMiddleware.js";
 
 router.route(`/users`).post(validateAddUser, addUser).get(listUsers);
 router
@@ -23,6 +28,12 @@ router
 router.patch(`/users/activate/:id`, validateAddUser, activateUser);
 router.get(`/:userId/posts`, getUserListPosts);
 router.get(`/post-count`, getUserPostCount);
-router.post(`/posts/add`, upload.array("image"), addUserPost);
+router.post(
+  `/posts/add`,
+  upload.array("image"),
+  [validateUserPostForm, validateUserDynamic],
+  addUserPost
+);
+router.get(`/posts/view/:id`, viewUserPost);
 
 export default router;

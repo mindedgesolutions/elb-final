@@ -36,7 +36,7 @@ const WebsiteProductsPage = () => {
           <div className="w-full md:basis-4/5">
             <WbPostSorting />
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-              {posts.length === 0 ? (
+              {posts?.length === 0 ? (
                 <>
                   <h3 className="text-3xl font-medium col-span-2 md:col-span-4 tracking-widest">
                     Oops!... There's no post yet!

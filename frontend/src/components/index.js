@@ -81,3 +81,4 @@ export { default as UserStats } from "./users/dashboard/UserStats";
 export { default as UserLatestPosts } from "./users/dashboard/UserLatestPosts";
 export { default as UserLatestPurchases } from "./users/dashboard/UserLatestPurchases";
 export { default as UserPostsFilter } from "./users/posts/UserPostsFilter";
+export { default as UserPostViewModal } from "./users/posts/UserPostViewModal";
