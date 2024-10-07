@@ -2,6 +2,7 @@ import {
   UserContentWrapper,
   UserPaginationContainer,
   UserPostsFilter,
+  UserPostViewModal,
 } from "@/components";
 import { toast } from "@/components/ui/use-toast";
 import UserPageHeader from "@/components/users/globals/UserPageHeader";
@@ -18,6 +19,7 @@ import {
 import { ChevronRight, Eye, Pencil } from "lucide-react";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
+import { setEditPost, showPostDetailsModal } from "@/features/postSlice";
 
 const UserPostList = () => {
   document.title = `List of Posts | ${import.meta.env.VITE_APP_TITLE}`;
@@ -113,10 +115,10 @@ const UserPostList = () => {
                         </Link>
                         <button
                           className="dashboard-action-btn"
-                          // onClick={() => {
-                          //   dispatch(showPostDetailsModal());
-                          //   dispatch(setEditPost(post?.id));
-                          // }}
+                          onClick={() => {
+                            dispatch(showPostDetailsModal());
+                            dispatch(setEditPost(post?.id));
+                          }}
                         >
                           <Eye className="text-muted" size={24} />
                         </button>
@@ -129,6 +131,9 @@ const UserPostList = () => {
           </tbody>
         </table>
       </div>
+
+      <UserPostViewModal />
+
       {meta.totalRecords > 10 && (
         <UserPaginationContainer
           totalPages={meta.totalPages}

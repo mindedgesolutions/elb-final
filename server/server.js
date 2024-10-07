@@ -56,7 +56,7 @@ app.use("*", (req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({ msg: `not found` });
 });
 
-app.use(errorHandlerMiddleware);
+// app.use(errorHandlerMiddleware);
 
 app.listen(port, () => {
   console.log(`Server running on ${port}`);

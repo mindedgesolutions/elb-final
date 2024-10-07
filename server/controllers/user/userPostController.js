@@ -230,3 +230,41 @@ export const addUserPost = async (req, res) => {
       .json({ data: `something went wrong!!` });
   }
 };
+
+// ------
+export const viewUserPost = async (req, res) => {
+  const { id } = req.params;
+
+  const data = await pool.query(
+    `SELECT pm.*, 
+    json_agg(
+      distinct jsonb_build_object(
+        'attr_id', dp.attr_id,
+        'attr_db_value', dp.attr_db_value,
+        'attr_name', mff.field_label,
+        'attr_type', mff.field_type,
+        'attr_entry', dp.attr_entry,
+        'attr_db_label', mffo.option_value
+      )
+    ) AS attributes,
+    json_agg(
+      distinct jsonb_build_object(
+        'image_path', pi.image_path,
+        'is_cover', pi.is_cover
+      )
+    ) AS images,
+    mc.category as category,
+    mcs.category as sub_category
+    from elb_product pm
+    left join elb_product_details dp on pm.id = dp.product_id
+    left join elb_form_attributes mff on mff.id = dp.attr_id
+    join master_categories mc on pm.cat_id = mc.id
+    join master_categories mcs on pm.subcat_id = mcs.id
+    join elb_productimage pi on pm.id = pi.product_id
+    left join elb_formfield_options mffo on mffo.id = dp.attr_db_value
+    where pm.id = $1 GROUP BY pm.id, mc.category, mcs.category`,
+    [id]
+  );
+
+  res.status(StatusCodes.OK).json({ data });
+};
