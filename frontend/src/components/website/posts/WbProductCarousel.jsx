@@ -20,20 +20,10 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { useLoaderData } from "react-router-dom";
 
-const images = [
-  { original: furniture_1, thumbnail: furniture_1 },
-  { original: furniture_2, thumbnail: furniture_2 },
-  { original: furniture_3, thumbnail: furniture_3 },
-  { original: furniture_4, thumbnail: furniture_4 },
-  { original: furniture_5, thumbnail: furniture_5 },
-  { original: furniture_6, thumbnail: furniture_6 },
-  { original: furniture_7, thumbnail: furniture_7 },
-  { original: furniture_8, thumbnail: furniture_8 },
-];
-
 const WbProductCarousel = () => {
   const { product } = useLoaderData();
   const master = product.master.rows[0];
+  const images = product.images.rows;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const captionsRef = useRef(null);
@@ -58,14 +48,17 @@ const WbProductCarousel = () => {
 
   const originals = [];
   images.map((img) => {
-    originals.push({ src: img.original, title: master.title });
+    const src = `${import.meta.env.VITE_BASE_URL}/${img.image_path}`;
+    originals.push({ src: src, title: master.title });
   });
 
   return (
     <div className="flex flex-col">
       <div className="sm:h-[250px] md:h-[400px] sm:w-full md:w-[520px] relative flex justify-center items-center overflow-hidden group">
         <img
-          src={images[currentIndex].original}
+          src={`${import.meta.env.VITE_BASE_URL}/${
+            images[currentIndex].image_path
+          }`}
           alt={import.meta.env.VITE_APP_TITLE}
           className="object-cover cursor-pointer"
           onClick={() => setOpen(true)}
@@ -109,7 +102,7 @@ const WbProductCarousel = () => {
         </div>
       </div>
 
-      <div className="flex flex-row flex-wrap justify-start items-center gap-2 mt-2 overflow-hidden">
+      <div className="flex flex-row flex-wrap justify-start items-center gap-2 mt-4 overflow-hidden">
         {images.map((thumb, index) => {
           return (
             <div
@@ -118,7 +111,7 @@ const WbProductCarousel = () => {
               onClick={() => handleClick(index)}
             >
               <img
-                src={thumb.thumbnail}
+                src={`${import.meta.env.VITE_BASE_URL}/${thumb.image_path}`}
                 alt={import.meta.env.VITE_APP_TITLE}
                 className="object-cover"
               />

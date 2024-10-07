@@ -14,10 +14,19 @@ export const featuredProducts = async (req, res) => {
     um.id as seller_id,
     um.first_name,
     um.last_name,
+    json_agg(
+      json_build_object(
+        'path', pi.image_path,
+        'cover', pi.is_cover,
+        'active', pi.is_active
+      )
+      order by pi.id
+    ) AS product_images,
     avg(er.rating) as seller_rating
     from elb_product pm
     join elb_users um on pm.user_id = um.id
     left join elb_reviews er on er.seller_id = um.id
+    left join elb_productimage pi on pi.product_id = pm.id
     where pm.is_feature=true and pm.is_active=true 
     group by pm.id, um.id
     order by pm.updated_at, pm.title`,
@@ -39,10 +48,19 @@ export const recentProducts = async (req, res) => {
     um.id as seller_id,
     um.first_name,
     um.last_name,
+    json_agg(
+      json_build_object(
+        'path', pi.image_path,
+        'cover', pi.is_cover,
+        'active', pi.is_active
+      )
+      order by pi.id
+    ) AS product_images,
     avg(er.rating) as seller_rating
     from elb_product pm
     join elb_users um on pm.user_id = um.id
     left join elb_reviews er on er.seller_id = um.id
+    left join elb_productimage pi on pi.product_id = pm.id
     where pm.is_active=true
     group by pm.id, um.id
     order by pm.updated_at desc limit 10`,
@@ -135,6 +153,14 @@ export const wbListPosts = async (req, res) => {
     um.first_name,
     um.last_name,
     avg(er.rating) as seller_rating,
+    json_agg(
+      json_build_object(
+        'path', pi.image_path,
+        'cover', pi.is_cover,
+        'active', pi.is_active
+      )
+      order by pi.id
+    ) AS product_images,
     cat.category as cat,
     scat.category as subcat
     from elb_product pm
@@ -142,6 +168,7 @@ export const wbListPosts = async (req, res) => {
     left join elb_reviews er on er.seller_id = um.id
     join master_categories cat on cat.id = pm.cat_id
     join master_categories scat on scat.id = pm.subcat_id
+    left join elb_productimage pi on pi.product_id = pm.id
     where pm.id is not null ${searchStr} group by pm.id, um.id, cat.category, scat.category order by ${orderStr} um.first_name, um.last_name asc offset $1 limit $2`,
     [pagination.offset, pagination.pageLimit]
   );
@@ -222,7 +249,12 @@ export const wbSinglePost = async (req, res) => {
     details.push(obj);
   }
 
-  res.status(StatusCodes.OK).json({ master, details });
+  const images = await pool.query(
+    `select * from elb_productimage where product_id=$1`,
+    [master.rows[0].id]
+  );
+
+  res.status(StatusCodes.OK).json({ master, details, images });
 };
 
 // ------
