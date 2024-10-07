@@ -12,7 +12,16 @@ import { WbRepeatStars } from "@/components";
 const WbProductCard = ({ product, type }) => {
   const dispatch = useDispatch();
   const { title, price } = product;
-  const imgSrc = "";
+
+  let imgSrc;
+  if (product.product_images?.[0]?.path) {
+    const coverImg = product.product_images.find((img) => img.cover === true);
+    const cardImg = coverImg?.path || product.product_images?.[0]?.path;
+    imgSrc = `${import.meta.env.VITE_BASE_URL}/${cardImg}`;
+  } else {
+    imgSrc = "";
+  }
+
   const titleLabel =
     title.split("").length > 25 ? title.substring(0, 25) + " ..." : title;
   const sellerName = product.first_name + " " + product.last_name;
@@ -44,11 +53,11 @@ const WbProductCard = ({ product, type }) => {
         <div className="position-relative">
           <div className="flex flex-col group justify-start">
             <section className="p-1">
-              <div className="w-full h-60 md:h-60 rounded-lg overflow-hidden">
+              <div className="w-full h-60 md:h-60 rounded-lg overflow-hidden flex justify-center items-center">
                 <Link to={`/products/${product.slug}`}>
                   <img
                     src={imgSrc || productImg}
-                    className="rounded-lg border border-gray-100 object-cover"
+                    className="rounded-lg border-gray-100 object-cover"
                   />
                 </Link>
                 <button

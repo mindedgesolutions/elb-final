@@ -9,9 +9,11 @@ import {
   listUsers,
 } from "../controllers/admin/userController.js";
 import {
+  addUserPost,
   getUserListPosts,
   getUserPostCount,
 } from "../controllers/user/userPostController.js";
+import upload from "../middleware/multerMiddleware.js";
 
 router.route(`/users`).post(validateAddUser, addUser).get(listUsers);
 router
@@ -21,5 +23,6 @@ router
 router.patch(`/users/activate/:id`, validateAddUser, activateUser);
 router.get(`/:userId/posts`, getUserListPosts);
 router.get(`/post-count`, getUserPostCount);
+router.post(`/posts/add`, upload.array("image"), addUserPost);
 
 export default router;
