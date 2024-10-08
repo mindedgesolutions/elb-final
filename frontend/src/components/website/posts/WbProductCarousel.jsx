@@ -60,7 +60,7 @@ const WbProductCarousel = () => {
             images[currentIndex].image_path
           }`}
           alt={import.meta.env.VITE_APP_TITLE}
-          className="object-cover cursor-pointer"
+          className="h-full object-cover cursor-pointer"
           onClick={() => setOpen(true)}
         />
         {/* Lightbox starts ------ */}

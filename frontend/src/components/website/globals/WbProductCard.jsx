@@ -57,7 +57,7 @@ const WbProductCard = ({ product, type }) => {
                 <Link to={`/products/${product.slug}`}>
                   <img
                     src={imgSrc || productImg}
-                    className="rounded-lg border-gray-100 object-cover"
+                    className="rounded-lg border-gray-100 h-60 object-cover"
                   />
                 </Link>
                 <button

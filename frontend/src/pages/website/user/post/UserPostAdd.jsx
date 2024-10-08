@@ -257,7 +257,7 @@ const UserPostAdd = () => {
       const response = await customFetch.post(`/users/posts/add`, data);
       toast({
         title: "Created!",
-        description: "Post added and awaits admin approval",
+        description: "Post added",
       });
       navigate(`/user/${currentUser.slug}/posts`);
     } catch (error) {

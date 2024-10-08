@@ -21,6 +21,7 @@ import { loader as wbLoginLoader } from "@/pages/website/WebsiteLogin";
 import { loader as wbRegisterLoader } from "@/pages/website/WebsiteRegister";
 import { loader as userLayoutLoader } from "@/pages/website/user/UserLayout";
 import { loader as userPostListLoader } from "@/pages/website/user/post/UserPostList";
+import { loader as userPostEdit } from "@/pages/website/user/post/UserPostEdit";
 
 const router = createBrowserRouter([
   // Website unprotected routes start ------
@@ -93,7 +94,11 @@ const router = createBrowserRouter([
         loader: userPostListLoader(store),
       },
       { path: `posts/add`, element: <Elb.UserPostAdd /> },
-      { path: `posts/edit/:id`, element: <Elb.UserPostEdit /> },
+      {
+        path: `posts/:id/edit`,
+        element: <Elb.UserPostEdit />,
+        loader: userPostEdit(store),
+      },
     ],
   },
   // User protected routes end ------
