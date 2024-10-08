@@ -68,6 +68,12 @@ const UserPostList = () => {
                   is_sold,
                   is_blocked,
                 });
+                // post.images[0].image_path
+                const coverImg = post.images.find(
+                  (img) => img.is_cover === true
+                );
+                const postImg =
+                  coverImg?.image_path || post.images[0].image_path;
 
                 return (
                   <tr key={post.id}>
@@ -75,7 +81,11 @@ const UserPostList = () => {
                     <td>
                       <div className="d-flex gap-3 align-items-center project-name">
                         <div className="order-img">
-                          <img src={productImg} alt="" />
+                          <img
+                            src={`${import.meta.env.VITE_BASE_URL}/${postImg}`}
+                            alt=""
+                            className="object-cover"
+                          />
                         </div>
                         <div className="flex flex-col justify-start items-start space-y-1">
                           <TooltipProvider>
@@ -106,7 +116,7 @@ const UserPostList = () => {
                     <td>
                       <div className="d-flex justify-content-end gap-2">
                         <Link
-                          to={`/${currentUser.slug}/my-posts/${encParam(
+                          to={`/user/${currentUser.slug}/posts/${encParam(
                             post.id.toString()
                           )}/edit`}
                           className="dashboard-action-btn"

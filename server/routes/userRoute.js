@@ -10,8 +10,11 @@ import {
 } from "../controllers/admin/userController.js";
 import {
   addUserPost,
+  deletePostImage,
+  editUserPost,
   getUserListPosts,
   getUserPostCount,
+  updateUserPost,
   viewUserPost,
 } from "../controllers/user/userPostController.js";
 import upload from "../middleware/multerMiddleware.js";
@@ -35,5 +38,13 @@ router.post(
   addUserPost
 );
 router.get(`/posts/view/:id`, viewUserPost);
+router.get(`/posts/edit/:id`, editUserPost);
+router.patch(
+  `/posts/update/:id`,
+  upload.array("image"),
+  [validateUserPostForm, validateUserDynamic],
+  updateUserPost
+);
+router.delete(`/posts/image/:id`, deletePostImage);
 
 export default router;
